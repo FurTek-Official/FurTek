@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurTek | Teknoloji & AR-GE Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --primary: #00e5ff;
+            --primary-hover: #00b3cc;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --text-muted: #8b949e;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header / Nav */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background-color: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 90;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        /* Hamburger İkonu */
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 5px;
+        }
+
+        .menu-btn span {
+            width: 28px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Side Menu (Açılır Pencere) */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 320px;
+            height: 100vh;
+            background-color: var(--card-bg);
+            border-left: 1px solid var(--border-color);
+            z-index: 100;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .close-btn {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--primary);
+        }
+
+        .menu-links {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .menu-links a {
+            color: var(--text-heading);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .menu-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: #000;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        /* Hero & Sections */
+        .hero {
+            padding: 5rem 8%;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        section {
+            padding: 3rem 8%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Form Stilleri */
+        .form-group {
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-heading);
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-family: inherit;
+        }
+
+        /* Auth Modal (Pencere) */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 95;
+        }
+
+        /* Footer & Sosyal Medya */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 8%;
+            text-align: center;
+            margin-top: 3rem;
+            background-color: var(--card-bg);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--text-heading);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: var(--bg-color);
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .social-btn.yt:hover {
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+
+    <header id="top">
+        <a href="#top" class="logo">Fur<span>Tek</span></a>
+        <button class="menu-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Yan Açılır Menü -->
+    <div class="side-menu" id="sideMenu">
+        <button class="close-btn" onclick="toggleMenu()">&times;</button>
+        <nav class="menu-links">
+            <a href="#top" onclick="toggleMenu()">🏠 Ana Sayfa</a>
+            <a href="#about" onclick="toggleMenu()">Hakkında</a>
+            <a href="#products" onclick="toggleMenu()">Ürünler</a>
+            <a href="#projects" onclick="toggleMenu()">Projeler</a>
+            <a href="#resources" onclick="toggleMenu()">STL & Kodlar</a>
+            <a href="#invest" onclick="toggleMenu()">Yatırım & İşbirliği</a>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn btn-outline" onclick="openModal('login')">Giriş Yap</button>
+            <button class="btn" onclick="openModal('register')">Kayıt Ol</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <!-- Ana İçerik -->
+    <main>
+        <section class="hero">
+            <h1>FurTek AR-GE Merkezi</h1>
+            <p>Otonom sistemler, 3D tasarımlar ve gömülü yazılımların resmi depolama alanı.</p>
+        </section>
+
+        <section id="about">
+            <h2>Hakkında</h2>
+            <div class="card">
+                <p>FurTek; 3D modelleme, otonom hava/kara sistemleri ve C++ gömülü yazılımlar geliştiren bağımsız bir teknoloji platformudur.</p>
+            </div>
+        </section>
+
+        <!-- Ürünler Bölümü -->
+        <section id="products">
+            <h2>Ürünler</h2>
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+                <p style="color: var(--primary); font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">📦 Bu Bölüm Hazırlık Aşamasında</p>
+                <p style="color: var(--text-muted);">Henüz sergilenecek bir ürün bulunmuyor. Yakında özel tasarımlar ve hazır kitler burada yer alacak!</p>
+            </div>
+        </section>
+
+        <!-- Projeler Bölümü -->
+        <section id="projects">
+            <h2>Projeler</h2>
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+                <p style="color: var(--primary); font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">⚙️ Henüz İçerik Yok</p>
+                <p style="color: var(--text-muted);">İlk projemiz olan bütçe dostu RC Model Uçak videosu ile birlikte tüm detaylar buraya eklenecektir.</p>
+            </div>
+        </section>
+
+        <!-- STL & Kodlar Bölümü -->
+        <section id="resources">
+            <h2>STL & Kodlar</h2>
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+                <p style="color: var(--primary); font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">📂 Depo Şu An Boş</p>
+                <p style="color: var(--text-muted);">Açık kaynak 3D baskı (.STL) dosyaları ve C++/Arduino kodları projenin yayınıyla birlikte indirilebilir olacaktır.</p>
+            </div>
+        </section>
+
+        <section id="invest">
+            <h2>Yatırım & İşbirliği</h2>
+            <div class="card">
+                <form action="https://formspree.io/f/xqkvqren" method="POST">
+                    <div class="form-group">
+                        <label>Adınız / Kurum</label>
+                        <input type="text" name="name" required placeholder="Adınız">
+                    </div>
+                    <div class="form-group">
+                        <label>E-posta</label>
+                        <input type="email" name="email" required placeholder="ornek@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Mesajınız</label>
+                        <textarea name="message" rows="4" required placeholder="Mesajınızı yazın..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Gönder</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer ve Sosyal Medya -->
+    <footer>
+        <div class="social-links">
+            <a href="https://youtube.com/@furtek-j9?si=Fc5K9IT0-_I4W3Iu" target="_blank" class="social-btn yt">
+                ▶ YouTube Kanalı
+            </a>
+            <a href="#" target="_blank" class="social-btn">
+                💻 GitHub Deposu
+            </a>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <!-- Giriş / Kayıt Modal Penceresi -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <button class="close-btn" style="position: absolute; top: 15px; right: 20px;" onclick="closeModal()">&times;</button>
+            <h2 id="modalTitle" style="color: #fff; margin-bottom: 1.5rem;">Giriş Yap</h2>
+            <form onsubmit="handleAuth(event)">
+                <div class="form-group">
+                    <label>E-posta Adresi</label>
+                    <input type="email" placeholder="ornek@furtek.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" placeholder="******" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 1rem;">Devam Et</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const sideMenu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('overlay');
+            sideMenu.classList.toggle('active');
+            
+            if (sideMenu.classList.contains('active')) {
+                overlay.style.display = 'block';
+            } else {
+                overlay.style.display = 'none';
+            }
+        }
+
+        function openModal(type) {
+            toggleMenu();
+            const modal = document.getElementById('authModal');
+            const title = document.getElementById('modalTitle');
+            
+            if(type === 'login') {
+                title.innerText = 'Giriş Yap';
+            } else {
+                title.innerText = 'Kayıt Ol';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            alert('Giriş/Kayıt sistemi arayüzü başarılı! Backend bağlantısı yakında eklenecek.');
+            closeModal();
+        }
+    </script>
+</body>
+</html>

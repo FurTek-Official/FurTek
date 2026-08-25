@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FurTek | Teknoloji & Proje Deposu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0d1117;
@@ -19,38 +19,30 @@
             --success-color: #2ea44f;
         }
 
-        html { scroll-behavior: smooth; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
         }
 
-        /* Header */
+        /* Header Panel */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.2rem 8%;
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
             background-color: rgba(13, 17, 23, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 90;
+            position: relative;
+            z-index: 10;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-heading);
-            letter-spacing: 1px;
-            text-decoration: none;
-        }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--text-heading); text-decoration: none; }
         .logo span { color: var(--primary); }
 
         .menu-btn {
@@ -78,11 +70,11 @@
             height: 100vh;
             background-color: var(--card-bg);
             border-left: 1px solid var(--border-color);
-            z-index: 100;
+            z-index: 1001;
             padding: 2rem;
             display: flex;
             flex-direction: column;
-            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: right 0.4s ease;
             box-shadow: -10px 0 30px rgba(0,0,0,0.5);
         }
         .side-menu.active { right: 0; }
@@ -106,7 +98,7 @@
         .menu-links a {
             color: var(--text-heading);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
         }
         .menu-links a:hover { color: var(--primary); }
@@ -115,13 +107,12 @@
             margin-top: auto;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
-        /* Buttons */
         .btn {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             background-color: var(--primary);
             color: #000;
             font-weight: 600;
@@ -132,108 +123,119 @@
             text-align: center;
         }
         .btn:hover { background-color: var(--primary-hover); }
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-        }
+        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
 
-        /* Layout */
-        .hero {
-            padding: 5rem 8%;
-            text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .hero h1 { font-size: 2.5rem; color: var(--text-heading); margin-bottom: 1rem; }
+        /* Main Hero Section */
+        main { flex: 1; padding: 3rem 8%; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .hero { text-align: center; margin-bottom: 3rem; }
+        .hero h1 { font-size: 2.3rem; color: var(--text-heading); margin-bottom: 0.5rem; }
         .hero p { color: var(--text-muted); }
 
-        section { padding: 3rem 8%; max-width: 1100px; margin: 0 auto; }
-        section h2 { color: var(--text-heading); margin-bottom: 1.5rem; font-size: 1.8rem; }
-
-        .card {
-            background-color: var(--card-bg);
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        .nav-card {
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
             border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
         }
+        .nav-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .nav-card h3 { color: var(--text-heading); margin-bottom: 0.5rem; }
+        .nav-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* Forms & Modals */
-        .form-group { margin-bottom: 1.2rem; text-align: left; }
-        .form-group label { display: block; color: var(--text-heading); font-size: 0.9rem; margin-bottom: 0.4rem; }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-main);
-            font-family: inherit;
-        }
-        .password-rules {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.3rem;
-        }
-        .error-msg {
-            color: var(--error-color);
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        .modal {
+        /* Modals */
+        .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(6px);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 200;
+            z-index: 2000;
         }
-        .modal-content {
+
+        .modal-popup {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 2.5rem;
+            padding: 2rem;
             border-radius: 12px;
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
             position: relative;
         }
 
-        .overlay {
+        .modal-fullscreen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
+            background: var(--bg-color);
+            z-index: 1500;
             display: none;
-            z-index: 95;
+            overflow-y: auto;
+            padding: 2rem 8%;
+        }
+
+        .view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group { margin-bottom: 1.2rem; text-align: left; }
+        .form-group label { display: block; color: var(--text-heading); font-size: 0.85rem; margin-bottom: 0.4rem; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 0.8rem;
+            background: var(--bg-color); border: 1px solid var(--border-color);
+            border-radius: 6px; color: var(--text-main); font-family: inherit;
+        }
+        .password-rules { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .error-msg { color: var(--error-color); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+
+        .filter-bar {
+            display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;
+            background: var(--card-bg); padding: 1rem; border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .filter-bar input, .filter-bar select { flex: 1; min-width: 150px; }
+
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .data-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 1.2rem; position: relative;
+        }
+        .price-tag { color: var(--primary); font-weight: 800; font-size: 1.1rem; margin-top: 0.5rem; }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6); display: none; z-index: 1000;
         }
 
         footer {
             border-top: 1px solid var(--border-color);
-            padding: 3rem 8%;
-            text-align: center;
-            margin-top: 3rem;
-            background-color: var(--card-bg);
+            padding: 1.5rem 8%; text-align: center;
+            background-color: var(--card-bg); position: relative; z-index: 10;
         }
-        .social-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .social-links { display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.8rem; }
         .social-btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            color: var(--text-heading);
-            text-decoration: none;
-            font-weight: 600;
-            background: var(--bg-color);
+            padding: 0.5rem 1rem; border-radius: 6px;
+            border: 1px solid var(--border-color); color: var(--text-heading);
+            text-decoration: none; font-size: 0.85rem; background: var(--bg-color);
         }
     </style>
 </head>
 <body>
 
-    <header id="top">
-        <a href="#top" class="logo">Fur<span>Tek</span></a>
+    <header>
+        <a href="#" class="logo" onclick="closeAllViews()">Fur<span>Tek</span></a>
         <button class="menu-btn" onclick="toggleMenu()">
             <span></span>
             <span></span>
@@ -241,94 +243,52 @@
         </button>
     </header>
 
-    <!-- Yan Menü -->
     <div class="side-menu" id="sideMenu">
         <button class="close-btn" onclick="toggleMenu()">&times;</button>
         <nav class="menu-links">
-            <a href="#top" onclick="toggleMenu()">🏠 Ana Sayfa</a>
-            <a href="#news" onclick="toggleMenu()">🔔 Güncellemeler & Haberler</a>
-            <a href="#about" onclick="toggleMenu()">Hakkında</a>
-            <a href="#products" onclick="toggleMenu()">Ürünler</a>
-            <a href="#projects" onclick="toggleMenu()">Projeler</a>
-            <a href="#resources" onclick="toggleMenu()">STL & Kodlar</a>
-            <a href="#invest" onclick="toggleMenu()">Yatırım & İşbirliği</a>
+            <a href="#" onclick="toggleMenu(); closeAllViews();">🏠 Ana Sayfa</a>
+            <a href="#" onclick="toggleMenu(); openModal('aboutModal');">ℹ️ Hakkında</a>
+            <a href="#" onclick="toggleMenu(); openModal('investModal');">🤝 Yatırım & İşbirliği</a>
+            <a href="#" onclick="toggleMenu(); openFullscreen('newsView');">🔔 Güncellemeler & Haberler</a>
+            <a href="#" onclick="toggleMenu(); openFullscreen('productsView');">📦 Ürünler</a>
+            <a href="#" onclick="toggleMenu(); openFullscreen('projectsView');">⚙️ Projeler</a>
         </nav>
         <div class="auth-buttons" id="authBox">
-            <button class="btn btn-outline" onclick="openModal('login')">Giriş Yap</button>
-            <button class="btn" onclick="openModal('register')">Kayıt Ol</button>
+            <button class="btn btn-outline" onclick="openAuthModal('login')">Giriş Yap</button>
+            <button class="btn" onclick="openAuthModal('register')">Kayıt Ol</button>
         </div>
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <main>
-        <!-- Yenilenen Tanıtım Başlığı -->
-        <section class="hero">
+        <div class="hero">
             <h1>FurTek | Teknoloji & Proje Deposu</h1>
             <p>Gömülü sistemler, 3D tasarımlar ve mühendislik projelerinin kişisel geliştirme alanı.</p>
-        </section>
+        </div>
 
-        <!-- Güncellemeler & Haberler -->
-        <section id="news">
-            <h2>🔔 Güncellemeler & Haberler</h2>
-            <div class="card">
-                <span style="color: var(--primary); font-size: 0.85rem; font-weight: 600;">24 AĞUSTOS 2026</span>
-                <h3 style="color: #fff; margin: 0.3rem 0;">FurTek Web Platformu Yayında!</h3>
-                <p style="color: var(--text-muted);">Platformumuz GitHub Pages üzerinde yayınlandı. Ürünler, C++ uçuş kodları ve 3D STL modelleri yakında burada paylaşılacaktır.</p>
+        <div class="nav-grid">
+            <div class="nav-card" onclick="openModal('aboutModal')">
+                <h3>ℹ️ Hakkında</h3>
+                <p>Geliştirici bilgileri ve platformun amacı.</p>
             </div>
-        </section>
-
-        <section id="about">
-            <h2>Hakkında</h2>
-            <div class="card">
-                <p>FurTek; 3D modelleme, otonom hava/kara sistemleri ve C++ gömülü yazılımlar üzerine yürüttüğüm kişisel projeleri sergilediğim bağımsız bir platformdur.</p>
+            <div class="nav-card" onclick="openModal('investModal')">
+                <h3>🤝 Yatırım & İşbirliği</h3>
+                <p>Projeler için doğrudan iletişim formu.</p>
             </div>
-        </section>
-
-        <section id="products">
-            <h2>Ürünler</h2>
-            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
-                <p style="color: var(--primary); font-size: 1.2rem; font-weight: 600;">📦 Bu Bölüm Hazırlık Aşamasında</p>
-                <p style="color: var(--text-muted);">Henüz sergilenecek bir ürün bulunmuyor. Yakında özel tasarımlar ve hazır kitler burada yer alacak!</p>
+            <div class="nav-card" onclick="openFullscreen('newsView')">
+                <h3>🔔 Güncellemeler & Haberler</h3>
+                <p>Geliştirme duyuruları ve sistem notları.</p>
             </div>
-        </section>
-
-        <section id="projects">
-            <h2>Projeler</h2>
-            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
-                <p style="color: var(--primary); font-size: 1.2rem; font-weight: 600;">⚙️ Henüz İçerik Yok</p>
-                <p style="color: var(--text-muted);">İlk projemiz olan RC Model Uçak videosu ile birlikte tüm detaylar buraya eklenecektir.</p>
+            <div class="nav-card" onclick="openFullscreen('productsView')">
+                <h3>📦 Ürünler</h3>
+                <p>Özel tasarımlar, filtreleme ve ürün kataloğu.</p>
             </div>
-        </section>
-
-        <section id="resources">
-            <h2>STL & Kodlar</h2>
-            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
-                <p style="color: var(--primary); font-size: 1.2rem; font-weight: 600;">📂 Depo Şu An Boş</p>
-                <p style="color: var(--text-muted);">Açık kaynak 3D baskı (.STL) dosyaları ve C++/Arduino kodları projenin yayınıyla birlikte indirilebilir olacaktır.</p>
+            <div class="nav-card" onclick="openFullscreen('projectsView')">
+                <h3>⚙️ Projeler</h3>
+                <p>Proje detayları, STL ve C++ kod depoları.</p>
             </div>
-        </section>
-
-        <section id="invest">
-            <h2>Yatırım & İşbirliği</h2>
-            <div class="card">
-                <form action="https://formspree.io/f/xqkvqren" method="POST">
-                    <div class="form-group">
-                        <label>Adınız / Kurum</label>
-                        <input type="text" name="name" required placeholder="Adınız">
-                    </div>
-                    <div class="form-group">
-                        <label>E-posta</label>
-                        <input type="email" name="email" required placeholder="ornek@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Mesajınız</label>
-                        <textarea name="message" rows="4" required placeholder="Mesajınızı yazın..."></textarea>
-                    </div>
-                    <button type="submit" class="btn">Gönder</button>
-                </form>
-            </div>
-        </section>
+        </div>
     </main>
 
     <footer>
@@ -336,13 +296,45 @@
             <a href="https://youtube.com/@furtek-j9?si=Fc5K9IT0-_I4W3Iu" target="_blank" class="social-btn">▶ YouTube Kanalı</a>
             <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="social-btn">💻 GitHub Deposu</a>
         </div>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
+        <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
     </footer>
 
-    <!-- Doğrulamalı Giriş / Kayıt Modal -->
-    <div class="modal" id="authModal">
-        <div class="modal-content">
-            <button class="close-btn" style="position: absolute; top: 15px; right: 20px;" onclick="closeModal()">&times;</button>
+    <!-- MODALS -->
+
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-popup">
+            <button class="close-btn" style="position:absolute; top:15px; right:20px;" onclick="closeModal('aboutModal')">&times;</button>
+            <h2 style="color: #fff; margin-bottom: 1rem;">Hakkında</h2>
+            <p style="color: var(--text-main);">Bu platform; 3D modelleme, otonom hava/kara sistemleri ve C++ gömülü yazılımlar üzerine yürüttüğüm kişisel projeleri sergilediğim bağımsız bir alandır.</p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="investModal">
+        <div class="modal-popup">
+            <button class="close-btn" style="position:absolute; top:15px; right:20px;" onclick="closeModal('investModal')">&times;</button>
+            <h2 style="color: #fff; margin-bottom: 1rem;">Yatırım & İşbirliği</h2>
+            <form action="https://formspree.io/f/xqkvqren" method="POST">
+                <div class="form-group">
+                    <label>Adınız / Kurum</label>
+                    <input type="text" name="name" required placeholder="Adınız">
+                </div>
+                <div class="form-group">
+                    <label>E-posta</label>
+                    <input type="email" name="email" required placeholder="ornek@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Mesajınız</label>
+                    <textarea name="message" rows="3" required placeholder="Mesajınızı yazın..."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Gönder</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Giriş/Kayıt Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-popup">
+            <button class="close-btn" style="position: absolute; top: 15px; right: 20px;" onclick="closeModal('authModal')">&times;</button>
             <h2 id="modalTitle" style="color: #fff; margin-bottom: 1.5rem;">Giriş Yap</h2>
             
             <form onsubmit="handleAuth(event)">
@@ -353,7 +345,7 @@
                 <div class="form-group">
                     <label>Şifre</label>
                     <input type="password" id="authPassword" placeholder="******" required>
-                    <div class="password-rules">Şifre en az 8 karakter olmalı ve en az 1 rakam içermelidir.</div>
+                    <div class="password-rules">En az 8 karakter ve en az 1 rakam içermelidir.</div>
                 </div>
                 
                 <div class="error-msg" id="errorMsg"></div>
@@ -362,8 +354,74 @@
         </div>
     </div>
 
+    <!-- Hesap Özelleştirme Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-popup">
+            <button class="close-btn" style="position: absolute; top: 15px; right: 20px;" onclick="closeModal('profileModal')">&times;</button>
+            <h2 style="color: #fff; margin-bottom: 1.5rem;">⚙️ Hesap Ayarları</h2>
+            
+            <form onsubmit="saveProfile(event)">
+                <div class="form-group">
+                    <label>Görünen Adınız / Takma Ad</label>
+                    <input type="text" id="profileDisplayName" placeholder="Kullanıcı Adı" required>
+                </div>
+                <div class="form-group">
+                    <label>E-posta (Değiştirilemez)</label>
+                    <input type="email" id="profileEmail" disabled style="opacity: 0.6;">
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem;">Değişiklikleri Kaydet</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN VIEWS -->
+
+    <div class="modal-fullscreen" id="newsView">
+        <div class="view-header">
+            <h2 style="color:#fff;">🔔 Güncellemeler & Haberler</h2>
+            <button class="close-btn" onclick="closeFullscreen('newsView')">&times;</button>
+        </div>
+        <div class="data-card" style="margin-bottom:1rem;">
+            <span style="color:var(--primary); font-size:0.8rem;">24 AĞUSTOS 2026</span>
+            <h3 style="color:#fff; margin:0.3rem 0;">Yerel Hafıza & Hesap Özelleştirme Sistemi Aktif</h3>
+            <p style="color:var(--text-muted);">Giriş bilgileri veritabanı benzeri yerel depolama (localStorage) ile eşleştirildi.</p>
+        </div>
+    </div>
+
+    <div class="modal-fullscreen" id="productsView">
+        <div class="view-header">
+            <h2 style="color:#fff;">📦 Ürün Kataloğu</h2>
+            <button class="close-btn" onclick="closeFullscreen('productsView')">&times;</button>
+        </div>
+        <div class="data-grid">
+            <div class="data-card">
+                <h4 style="color:#fff;">Özel Kontrol Kartı V1</h4>
+                <p style="font-size:0.8rem; color:var(--text-muted);">Stoklar yakında güncellenecektir.</p>
+                <div class="price-tag">Hazırlanıyor</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-fullscreen" id="projectsView">
+        <div class="view-header">
+            <h2 style="color:#fff;">⚙️ Projeler Deposu</h2>
+            <button class="close-btn" onclick="closeFullscreen('projectsView')">&times;</button>
+        </div>
+        <div class="data-grid">
+            <div class="data-card">
+                <h3 style="color:#fff; margin-bottom:0.5rem;">RC Model Uçak & Otonom Sistem</h3>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Arduino tabanlı NRF24L01 kumanda sistemi.</p>
+                <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="btn btn-outline" style="font-size:0.75rem;">📄 C++ Kodları</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         let currentAuthType = 'login';
+
+        window.onload = function() {
+            checkActiveSession();
+        };
 
         function toggleMenu() {
             const sideMenu = document.getElementById('sideMenu');
@@ -372,54 +430,124 @@
             overlay.style.display = sideMenu.classList.contains('active') ? 'block' : 'none';
         }
 
-        function openModal(type) {
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function openFullscreen(id) {
+            closeAllViews();
+            document.getElementById(id).style.display = 'block';
+        }
+        function closeFullscreen(id) { document.getElementById(id).style.display = 'none'; }
+        function closeAllViews() {
+            const views = document.querySelectorAll('.modal-fullscreen');
+            views.forEach(v => v.style.display = 'none');
+        }
+
+        function openAuthModal(type) {
             currentAuthType = type;
-            toggleMenu();
-            const modal = document.getElementById('authModal');
-            const title = document.getElementById('modalTitle');
+            if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
             document.getElementById('errorMsg').style.display = 'none';
-            
-            title.innerText = (type === 'login') ? 'Giriş Yap' : 'Kayıt Ol';
-            modal.style.display = 'flex';
+            document.getElementById('modalTitle').innerText = (type === 'login') ? 'Giriş Yap' : 'Kayıt Ol';
+            openModal('authModal');
         }
 
-        function closeModal() {
-            document.getElementById('authModal').style.display = 'none';
-        }
-
+        /* Gerçek Doğrulama & Yerel Hafıza Mantığı */
         function handleAuth(e) {
             e.preventDefault();
-            const email = document.getElementById('authEmail').value;
+            const email = document.getElementById('authEmail').value.toLowerCase().trim();
             const password = document.getElementById('authPassword').value;
-            const errorMsg = document.getElementById('errorMsg');
 
-            // 1. E-posta Format Doğrulaması (Regex)
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 showError('Lütfen geçerli bir e-posta adresi girin.');
                 return;
             }
 
-            // 2. Şifre Kuralları Doğrulaması (En az 8 karakter, en az 1 rakam)
             const passwordRegex = /^(?=.*\d).{8,}$/;
             if (!passwordRegex.test(password)) {
                 showError('Şifre en az 8 karakter olmalı ve en az 1 rakam içermelidir.');
                 return;
             }
 
-            // Başarılı Giriş/Kayıt Simülasyonu
-            errorMsg.style.display = 'none';
-            const username = email.split('@')[0];
-            
-            document.getElementById('authBox').innerHTML = `
-                <div style="color: var(--primary); font-weight: 600; text-align: center;">
-                    👤 Hoş geldin, ${username}
-                </div>
-                <button class="btn btn-outline" onclick="location.reload()">Çıkış Yap</button>
-            `;
+            let users = JSON.parse(localStorage.getItem('furtek_users') || '{}');
 
-            alert(`${currentAuthType === 'login' ? 'Giriş' : 'Kayıt'} başarılı! Hoş geldin ${username}.`);
-            closeModal();
+            if (currentAuthType === 'register') {
+                if (users[email]) {
+                    showError('Bu e-posta adresi zaten kayıtlı! Giriş yapmayı deneyin.');
+                    return;
+                }
+                const defaultName = email.split('@')[0];
+                users[email] = { password: password, displayName: defaultName };
+                localStorage.setItem('furtek_users', JSON.stringify(users));
+                localStorage.setItem('furtek_active_user', email);
+                alert('Kayıt başarıyla oluşturuldu! Hoş geldiniz.');
+            } else {
+                if (!users[email]) {
+                    showError('Bu e-posta sistemde bulunamadı. Lütfen önce kayıt olun.');
+                    return;
+                }
+                if (users[email].password !== password) {
+                    showError('Girdiğiniz şifre hatalı!');
+                    return;
+                }
+                localStorage.setItem('furtek_active_user', email);
+            }
+
+            closeModal('authModal');
+            checkActiveSession();
+        }
+
+        function checkActiveSession() {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const users = JSON.parse(localStorage.getItem('furtek_users') || '{}');
+
+            if (activeEmail && users[activeEmail]) {
+                const userObj = users[activeEmail];
+                document.getElementById('authBox').innerHTML = `
+                    <div style="color: var(--primary); font-weight: 600; text-align: center; font-size: 0.9rem;">
+                        👤 ${userObj.displayName}
+                    </div>
+                    <button class="btn btn-outline" onclick="openProfileModal()">⚙️ Hesap Ayarları</button>
+                    <button class="btn" style="background:#ff4d4d; color:#fff;" onclick="logout()">Çıkış Yap</button>
+                `;
+            } else {
+                document.getElementById('authBox').innerHTML = `
+                    <button class="btn btn-outline" onclick="openAuthModal('login')">Giriş Yap</button>
+                    <button class="btn" onclick="openAuthModal('register')">Kayıt Ol</button>
+                `;
+            }
+        }
+
+        function openProfileModal() {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const users = JSON.parse(localStorage.getItem('furtek_users') || '{}');
+            if (!activeEmail || !users[activeEmail]) return;
+
+            document.getElementById('profileEmail').value = activeEmail;
+            document.getElementById('profileDisplayName').value = users[activeEmail].displayName;
+            if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
+            openModal('profileModal');
+        }
+
+        function saveProfile(e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            let users = JSON.parse(localStorage.getItem('furtek_users') || '{}');
+            const newName = document.getElementById('profileDisplayName').value.trim();
+
+            if (activeEmail && users[activeEmail] && newName) {
+                users[activeEmail].displayName = newName;
+                localStorage.setItem('furtek_users', JSON.stringify(users));
+                alert('Profil bilgileri güncellendi!');
+                closeModal('profileModal');
+                checkActiveSession();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('furtek_active_user');
+            checkActiveSession();
+            if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
         }
 
         function showError(msg) {

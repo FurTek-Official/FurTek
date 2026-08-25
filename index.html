@@ -200,13 +200,6 @@
         .password-rules { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem; }
         .error-msg { color: var(--error-color); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
 
-        .filter-bar {
-            display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;
-            background: var(--card-bg); padding: 1rem; border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-        .filter-bar input, .filter-bar select { flex: 1; min-width: 150px; }
-
         .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
         .data-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
@@ -309,24 +302,27 @@
         </div>
     </div>
 
+    <!-- Yatırım & Sponsorluk İletişim Modalı -->
     <div class="modal-overlay" id="investModal">
         <div class="modal-popup">
             <button class="close-btn" style="position:absolute; top:15px; right:20px;" onclick="closeModal('investModal')">&times;</button>
-            <h2 style="color: #fff; margin-bottom: 1rem;">Yatırım & İşbirliği</h2>
-            <form action="https://formspree.io/f/xqkvqren" method="POST">
+            <h2 style="color: #fff; margin-bottom: 1rem;">🤝 Yatırım & İşbirliği</h2>
+            <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom: 1.2rem;">Projeler, sponsorluk veya iş birliği talepleriniz için mesaj gönderebilirsiniz.</p>
+            
+            <form onsubmit="sendDirectEmail(event)">
                 <div class="form-group">
                     <label>Adınız / Kurum</label>
-                    <input type="text" name="name" required placeholder="Adınız">
+                    <input type="text" id="contactName" required placeholder="Adınız veya Kurum Adı">
                 </div>
                 <div class="form-group">
-                    <label>E-posta</label>
-                    <input type="email" name="email" required placeholder="ornek@email.com">
+                    <label>E-posta Adresiniz</label>
+                    <input type="email" id="contactEmail" required placeholder="ornek@email.com">
                 </div>
                 <div class="form-group">
                     <label>Mesajınız</label>
-                    <textarea name="message" rows="3" required placeholder="Mesajınızı yazın..."></textarea>
+                    <textarea id="contactMessage" rows="3" required placeholder="Proje detayları veya iletmek istediğiniz not..."></textarea>
                 </div>
-                <button type="submit" class="btn" style="width: 100%;">Gönder</button>
+                <button type="submit" class="btn" style="width: 100%;">📧 E-posta İle Gönder</button>
             </form>
         </div>
     </div>
@@ -382,9 +378,9 @@
             <button class="close-btn" onclick="closeFullscreen('newsView')">&times;</button>
         </div>
         <div class="data-card" style="margin-bottom:1rem;">
-            <span style="color:var(--primary); font-size:0.8rem;">24 AĞUSTOS 2026</span>
-            <h3 style="color:#fff; margin:0.3rem 0;">Yerel Hafıza & Hesap Özelleştirme Sistemi Aktif</h3>
-            <p style="color:var(--text-muted);">Giriş bilgileri veritabanı benzeri yerel depolama (localStorage) ile eşleştirildi.</p>
+            <span style="color:var(--primary); font-size:0.8rem;">25 AĞUSTOS 2026</span>
+            <h3 style="color:#fff; margin:0.3rem 0;">Sponsorluk & İletişim Altyapısı Güncellendi</h3>
+            <p style="color:var(--text-muted);">Doğrudan e-posta yönlendirmeli dinamik iletişim yapısına geçildi.</p>
         </div>
     </div>
 
@@ -443,6 +439,21 @@
             views.forEach(v => v.style.display = 'none');
         }
 
+        /* Doğrudan E-posta İletişim Fonksiyonu */
+        function sendDirectEmail(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            const myEmail = "furtek.official@gmail.com";
+            const subject = encodeURIComponent(`FurTek İşbirliği / Sponsorluk: ${name}`);
+            const body = encodeURIComponent(`Gönderen Adı/Kurum: ${name}\nGönderen E-posta: ${email}\n\nMesaj:\n${message}`);
+
+            window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
+            closeModal('investModal');
+        }
+
         function openAuthModal(type) {
             currentAuthType = type;
             if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
@@ -451,7 +462,6 @@
             openModal('authModal');
         }
 
-        /* Gerçek Doğrulama & Yerel Hafıza Mantığı */
         function handleAuth(e) {
             e.preventDefault();
             const email = document.getElementById('authEmail').value.toLowerCase().trim();

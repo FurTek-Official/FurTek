@@ -175,6 +175,7 @@
             display: none;
             overflow-y: auto;
             padding: 2rem 8%;
+            padding-bottom: 5rem;
         }
 
         .view-header {
@@ -324,6 +325,20 @@
             cursor: pointer;
         }
         .gallery-img:hover { border-color: var(--primary); }
+
+        /* Admin Kartları İçin Özel Scroll ve Taşma Çözümü */
+        .admin-card-form {
+            max-height: 80vh;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .admin-card-form::-webkit-scrollbar {
+            width: 6px;
+        }
+        .admin-card-form::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -392,8 +407,7 @@
             <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="social-btn">💻 GitHub Deposu</a>
         </div>
         <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
-        <!-- SÜRÜM BİLGİSİ -->
-        <span class="version-tag">Sürüm: v2.4.0 (Ağustos 2026)</span>
+        <span class="version-tag">Sürüm: v2.4.1 (Ağustos 2026)</span>
     </footer>
 
     <!-- MODALS -->
@@ -469,14 +483,13 @@
         <div id="newsContainer"></div>
     </div>
 
-    <!-- Ürün Kataloğu View (Arama ve Filtreleme Ekli) -->
+    <!-- Ürün Kataloğu View -->
     <div class="modal-fullscreen" id="productsView">
         <div class="view-header">
             <h2 style="color:#fff;">📦 Ürün Kataloğu</h2>
             <button class="close-btn" onclick="closeFullscreen('productsView')">&times;</button>
         </div>
 
-        <!-- Arama, Filtreleme ve Sıralama Barı -->
         <div class="filter-bar">
             <input type="text" id="productSearchInput" placeholder="🔍 Ürün ara..." oninput="renderProducts()">
             <select id="productStockFilter" onchange="renderProducts()">
@@ -511,7 +524,7 @@
         <div class="detail-view-container" id="detailContentContainer"></div>
     </div>
 
-    <!-- ADMIN PANEL VIEW -->
+    <!-- ADMIN PANEL VIEW (Form Taşıma Düzeltildi) -->
     <div class="modal-fullscreen" id="adminView">
         <div class="view-header">
             <h2 style="color:var(--admin-color);">👑 Admin Yönetim Paneli</h2>
@@ -520,7 +533,7 @@
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
             <!-- Yeni Proje Ekleme -->
-            <div class="data-card" style="padding: 1.2rem; cursor:default;">
+            <div class="data-card admin-card-form" style="padding: 1.2rem; cursor:default;">
                 <h3 style="color:#fff; margin-bottom: 1rem;">⚙️ Yeni Proje Ekle</h3>
                 <form onsubmit="addProject(event)">
                     <div class="form-group">
@@ -537,18 +550,18 @@
                     </div>
                     <div class="form-group">
                         <label>Detaylı Açıklama (Uzun)</label>
-                        <textarea id="adminProjLongDesc" rows="4" required placeholder="Projenin tüm detayları..."></textarea>
+                        <textarea id="adminProjLongDesc" rows="3" required placeholder="Projenin tüm detayları..."></textarea>
                     </div>
                     <div class="form-group">
                         <label>GitHub / Bağlantı Linki</label>
                         <input type="url" id="adminProjLink" required placeholder="https://github.com/...">
                     </div>
-                    <button type="submit" class="btn btn-warning" style="width: 100%;">Proje Yayınla</button>
+                    <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 1rem;">Proje Yayınla</button>
                 </form>
             </div>
 
-            <!-- Yeni Ürün Ekleme (Birden Fazla Görsel Yüklemeli) -->
-            <div class="data-card" style="padding: 1.2rem; cursor:default;">
+            <!-- Yeni Ürün Ekleme -->
+            <div class="data-card admin-card-form" style="padding: 1.2rem; cursor:default;">
                 <h3 style="color:#fff; margin-bottom: 1rem;">📦 Yeni Ürün Ekle</h3>
                 <form onsubmit="addProduct(event)">
                     <div class="form-group">
@@ -581,14 +594,14 @@
                     </div>
                     <div class="form-group">
                         <label>Uzun Detaylı Açıklama</label>
-                        <textarea id="adminProdLongDesc" rows="4" required placeholder="Teknik özellikler, kutu içeriği..."></textarea>
+                        <textarea id="adminProdLongDesc" rows="3" required placeholder="Teknik özellikler, kutu içeriği..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-warning" style="width: 100%;">Ürün Ekle</button>
+                    <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 1rem;">Ürün Ekle</button>
                 </form>
             </div>
 
             <!-- Yeni Haber Ekleme -->
-            <div class="data-card" style="padding: 1.2rem; cursor:default;">
+            <div class="data-card admin-card-form" style="padding: 1.2rem; cursor:default;">
                 <h3 style="color:#fff; margin-bottom: 1rem;">📢 Yeni Haber / Duyuru Ekle</h3>
                 <form onsubmit="addNews(event)">
                     <div class="form-group">
@@ -599,7 +612,7 @@
                         <label>İçerik</label>
                         <textarea id="adminNewsContent" rows="3" required placeholder="Haber detaylarını girin"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-warning" style="width: 100%;">Haber Yayınla</button>
+                    <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 1rem;">Haber Yayınla</button>
                 </form>
             </div>
         </div>
@@ -618,7 +631,7 @@
         ];
 
         const defaultNews = [
-            { id: 1, date: "27 AĞUSTOS 2026", title: "v2.4.0 Güncellemesi Yayınlandı", content: "Ürünler bölümü için filtreleme, canlı arama, fiyata göre sıralama ve çoklu görsel galeri desteği eklendi." }
+            { id: 1, date: "27 AĞUSTOS 2026", title: "v2.4.1 Güncellemesi Yayınlandı", content: "Form alanlarındaki scroll ve kayma sorunları giderildi. Form kaydetme butonları erişilebilir kılındı." }
         ];
 
         const defaultProducts = [
@@ -668,7 +681,6 @@
             views.forEach(v => v.style.display = 'none');
         }
 
-        /* İletişim */
         function sendDirectEmail(e) {
             e.preventDefault();
             const name = document.getElementById('contactName').value;
@@ -682,7 +694,6 @@
             closeModal('investModal');
         }
 
-        /* Oturum İşlemleri */
         function openAuthModal(type) {
             currentAuthType = type;
             generatedOTP = null;
@@ -777,7 +788,6 @@
             errorMsg.style.display = 'block';
         }
 
-        /* PROJE EKLEME & MİMARİSİ */
         async function addProject(e) {
             e.preventDefault();
             const title = document.getElementById('adminProjTitle').value.trim();
@@ -852,7 +862,6 @@
             openFullscreen('itemDetailView');
         }
 
-        /* ÜRÜN EKLEME & ÇOKLU GÖRSEL DÜZELTMESİ */
         async function addProduct(e) {
             e.preventDefault();
             const name = document.getElementById('adminProdName').value.trim();
@@ -870,7 +879,6 @@
                 coverBase64 = await fileToBase64(coverFile);
             }
 
-            // Çoklu Görsel Yükleme Düzeltmesi (Promises.all)
             let galleryBase64 = [];
             if (galleryFiles && galleryFiles.length > 0) {
                 const uploadPromises = Array.from(galleryFiles).map(file => fileToBase64(file));
@@ -905,7 +913,6 @@
             renderProducts();
         }
 
-        /* ARAMA, FİLTRELEME VE SIRALAMA REANDER'I */
         function renderProducts() {
             const container = document.getElementById('productsContainer');
             let products = JSON.parse(localStorage.getItem('furtek_products') || '[]');
@@ -916,7 +923,6 @@
             const stockFilter = document.getElementById('productStockFilter')?.value || 'all';
             const sortOrder = document.getElementById('productSortOrder')?.value || 'newest';
 
-            // 1. Arama Filtresi
             if (searchInput !== '') {
                 products = products.filter(p => 
                     p.name.toLowerCase().includes(searchInput) || 
@@ -924,12 +930,10 @@
                 );
             }
 
-            // 2. Stok Filtresi
             if (stockFilter !== 'all') {
                 products = products.filter(p => p.stock === stockFilter);
             }
 
-            // 3. Sıralama
             if (sortOrder === 'priceAsc') {
                 products.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
             } else if (sortOrder === 'priceDesc') {
@@ -1000,7 +1004,6 @@
             if (mainImg) mainImg.src = src;
         }
 
-        /* HABER EKLEME */
         function addNews(e) {
             e.preventDefault();
             const title = document.getElementById('adminNewsTitle').value.trim();

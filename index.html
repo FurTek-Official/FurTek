@@ -123,7 +123,6 @@
         .btn-danger { background-color: var(--error-color); color: #fff; }
         .btn-warning { background-color: var(--admin-color); color: #000; }
 
-        /* App Container Layout */
         #app-viewport {
             flex: 1;
             display: flex;
@@ -154,7 +153,7 @@
         .nav-card h3 { color: var(--text-heading); margin-bottom: 0.5rem; }
         .nav-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* Modals & Fullscreen Views */
+        /* MODAL POPUP (HAREKET ETTİRİLEBİLİR VE KAYDIRILABİLİR) */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -173,12 +172,18 @@
             border-radius: 12px;
             width: 90%;
             max-width: 480px;
-            position: relative;
-            max-height: 90vh;
+            position: absolute; /* Sürükleme hareketi için absolute */
+            max-height: 85vh;
             overflow-y: auto;
+            cursor: grab; /* Taşınabilir göstergesi */
+            touch-action: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
-        /* Fullscreen Content Section inside Viewport */
+        .modal-popup:active {
+            cursor: grabbing;
+        }
+
         .fullscreen-view {
             display: none;
             padding: 2rem 8%;
@@ -203,6 +208,7 @@
             width: 100%; padding: 0.8rem;
             background: var(--bg-color); border: 1px solid var(--border-color);
             border-radius: 6px; color: var(--text-main); font-family: inherit;
+            cursor: auto;
         }
         .error-msg { color: var(--error-color); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
         .info-msg { color: var(--primary); font-size: 0.85rem; margin-top: 0.5rem; }
@@ -302,7 +308,6 @@
             display: block;
         }
 
-        /* Profile UI */
         .profile-header {
             display: flex;
             align-items: center;
@@ -648,9 +653,8 @@
     <input type="file" id="inlineImagePicker" accept="image/*" style="display:none;" onchange="handleInlineImageUpload(event)">
 
     <script>
-        // Cihazlar arası bulut senkronizasyonu için JSONBin Entegrasyonu
-        const JSONBIN_BIN_ID = ""; // JSONBin Bin ID'nizi buraya yazın
-        const JSONBIN_API_KEY = ""; // JSONBin Master Key'inizi buraya yazın
+        const JSONBIN_BIN_ID = "";
+        const JSONBIN_API_KEY = "";
 
         const ADMIN_EMAIL = "furtek.official@gmail.com";
         const placeholderImg = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%22300%22%20height%3D%22180%22%20fill%3D%22%2321262d%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%238b949e%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%3EFurTek%20G%C3%B6rsel%3C%2Ftext%3E%3C%2Fsvg%3E";
@@ -678,9 +682,63 @@
             renderProjects();
             renderNews();
             renderProducts();
+            initDraggableModals(); // Sürükleme sistemini başlat
         };
 
-        /* BULUT & YEREL VERİ YÖNETİMİ */
+        /* PENCERE SÜRÜKLEME (DRAG & DROP) MİMARİSİ */
+        function initDraggableModals() {
+            document.querySelectorAll('.modal-popup').forEach(modal => {
+                let isDragging = false;
+                let startX, startY, initialLeft, initialTop;
+
+                const startDrag = (e) => {
+                    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+
+                    // Form girdileri veya butonlara basılınca sürükleme yapılmasın
+                    if (['INPUT', 'TEXTAREA', 'BUTTON', 'A', 'SELECT', 'LABEL'].includes(e.target.tagName)) return;
+
+                    isDragging = true;
+                    startX = clientX;
+                    startY = clientY;
+
+                    const rect = modal.getBoundingClientRect();
+                    initialLeft = rect.left;
+                    initialTop = rect.top;
+
+                    modal.style.position = 'fixed';
+                    modal.style.left = `${initialLeft}px`;
+                    modal.style.top = `${initialTop}px`;
+                    modal.style.margin = '0';
+                    modal.style.transform = 'none';
+                };
+
+                const moveDrag = (e) => {
+                    if (!isDragging) return;
+                    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+
+                    const dx = clientX - startX;
+                    const dy = clientY - startY;
+
+                    modal.style.left = `${initialLeft + dx}px`;
+                    modal.style.top = `${initialTop + dy}px`;
+                };
+
+                const stopDrag = () => {
+                    isDragging = false;
+                };
+
+                modal.addEventListener('mousedown', startDrag);
+                document.addEventListener('mousemove', moveDrag);
+                document.addEventListener('mouseup', stopDrag);
+
+                modal.addEventListener('touchstart', startDrag, { passive: true });
+                document.addEventListener('touchmove', moveDrag, { passive: true });
+                document.addEventListener('touchend', stopDrag);
+            });
+        }
+
         async function loadDatabase() {
             if (JSONBIN_BIN_ID && JSONBIN_API_KEY) {
                 try {
@@ -733,7 +791,6 @@
             });
         }
 
-        /* AKICI ARAYÜZ VE SCROLL LOCK MİMARİSİ */
         function toggleMenu() {
             const sideMenu = document.getElementById('sideMenu');
             const overlay = document.getElementById('overlay');
@@ -743,7 +800,17 @@
         }
 
         function openModal(id) { 
-            document.getElementById(id).style.display = 'flex'; 
+            const overlay = document.getElementById(id);
+            const popup = overlay.querySelector('.modal-popup');
+            
+            // Konumu sıfırla ve merkeze al
+            popup.style.position = '';
+            popup.style.left = '';
+            popup.style.top = '';
+            popup.style.transform = '';
+            popup.style.margin = '';
+
+            overlay.style.display = 'flex'; 
             document.body.style.overflow = 'hidden';
         }
         
@@ -766,7 +833,6 @@
             document.body.style.overflow = '';
         }
 
-        /* METİN İÇİ GÖRSEL EKLEME SİSTEMİ ({@i) */
         function checkImageCommand(textarea) {
             if (textarea.value.endsWith('{@i ')) {
                 activeNewsTextarea = textarea;
@@ -784,7 +850,6 @@
             e.target.value = '';
         }
 
-        /* OTURUM VE PROFİL İŞLEMLERİ */
         function openAuthModal(type) {
             currentAuthType = type;
             generatedOTP = null;
@@ -862,7 +927,6 @@
                     <button class="btn btn-danger" onclick="logout()">Çıkış Yap</button>
                 `;
 
-                // Profil ekranı verileri
                 document.getElementById('profileDisplayName').innerText = userObj.displayName;
                 document.getElementById('profileEmail').innerText = activeEmail;
                 document.getElementById('profileAvatarImg').src = userObj.avatar || placeholderImg;
@@ -915,7 +979,6 @@
             errorMsg.style.display = 'block';
         }
 
-        /* PROJE VERİSİ */
         async function addProject(e) {
             e.preventDefault();
             const title = document.getElementById('adminProjTitle').value.trim();
@@ -979,7 +1042,6 @@
             openFullscreen('itemDetailView');
         }
 
-        /* ÜRÜN VERİSİ */
         async function addProduct(e) {
             e.preventDefault();
             const name = document.getElementById('adminProdName').value.trim();
@@ -1078,7 +1140,6 @@
             openFullscreen('itemDetailView');
         }
 
-        /* HABER VERİSİ & METİN İÇİ GÖRSEL RENDER'I */
         async function addNews(e) {
             e.preventDefault();
             const title = document.getElementById('adminNewsTitle').value.trim();
@@ -1112,7 +1173,6 @@
             }
 
             container.innerHTML = db.news.map(item => {
-                // [img:data:...] etiketlerini HTML <img> elementine dönüştür
                 let formattedContent = item.content.replace(/\[img:(data:image\/[^;]+;base64,[^\]]+)\]/g, '<img src="$1" class="news-inline-img">');
 
                 return `

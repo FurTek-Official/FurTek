@@ -31,7 +31,7 @@
             overflow-x: hidden;
         }
 
-        /* Header */
+        /* Fixed Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -39,8 +39,10 @@
             padding: 1.2rem 8%;
             border-bottom: 1px solid var(--border-color);
             background-color: rgba(13, 17, 23, 0.95);
-            position: relative;
-            z-index: 10;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
         }
 
         .logo { font-size: 1.8rem; font-weight: 800; color: var(--text-heading); text-decoration: none; }
@@ -64,7 +66,7 @@
             width: 320px; height: 100vh;
             background-color: var(--card-bg);
             border-left: 1px solid var(--border-color);
-            z-index: 1001;
+            z-index: 2001;
             padding: 2rem;
             display: flex;
             flex-direction: column;
@@ -121,7 +123,14 @@
         .btn-danger { background-color: var(--error-color); color: #fff; }
         .btn-warning { background-color: var(--admin-color); color: #000; }
 
-        /* Main Hero */
+        /* App Container Layout */
+        #app-viewport {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
         main { flex: 1; padding: 3rem 8%; max-width: 1200px; margin: 0 auto; width: 100%; }
         .hero { text-align: center; margin-bottom: 3rem; }
         .hero h1 { font-size: 2.3rem; color: var(--text-heading); margin-bottom: 0.5rem; }
@@ -154,7 +163,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 2000;
+            z-index: 3000;
         }
 
         .modal-popup {
@@ -163,19 +172,20 @@
             padding: 2rem;
             border-radius: 12px;
             width: 90%;
-            max-width: 440px;
+            max-width: 480px;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .modal-fullscreen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-color);
-            z-index: 1500;
+        /* Fullscreen Content Section inside Viewport */
+        .fullscreen-view {
             display: none;
-            overflow-y: auto;
             padding: 2rem 8%;
-            padding-bottom: 5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
         }
 
         .view-header {
@@ -197,7 +207,6 @@
         .error-msg { color: var(--error-color); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
         .info-msg { color: var(--primary); font-size: 0.85rem; margin-top: 0.5rem; }
 
-        /* Filter Controls */
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
@@ -218,7 +227,6 @@
             border-radius: 6px;
         }
 
-        /* Card Visual Enhancements */
         .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
         
         .data-card {
@@ -264,13 +272,14 @@
 
         .overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6); display: none; z-index: 1000;
+            background: rgba(0, 0, 0, 0.6); display: none; z-index: 2000;
         }
 
         footer {
             border-top: 1px solid var(--border-color);
             padding: 1.5rem 8%; text-align: center;
-            background-color: var(--card-bg); position: relative; z-index: 10;
+            background-color: var(--card-bg); position: relative; z-index: 100;
+            margin-top: auto;
         }
         .social-links { display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.8rem; }
         .social-btn {
@@ -293,51 +302,51 @@
             display: block;
         }
 
-        /* Detail Modal Styling */
-        .detail-view-container {
-            max-width: 800px;
-            margin: 0 auto;
+        /* Profile UI */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            padding: 1.5rem;
             border-radius: 12px;
-            padding: 2rem;
-        }
-        .detail-main-img {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
             border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
         }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 0.8rem;
-            margin-top: 1.5rem;
+
+        .profile-avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            flex-shrink: 0;
         }
-        .gallery-img {
+
+        .profile-avatar {
             width: 100%;
-            height: 80px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
+        }
+
+        .profile-avatar-upload {
+            position: absolute;
+            bottom: 0;
+            left: 0; right: 0;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            font-size: 0.65rem;
+            text-align: center;
+            padding: 4px 0;
             cursor: pointer;
         }
-        .gallery-img:hover { border-color: var(--primary); }
 
-        /* Admin Kartları İçin Özel Scroll ve Taşma Çözümü */
-        .admin-card-form {
-            max-height: 80vh;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-        }
-        .admin-card-form::-webkit-scrollbar {
-            width: 6px;
-        }
-        .admin-card-form::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
+        .news-inline-img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
         }
     </style>
 </head>
@@ -361,45 +370,214 @@
             <a href="#" onclick="toggleMenu(); openFullscreen('newsView');">🔔 Güncellemeler & Haberler</a>
             <a href="#" onclick="toggleMenu(); openFullscreen('productsView');">📦 Ürünler</a>
             <a href="#" onclick="toggleMenu(); openFullscreen('projectsView');">⚙️ Projeler</a>
+            <a href="#" id="profileMenuLink" style="display:none;" onclick="toggleMenu(); openFullscreen('profileView');">👤 Profilim</a>
             <a href="#" id="adminMenuLink" style="display:none; color: var(--admin-color);" onclick="toggleMenu(); openFullscreen('adminView');">👑 Admin Paneli</a>
         </nav>
-        <div class="auth-buttons" id="authBox">
-            <button class="btn btn-outline" onclick="openAuthModal('login')">Giriş Yap</button>
-            <button class="btn" onclick="openAuthModal('register')">Kayıt Ol</button>
-        </div>
+        <div class="auth-buttons" id="authBox"></div>
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <main>
-        <div class="hero">
-            <h1>FurTek | Teknoloji & Proje Deposu</h1>
-            <p>Gömülü sistemler, 3D tasarımlar ve mühendislik projelerinin kişisel geliştirme alanı.</p>
+    <div id="app-viewport">
+        <main id="homeView">
+            <div class="hero">
+                <h1>FurTek | Teknoloji & Proje Deposu</h1>
+                <p>Gömülü sistemler, 3D tasarımlar ve mühendislik projelerinin kişisel geliştirme alanı.</p>
+            </div>
+
+            <div class="nav-grid">
+                <div class="nav-card" onclick="openModal('aboutModal')">
+                    <h3>ℹ️ Hakkında</h3>
+                    <p>Geliştirici bilgileri ve platformun amacı.</p>
+                </div>
+                <div class="nav-card" onclick="openModal('investModal')">
+                    <h3>🤝 Yatırım & İşbirliği</h3>
+                    <p>Projeler için doğrudan iletişim formu.</p>
+                </div>
+                <div class="nav-card" onclick="openFullscreen('newsView')">
+                    <h3>🔔 Güncellemeler & Haberler</h3>
+                    <p>Geliştirme duyuruları ve sistem notları.</p>
+                </div>
+                <div class="nav-card" onclick="openFullscreen('productsView')">
+                    <h3>📦 Ürünler</h3>
+                    <p>Özel tasarımlar ve ürün kataloğu.</p>
+                </div>
+                <div class="nav-card" onclick="openFullscreen('projectsView')">
+                    <h3>⚙️ Projeler</h3>
+                    <p>Proje detayları, STL ve C++ kod depoları.</p>
+                </div>
+            </div>
+        </main>
+
+        <div class="fullscreen-view" id="newsView">
+            <div class="view-header">
+                <h2 style="color:#fff;">🔔 Güncellemeler & Haberler</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
+            </div>
+            <div id="newsContainer"></div>
         </div>
 
-        <div class="nav-grid">
-            <div class="nav-card" onclick="openModal('aboutModal')">
-                <h3>ℹ️ Hakkında</h3>
-                <p>Geliştirici bilgileri ve platformun amacı.</p>
+        <div class="fullscreen-view" id="productsView">
+            <div class="view-header">
+                <h2 style="color:#fff;">📦 Ürün Kataloğu</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
-            <div class="nav-card" onclick="openModal('investModal')">
-                <h3>🤝 Yatırım & İşbirliği</h3>
-                <p>Projeler için doğrudan iletişim formu.</p>
+            <div class="filter-bar">
+                <input type="text" id="productSearchInput" placeholder="🔍 Ürün ara..." oninput="renderProducts()">
+                <select id="productStockFilter" onchange="renderProducts()">
+                    <option value="all">Tüm Stok Durumları</option>
+                    <option value="Stokta Var">Sadece Stokta Olanlar</option>
+                    <option value="Stokta Yok">Stokta Olmayanlar</option>
+                </select>
+                <select id="productSortOrder" onchange="renderProducts()">
+                    <option value="newest">Sıralama: Yeniden Eskiye</option>
+                    <option value="priceAsc">Fiyat: Düşükten Yükseğe</option>
+                    <option value="priceDesc">Fiyat: Yüksekten Düşüğe</option>
+                </select>
             </div>
-            <div class="nav-card" onclick="openFullscreen('newsView')">
-                <h3>🔔 Güncellemeler & Haberler</h3>
-                <p>Geliştirme duyuruları ve sistem notları.</p>
+            <div class="data-grid" id="productsContainer"></div>
+        </div>
+
+        <div class="fullscreen-view" id="projectsView">
+            <div class="view-header">
+                <h2 style="color:#fff;">⚙️ Projeler Deposu</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
-            <div class="nav-card" onclick="openFullscreen('productsView')">
-                <h3>📦 Ürünler</h3>
-                <p>Özel tasarımlar ve ürün kataloğu.</p>
+            <div class="data-grid" id="projectsContainer"></div>
+        </div>
+
+        <div class="fullscreen-view" id="itemDetailView">
+            <div class="view-header">
+                <h2 id="detailHeaderTitle" style="color:#fff;">Detaylar</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
-            <div class="nav-card" onclick="openFullscreen('projectsView')">
-                <h3>⚙️ Projeler</h3>
-                <p>Proje detayları, STL ve C++ kod depoları.</p>
+            <div class="detail-view-container" id="detailContentContainer"></div>
+        </div>
+
+        <div class="fullscreen-view" id="profileView">
+            <div class="view-header">
+                <h2 style="color:#fff;">👤 Kullanıcı Profili</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
+            </div>
+            <div class="profile-header">
+                <div class="profile-avatar-container">
+                    <img src="" id="profileAvatarImg" class="profile-avatar" alt="Profil Fotoğrafı">
+                    <label for="avatarInput" class="profile-avatar-upload">Değiştir</label>
+                    <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="updateProfileAvatar(event)">
+                </div>
+                <div>
+                    <h3 id="profileDisplayName" style="color:#fff;">-</h3>
+                    <p id="profileEmail" style="color:var(--text-muted); font-size:0.85rem;">-</p>
+                </div>
+            </div>
+
+            <div class="data-card" style="padding: 1.5rem; cursor:default;">
+                <h3 style="color:#fff; margin-bottom: 1rem;">Profil Bilgilerini Düzenle</h3>
+                <form onsubmit="saveProfile(event)">
+                    <div class="form-group">
+                        <label>Görünen İsim</label>
+                        <input type="text" id="editDisplayName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Hakkımda / Açıklama</label>
+                        <textarea id="editBio" rows="3" placeholder="Kendinizden veya ilgi alanlarınızdan bahsedin..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Değişiklikleri Kaydet</button>
+                </form>
             </div>
         </div>
-    </main>
+
+        <div class="fullscreen-view" id="adminView">
+            <div class="view-header">
+                <h2 style="color:var(--admin-color);">👑 Admin Yönetim Paneli</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="data-card" style="padding: 1.2rem; cursor:default;">
+                    <h3 style="color:#fff; margin-bottom: 1rem;">⚙️ Yeni Proje Ekle</h3>
+                    <form onsubmit="addProject(event)">
+                        <div class="form-group">
+                            <label>Proje Adı</label>
+                            <input type="text" id="adminProjTitle" required placeholder="Örn: Tuygun İHA System V2">
+                        </div>
+                        <div class="form-group">
+                            <label>Kapak Görseli</label>
+                            <input type="file" id="adminProjImg" accept="image/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Açıklama (Kısa)</label>
+                            <textarea id="adminProjDesc" rows="2" required placeholder="Kısa özet açıklama"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Detaylı Açıklama (Uzun)</label>
+                            <textarea id="adminProjLongDesc" rows="3" required placeholder="Projenin tüm detayları..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>GitHub / Bağlantı Linki</label>
+                            <input type="url" id="adminProjLink" required placeholder="https://github.com/...">
+                        </div>
+                        <button type="submit" class="btn btn-warning" style="width: 100%;">Proje Yayınla</button>
+                    </form>
+                </div>
+
+                <div class="data-card" style="padding: 1.2rem; cursor:default;">
+                    <h3 style="color:#fff; margin-bottom: 1rem;">📦 Yeni Ürün Ekle</h3>
+                    <form onsubmit="addProduct(event)">
+                        <div class="form-group">
+                            <label>Ürün Adı</label>
+                            <input type="text" id="adminProdName" required placeholder="Örn: ESP32-S3 Kontrol Kartı">
+                        </div>
+                        <div class="form-group">
+                            <label>Kapak Görseli</label>
+                            <input type="file" id="adminProdImg" accept="image/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Diğer Görseller (Çoklu)</label>
+                            <input type="file" id="adminProdGalleryImg" accept="image/*" multiple>
+                        </div>
+                        <div class="form-group">
+                            <label>Fiyat (TL)</label>
+                            <input type="number" id="adminProdPrice" required placeholder="450">
+                        </div>
+                        <div class="form-group">
+                            <label>Stok Durumu</label>
+                            <select id="adminProdStock">
+                                <option value="Stokta Var">Stokta Var</option>
+                                <option value="Stokta Yok">Stokta Yok</option>
+                                <option value="Ön Sipariş">Ön Sipariş</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Kısa Açıklama</label>
+                            <textarea id="adminProdDesc" rows="2" required placeholder="Kısa tanıtım yazısı"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Uzun Detaylı Açıklama</label>
+                            <textarea id="adminProdLongDesc" rows="3" required placeholder="Teknik özellikler..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning" style="width: 100%;">Ürün Ekle</button>
+                    </form>
+                </div>
+
+                <div class="data-card" style="padding: 1.2rem; cursor:default;">
+                    <h3 style="color:#fff; margin-bottom: 1rem;">📢 Yeni Haber Ekle</h3>
+                    <p style="font-size:0.75rem; color:var(--primary); margin-bottom:0.5rem;">İpucu: Metin içine görsel eklemek için <b>{@i</b> yazıp boşluk bırakın.</p>
+                    <form onsubmit="addNews(event)">
+                        <div class="form-group">
+                            <label>Haber Başlığı</label>
+                            <input type="text" id="adminNewsTitle" required placeholder="Başlık girin">
+                        </div>
+                        <div class="form-group">
+                            <label>İçerik</label>
+                            <textarea id="adminNewsContent" rows="5" required placeholder="Haber detaylarını girin..." oninput="checkImageCommand(this)"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning" style="width: 100%;">Haber Yayınla</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="social-links">
@@ -407,10 +585,8 @@
             <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="social-btn">💻 GitHub Deposu</a>
         </div>
         <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
-        <span class="version-tag">Sürüm: v2.4.1 (Ağustos 2026)</span>
+        <span class="version-tag">Sürüm: v2.5.0 (Ağustos 2026)</span>
     </footer>
-
-    <!-- MODALS -->
 
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-popup">
@@ -420,13 +596,10 @@
         </div>
     </div>
 
-    <!-- İletişim Modalı -->
     <div class="modal-overlay" id="investModal">
         <div class="modal-popup">
             <button class="close-btn" style="position:absolute; top:15px; right:20px;" onclick="closeModal('investModal')">&times;</button>
             <h2 style="color: #fff; margin-bottom: 1rem;">🤝 Yatırım & İşbirliği</h2>
-            <p style="color: var(--text-muted); font-size:0.85rem; margin-bottom: 1.2rem;">Projeler veya sponsorluk talepleriniz için doğrudan iletişime geçin.</p>
-            
             <form onsubmit="sendDirectEmail(event)">
                 <div class="form-group">
                     <label>Adınız / Kurum</label>
@@ -445,7 +618,6 @@
         </div>
     </div>
 
-    <!-- Giriş/Kayıt Modal -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-popup">
             <button class="close-btn" style="position: absolute; top: 15px; right: 20px;" onclick="closeModal('authModal')">&times;</button>
@@ -464,7 +636,7 @@
                 <div class="form-group" id="otpGroup" style="display:none;">
                     <label style="color: var(--primary);">E-posta Doğrulama Kodu</label>
                     <input type="text" id="otpCodeInput" placeholder="6 Haneli Kod" maxlength="6">
-                    <div class="info-msg" id="otpNotice">📩 Doğrulama kodu e-posta adresinize gönderildi.</div>
+                    <div class="info-msg" id="otpNotice"></div>
                 </div>
                 
                 <div class="error-msg" id="errorMsg"></div>
@@ -473,183 +645,83 @@
         </div>
     </div>
 
-    <!-- FULLSCREEN VIEWS -->
-
-    <div class="modal-fullscreen" id="newsView">
-        <div class="view-header">
-            <h2 style="color:#fff;">🔔 Güncellemeler & Haberler</h2>
-            <button class="close-btn" onclick="closeFullscreen('newsView')">&times;</button>
-        </div>
-        <div id="newsContainer"></div>
-    </div>
-
-    <!-- Ürün Kataloğu View -->
-    <div class="modal-fullscreen" id="productsView">
-        <div class="view-header">
-            <h2 style="color:#fff;">📦 Ürün Kataloğu</h2>
-            <button class="close-btn" onclick="closeFullscreen('productsView')">&times;</button>
-        </div>
-
-        <div class="filter-bar">
-            <input type="text" id="productSearchInput" placeholder="🔍 Ürün ara..." oninput="renderProducts()">
-            <select id="productStockFilter" onchange="renderProducts()">
-                <option value="all">Tüm Stok Durumları</option>
-                <option value="Stokta Var">Sadece Stokta Olanlar</option>
-                <option value="Stokta Yok">Stokta Olmayanlar</option>
-            </select>
-            <select id="productSortOrder" onchange="renderProducts()">
-                <option value="newest">Sıralama: Yeniden Eskiye</option>
-                <option value="priceAsc">Fiyat: Düşükten Yükseğe</option>
-                <option value="priceDesc">Fiyat: Yüksekten Düşüğe</option>
-            </select>
-        </div>
-
-        <div class="data-grid" id="productsContainer"></div>
-    </div>
-
-    <div class="modal-fullscreen" id="projectsView">
-        <div class="view-header">
-            <h2 style="color:#fff;">⚙️ Projeler Deposu</h2>
-            <button class="close-btn" onclick="closeFullscreen('projectsView')">&times;</button>
-        </div>
-        <div class="data-grid" id="projectsContainer"></div>
-    </div>
-
-    <!-- DETAY GÖRÜNÜMÜ MODAL -->
-    <div class="modal-fullscreen" id="itemDetailView">
-        <div class="view-header">
-            <h2 id="detailHeaderTitle" style="color:#fff;">Detaylar</h2>
-            <button class="close-btn" onclick="closeFullscreen('itemDetailView')">&times;</button>
-        </div>
-        <div class="detail-view-container" id="detailContentContainer"></div>
-    </div>
-
-    <!-- ADMIN PANEL VIEW (Form Taşıma Düzeltildi) -->
-    <div class="modal-fullscreen" id="adminView">
-        <div class="view-header">
-            <h2 style="color:var(--admin-color);">👑 Admin Yönetim Paneli</h2>
-            <button class="close-btn" onclick="closeFullscreen('adminView')">&times;</button>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <!-- Yeni Proje Ekleme -->
-            <div class="data-card admin-card-form" style="padding: 1.2rem; cursor:default;">
-                <h3 style="color:#fff; margin-bottom: 1rem;">⚙️ Yeni Proje Ekle</h3>
-                <form onsubmit="addProject(event)">
-                    <div class="form-group">
-                        <label>Proje Adı</label>
-                        <input type="text" id="adminProjTitle" required placeholder="Örn: Tuygun İHA System V2">
-                    </div>
-                    <div class="form-group">
-                        <label>Kapak Görseli</label>
-                        <input type="file" id="adminProjImg" accept="image/*" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Açıklama (Kısa)</label>
-                        <textarea id="adminProjDesc" rows="2" required placeholder="Kısa özet açıklama"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Detaylı Açıklama (Uzun)</label>
-                        <textarea id="adminProjLongDesc" rows="3" required placeholder="Projenin tüm detayları..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>GitHub / Bağlantı Linki</label>
-                        <input type="url" id="adminProjLink" required placeholder="https://github.com/...">
-                    </div>
-                    <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 1rem;">Proje Yayınla</button>
-                </form>
-            </div>
-
-            <!-- Yeni Ürün Ekleme -->
-            <div class="data-card admin-card-form" style="padding: 1.2rem; cursor:default;">
-                <h3 style="color:#fff; margin-bottom: 1rem;">📦 Yeni Ürün Ekle</h3>
-                <form onsubmit="addProduct(event)">
-                    <div class="form-group">
-                        <label>Ürün Adı</label>
-                        <input type="text" id="adminProdName" required placeholder="Örn: ESP32-S3 Kontrol Kartı">
-                    </div>
-                    <div class="form-group">
-                        <label>Kapak Görseli</label>
-                        <input type="file" id="adminProdImg" accept="image/*" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Diğer Görseller (Çoklu Seçilebilir)</label>
-                        <input type="file" id="adminProdGalleryImg" accept="image/*" multiple>
-                    </div>
-                    <div class="form-group">
-                        <label>Fiyat (Rakam Olarak Girin, örn: 450)</label>
-                        <input type="number" id="adminProdPrice" required placeholder="450">
-                    </div>
-                    <div class="form-group">
-                        <label>Stok Durumu</label>
-                        <select id="adminProdStock">
-                            <option value="Stokta Var">Stokta Var</option>
-                            <option value="Stokta Yok">Stokta Yok</option>
-                            <option value="Ön Sipariş">Ön Sipariş</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Kısa Açıklama</label>
-                        <textarea id="adminProdDesc" rows="2" required placeholder="Kısa tanıtım yazısı"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Uzun Detaylı Açıklama</label>
-                        <textarea id="adminProdLongDesc" rows="3" required placeholder="Teknik özellikler, kutu içeriği..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 1rem;">Ürün Ekle</button>
-                </form>
-            </div>
-
-            <!-- Yeni Haber Ekleme -->
-            <div class="data-card admin-card-form" style="padding: 1.2rem; cursor:default;">
-                <h3 style="color:#fff; margin-bottom: 1rem;">📢 Yeni Haber / Duyuru Ekle</h3>
-                <form onsubmit="addNews(event)">
-                    <div class="form-group">
-                        <label>Haber Başlığı</label>
-                        <input type="text" id="adminNewsTitle" required placeholder="Başlık girin">
-                    </div>
-                    <div class="form-group">
-                        <label>İçerik</label>
-                        <textarea id="adminNewsContent" rows="3" required placeholder="Haber detaylarını girin"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-warning" style="width: 100%; margin-top: 1rem;">Haber Yayınla</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    <input type="file" id="inlineImagePicker" accept="image/*" style="display:none;" onchange="handleInlineImageUpload(event)">
 
     <script>
+        // Cihazlar arası bulut senkronizasyonu için JSONBin Entegrasyonu
+        const JSONBIN_BIN_ID = ""; // JSONBin Bin ID'nizi buraya yazın
+        const JSONBIN_API_KEY = ""; // JSONBin Master Key'inizi buraya yazın
+
         const ADMIN_EMAIL = "furtek.official@gmail.com";
+        const placeholderImg = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%22300%22%20height%3D%22180%22%20fill%3D%22%2321262d%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%238b949e%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%3EFurTek%20G%C3%B6rsel%3C%2Ftext%3E%3C%2Fsvg%3E";
+        
+        let db = {
+            users: {},
+            projects: [
+                { id: 1, title: "FAKA 2 & Tuygun Otonom Hava Aracı", cover: placeholderImg, desc: "ESP32-S3 tabanlı LoRa telemetri ve uçuş sistemleri.", longDesc: "Tuygun Otonom İHA projesi...", link: "https://github.com/FurTek-Official/FurTek" }
+            ],
+            products: [
+                { id: 1, name: "Özel Kontrol Kartı V1", cover: placeholderImg, gallery: [], desc: "ESP32-S3 tabanlı kart.", longDesc: "Gelişmiş devre kartı...", price: 450, stock: "Stokta Var" }
+            ],
+            news: [
+                { id: 1, date: "29 AĞUSTOS 2026", title: "v2.5.0 Senkronizasyon Güncellemesi", content: "Bulut veritabanı eşitlemesi ve metin içi resim ekleme özelliği aktif edildi." }
+            ]
+        };
+
         let currentAuthType = 'login';
         let generatedOTP = null;
+        let activeNewsTextarea = null;
 
-        const placeholderImg = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%22300%22%20height%3D%22180%22%20fill%3D%22%2321262d%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%238b949e%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%3EFurTek%20G%C3%B6rsel%3C%2Ftext%3E%3C%2Fsvg%3E";
-
-        const defaultProjects = [
-            { id: 1, title: "FAKA 2 & Tuygun Otonom Hava Aracı", cover: placeholderImg, desc: "ESP32-S3 tabanlı LoRa telemetri ve uçuş sistemleri.", longDesc: "Tuygun Otonom İHA projesi, otonom rota takibi, çift frekanslı LoRa yer istasyonu canlı veri aktarımı ve yedekli güç mimarisine sahip özgün bir havacılık projesidir.", link: "https://github.com/FurTek-Official/FurTek" },
-            { id: 2, title: "Bilge Kaan V3 4x4 Kara Aracı", cover: placeholderImg, desc: "PETG/TPU gövde ve 360 derece kule entegrasyonu.", longDesc: "Arazi koşullarına dayanıklı, 4 çeker fırçasız motor altyapısına sahip ve bağımsız süspansiyonlu otonom robot projesi.", link: "https://github.com/FurTek-Official/FurTek" }
-        ];
-
-        const defaultNews = [
-            { id: 1, date: "27 AĞUSTOS 2026", title: "v2.4.1 Güncellemesi Yayınlandı", content: "Form alanlarındaki scroll ve kayma sorunları giderildi. Form kaydetme butonları erişilebilir kılındı." }
-        ];
-
-        const defaultProducts = [
-            { id: 1, name: "Özel Kontrol Kartı V1", cover: placeholderImg, gallery: [], desc: "ESP32-S3 tabanlı otonom sistem geliştirme kartı.", longDesc: "Gelişmiş güç koruma devreleri, çift motor sürücü entegresi ve C++ desteği.", price: 450, stock: "Stokta Var", numPrice: 450 }
-        ];
-
-        window.onload = function() {
-            initStorage();
+        window.onload = async function() {
+            await loadDatabase();
             checkActiveSession();
             renderProjects();
             renderNews();
             renderProducts();
         };
 
-        function initStorage() {
-            if (!localStorage.getItem('furtek_projects')) localStorage.setItem('furtek_projects', JSON.stringify(defaultProjects));
-            if (!localStorage.getItem('furtek_news')) localStorage.setItem('furtek_news', JSON.stringify(defaultNews));
-            if (!localStorage.getItem('furtek_products')) localStorage.setItem('furtek_products', JSON.stringify(defaultProducts));
+        /* BULUT & YEREL VERİ YÖNETİMİ */
+        async function loadDatabase() {
+            if (JSONBIN_BIN_ID && JSONBIN_API_KEY) {
+                try {
+                    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+                        headers: { 'X-Master-Key': JSONBIN_API_KEY }
+                    });
+                    const data = await res.json();
+                    if (data.record) {
+                        db = data.record;
+                        saveLocalDB();
+                        return;
+                    }
+                } catch(e) {
+                    console.log("Bulut verisi alınamadı, yerel depolama kullanılıyor.");
+                }
+            }
+            const local = localStorage.getItem('furtek_db');
+            if (local) db = JSON.parse(local);
+            else saveLocalDB();
+        }
+
+        async function syncDatabase() {
+            saveLocalDB();
+            if (JSONBIN_BIN_ID && JSONBIN_API_KEY) {
+                try {
+                    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Master-Key': JSONBIN_API_KEY
+                        },
+                        body: JSON.stringify(db)
+                    });
+                } catch(e) {
+                    console.error("Bulut senkronizasyon hatası:", e);
+                }
+            }
+        }
+
+        function saveLocalDB() {
+            localStorage.setItem('furtek_db', JSON.stringify(db));
         }
 
         function fileToBase64(file) {
@@ -661,39 +733,58 @@
             });
         }
 
+        /* AKICI ARAYÜZ VE SCROLL LOCK MİMARİSİ */
         function toggleMenu() {
             const sideMenu = document.getElementById('sideMenu');
             const overlay = document.getElementById('overlay');
-            sideMenu.classList.toggle('active');
-            overlay.style.display = sideMenu.classList.contains('active') ? 'block' : 'none';
+            const isActive = sideMenu.classList.toggle('active');
+            overlay.style.display = isActive ? 'block' : 'none';
+            document.body.style.overflow = isActive ? 'hidden' : '';
         }
 
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openModal(id) { 
+            document.getElementById(id).style.display = 'flex'; 
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+            document.body.style.overflow = '';
+        }
 
         function openFullscreen(id) {
             closeAllViews();
+            document.getElementById('homeView').style.display = 'none';
             document.getElementById(id).style.display = 'block';
+            window.scrollTo(0, 0);
         }
-        function closeFullscreen(id) { document.getElementById(id).style.display = 'none'; }
+
         function closeAllViews() {
-            const views = document.querySelectorAll('.modal-fullscreen');
+            const views = document.querySelectorAll('.fullscreen-view');
             views.forEach(v => v.style.display = 'none');
+            document.getElementById('homeView').style.display = 'block';
+            document.body.style.overflow = '';
         }
 
-        function sendDirectEmail(e) {
-            e.preventDefault();
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const message = document.getElementById('contactMessage').value;
-
-            const subject = encodeURIComponent(`FurTek İşbirliği / Sponsorluk: ${name}`);
-            const body = encodeURIComponent(`Gönderen Adı/Kurum: ${name}\nGönderen E-posta: ${email}\n\nMesaj:\n${message}`);
-
-            window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-            closeModal('investModal');
+        /* METİN İÇİ GÖRSEL EKLEME SİSTEMİ ({@i) */
+        function checkImageCommand(textarea) {
+            if (textarea.value.endsWith('{@i ')) {
+                activeNewsTextarea = textarea;
+                document.getElementById('inlineImagePicker').click();
+            }
         }
 
+        async function handleInlineImageUpload(e) {
+            const file = e.target.files[0];
+            if (file && activeNewsTextarea) {
+                const base64 = await fileToBase64(file);
+                const currentText = activeNewsTextarea.value;
+                activeNewsTextarea.value = currentText.replace(/\{@i\s$/, `\n[img:${base64}]\n`);
+            }
+            e.target.value = '';
+        }
+
+        /* OTURUM VE PROFİL İŞLEMLERİ */
         function openAuthModal(type) {
             currentAuthType = type;
             generatedOTP = null;
@@ -702,43 +793,44 @@
             document.getElementById('errorMsg').style.display = 'none';
             document.getElementById('otpGroup').style.display = (type === 'register') ? 'block' : 'none';
             document.getElementById('modalTitle').innerText = (type === 'login') ? 'Giriş Yap' : 'Kayıt Ol';
-            document.getElementById('authSubmitBtn').innerText = (type === 'login') ? 'Giriş Yap' : 'Doğrulama Kodu İste & Kaydol';
+            document.getElementById('authSubmitBtn').innerText = (type === 'login') ? 'Giriş Yap' : 'Kodu Onayla & Kaydol';
 
             openModal('authModal');
         }
 
-        function handleAuth(e) {
+        async function handleAuth(e) {
             e.preventDefault();
             const email = document.getElementById('authEmail').value.toLowerCase().trim();
             const password = document.getElementById('authPassword').value;
 
-            let users = JSON.parse(localStorage.getItem('furtek_users') || '{}');
-
             if (currentAuthType === 'register') {
-                if (users[email]) { showError('Bu e-posta zaten kayıtlı!'); return; }
+                if (db.users[email]) { showError('Bu e-posta zaten kayıtlı!'); return; }
 
                 if (!generatedOTP) {
                     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                    const subject = encodeURIComponent("FurTek Kayıt Doğrulama Kodu");
-                    const body = encodeURIComponent(`FurTek platformu kayıt doğrulama kodunuz: ${generatedOTP}`);
-                    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-
-                    document.getElementById('otpNotice').innerText = `📩 ${email} adresinize doğrulama kodu gönderildi.`;
-                    document.getElementById('authSubmitBtn').innerText = 'Kodu Onayla ve Kaydı Tamamla';
-                    alert(`Doğrulama kodunuz e-posta uygulamanıza aktarıldı.`);
+                    document.getElementById('otpNotice').innerText = `🔐 Test Onay Kodunuz: ${generatedOTP}`;
+                    document.getElementById('otpGroup').style.display = 'block';
+                    alert(`Doğrulama kodunuz oluşturuldu: ${generatedOTP}`);
                     return;
                 }
 
                 const userOTP = document.getElementById('otpCodeInput').value.trim();
-                if (userOTP !== generatedOTP) { showError('Girilen doğrulama kodu hatalı!'); return; }
+                if (userOTP !== generatedOTP) { showError('Doğrulama kodu hatalı!'); return; }
 
                 const defaultName = email === ADMIN_EMAIL ? "FurTek Admin" : email.split('@')[0];
-                users[email] = { password: password, displayName: defaultName, isAdmin: (email === ADMIN_EMAIL) };
-                localStorage.setItem('furtek_users', JSON.stringify(users));
+                db.users[email] = { 
+                    password: password, 
+                    displayName: defaultName, 
+                    bio: 'FurTek üyesi', 
+                    avatar: placeholderImg, 
+                    isAdmin: (email === ADMIN_EMAIL) 
+                };
+                
+                await syncDatabase();
                 localStorage.setItem('furtek_active_user', email);
-                alert('E-posta doğrulaması başarılı! Kaydınız tamamlandı.');
+                alert('Kayıt başarıyla tamamlandı!');
             } else {
-                if (!users[email] || users[email].password !== password) {
+                if (!db.users[email] || db.users[email].password !== password) {
                     showError('E-posta veya şifre hatalı!');
                     return;
                 }
@@ -751,24 +843,34 @@
 
         function checkActiveSession() {
             const activeEmail = localStorage.getItem('furtek_active_user');
-            const users = JSON.parse(localStorage.getItem('furtek_users') || '{}');
             const adminLink = document.getElementById('adminMenuLink');
+            const profileLink = document.getElementById('profileMenuLink');
 
-            if (activeEmail && users[activeEmail]) {
-                const userObj = users[activeEmail];
+            if (activeEmail && db.users[activeEmail]) {
+                const userObj = db.users[activeEmail];
                 const isAdmin = (activeEmail === ADMIN_EMAIL);
 
                 adminLink.style.display = isAdmin ? 'block' : 'none';
+                profileLink.style.display = 'block';
 
                 document.getElementById('authBox').innerHTML = `
-                    <div style="color: var(--primary); font-weight: 600; text-align: center; font-size: 0.9rem;">
+                    <div style="color: var(--primary); font-weight: 600; text-align: center; font-size: 0.9rem; margin-bottom:0.5rem;">
                         👤 ${userObj.displayName} ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
                     </div>
+                    <button class="btn btn-outline" onclick="openFullscreen('profileView'); toggleMenu();">Profilim</button>
                     ${isAdmin ? '<button class="btn btn-warning" onclick="openFullscreen(\'adminView\'); toggleMenu();">👑 Admin Paneli</button>' : ''}
                     <button class="btn btn-danger" onclick="logout()">Çıkış Yap</button>
                 `;
+
+                // Profil ekranı verileri
+                document.getElementById('profileDisplayName').innerText = userObj.displayName;
+                document.getElementById('profileEmail').innerText = activeEmail;
+                document.getElementById('profileAvatarImg').src = userObj.avatar || placeholderImg;
+                document.getElementById('editDisplayName').value = userObj.displayName;
+                document.getElementById('editBio').value = userObj.bio || '';
             } else {
                 adminLink.style.display = 'none';
+                profileLink.style.display = 'none';
                 document.getElementById('authBox').innerHTML = `
                     <button class="btn btn-outline" onclick="openAuthModal('login')">Giriş Yap</button>
                     <button class="btn" onclick="openAuthModal('register')">Kayıt Ol</button>
@@ -779,7 +881,32 @@
         function logout() {
             localStorage.removeItem('furtek_active_user');
             checkActiveSession();
+            closeAllViews();
             if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
+        }
+
+        async function saveProfile(e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            if (!activeEmail || !db.users[activeEmail]) return;
+
+            db.users[activeEmail].displayName = document.getElementById('editDisplayName').value.trim();
+            db.users[activeEmail].bio = document.getElementById('editBio').value.trim();
+
+            await syncDatabase();
+            checkActiveSession();
+            alert('Profil güncellendi!');
+        }
+
+        async function updateProfileAvatar(e) {
+            const file = e.target.files[0];
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            if (file && activeEmail && db.users[activeEmail]) {
+                const base64 = await fileToBase64(file);
+                db.users[activeEmail].avatar = base64;
+                await syncDatabase();
+                checkActiveSession();
+            }
         }
 
         function showError(msg) {
@@ -788,6 +915,7 @@
             errorMsg.style.display = 'block';
         }
 
+        /* PROJE VERİSİ */
         async function addProject(e) {
             e.preventDefault();
             const title = document.getElementById('adminProjTitle').value.trim();
@@ -796,41 +924,33 @@
             const link = document.getElementById('adminProjLink').value.trim();
             const imgFile = document.getElementById('adminProjImg').files[0];
 
-            let coverBase64 = placeholderImg;
-            if (imgFile) {
-                coverBase64 = await fileToBase64(imgFile);
-            }
-
-            const projects = JSON.parse(localStorage.getItem('furtek_projects') || '[]');
-            const item = { id: Date.now(), title, cover: coverBase64, desc, longDesc, link };
-            projects.unshift(item);
-            localStorage.setItem('furtek_projects', JSON.stringify(projects));
-
+            let coverBase64 = imgFile ? await fileToBase64(imgFile) : placeholderImg;
+            db.projects.unshift({ id: Date.now(), title, cover: coverBase64, desc, longDesc, link });
+            
+            await syncDatabase();
             alert('Proje eklendi!');
             e.target.reset();
             renderProjects();
         }
 
-        function deleteProject(id, event) {
+        async function deleteProject(id, event) {
             event.stopPropagation();
-            let projects = JSON.parse(localStorage.getItem('furtek_projects') || '[]');
-            projects = projects.filter(p => p.id !== id);
-            localStorage.setItem('furtek_projects', JSON.stringify(projects));
+            db.projects = db.projects.filter(p => p.id !== id);
+            await syncDatabase();
             renderProjects();
         }
 
         function renderProjects() {
             const container = document.getElementById('projectsContainer');
-            const projects = JSON.parse(localStorage.getItem('furtek_projects') || '[]');
             const activeEmail = localStorage.getItem('furtek_active_user');
             const isAdmin = (activeEmail === ADMIN_EMAIL);
 
-            if (projects.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted);">Henüz proje eklenmedi.</p>';
+            if (db.projects.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted);">Henüz proje bulunmuyor.</p>';
                 return;
             }
 
-            container.innerHTML = projects.map(item => `
+            container.innerHTML = db.projects.map(item => `
                 <div class="data-card" onclick="openProjectDetail(${item.id})">
                     ${isAdmin ? `<button onclick="deleteProject(${item.id}, event)" class="btn btn-danger" style="position:absolute; top:10px; right:10px; z-index:5; padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
                     <img src="${item.cover}" class="card-cover" alt="${item.title}">
@@ -843,8 +963,7 @@
         }
 
         function openProjectDetail(id) {
-            const projects = JSON.parse(localStorage.getItem('furtek_projects') || '[]');
-            const item = projects.find(p => p.id === id);
+            const item = db.projects.find(p => p.id === id);
             if (!item) return;
 
             document.getElementById('detailHeaderTitle').innerText = item.title;
@@ -853,69 +972,45 @@
             container.innerHTML = `
                 <img src="${item.cover}" class="detail-main-img" alt="${item.title}">
                 <h1 style="color:#fff; margin-bottom:1rem;">${item.title}</h1>
-                <div style="color:var(--text-main); font-size:1rem; line-height:1.6; margin-bottom:2rem; white-space:pre-line;">
-                    ${item.longDesc || item.desc}
-                </div>
-                <a href="${item.link}" target="_blank" class="btn" style="display:inline-block;">💻 GitHub Deposu / Kodları İncele</a>
+                <div style="color:var(--text-main); font-size:1rem; line-height:1.6; margin-bottom:2rem; white-space:pre-line;">${item.longDesc || item.desc}</div>
+                <a href="${item.link}" target="_blank" class="btn">💻 GitHub Deposu / Kodlar</a>
             `;
 
             openFullscreen('itemDetailView');
         }
 
+        /* ÜRÜN VERİSİ */
         async function addProduct(e) {
             e.preventDefault();
             const name = document.getElementById('adminProdName').value.trim();
-            const rawPrice = document.getElementById('adminProdPrice').value.trim();
-            const price = parseFloat(rawPrice) || 0;
+            const price = parseFloat(document.getElementById('adminProdPrice').value) || 0;
             const stock = document.getElementById('adminProdStock').value;
             const desc = document.getElementById('adminProdDesc').value.trim();
             const longDesc = document.getElementById('adminProdLongDesc').value.trim();
-            
             const coverFile = document.getElementById('adminProdImg').files[0];
             const galleryFiles = document.getElementById('adminProdGalleryImg').files;
 
-            let coverBase64 = placeholderImg;
-            if (coverFile) {
-                coverBase64 = await fileToBase64(coverFile);
-            }
+            let coverBase64 = coverFile ? await fileToBase64(coverFile) : placeholderImg;
+            let galleryBase64 = galleryFiles.length > 0 ? await Promise.all(Array.from(galleryFiles).map(f => fileToBase64(f))) : [];
 
-            let galleryBase64 = [];
-            if (galleryFiles && galleryFiles.length > 0) {
-                const uploadPromises = Array.from(galleryFiles).map(file => fileToBase64(file));
-                galleryBase64 = await Promise.all(uploadPromises);
-            }
-
-            const products = JSON.parse(localStorage.getItem('furtek_products') || '[]');
-            const item = { 
-                id: Date.now(), 
-                name, 
-                cover: coverBase64, 
-                gallery: galleryBase64, 
-                price: price, 
-                stock, 
-                desc, 
-                longDesc 
-            };
+            db.products.unshift({ id: Date.now(), name, cover: coverBase64, gallery: galleryBase64, price, stock, desc, longDesc });
             
-            products.unshift(item);
-            localStorage.setItem('furtek_products', JSON.stringify(products));
-
-            alert('Ürün ve tüm görseller başarıyla eklendi!');
+            await syncDatabase();
+            alert('Ürün eklendi!');
             e.target.reset();
             renderProducts();
         }
 
-        function deleteProduct(id, event) {
+        async function deleteProduct(id, event) {
             event.stopPropagation();
-            let products = JSON.parse(localStorage.getItem('furtek_products') || '[]');
-            products = products.filter(p => p.id !== id);
-            localStorage.setItem('furtek_products', JSON.stringify(products));
+            db.products = db.products.filter(p => p.id !== id);
+            await syncDatabase();
             renderProducts();
         }
 
         function renderProducts() {
             const container = document.getElementById('productsContainer');
-            let products = JSON.parse(localStorage.getItem('furtek_products') || '[]');
+            let list = [...db.products];
             const activeEmail = localStorage.getItem('furtek_active_user');
             const isAdmin = (activeEmail === ADMIN_EMAIL);
 
@@ -923,31 +1018,19 @@
             const stockFilter = document.getElementById('productStockFilter')?.value || 'all';
             const sortOrder = document.getElementById('productSortOrder')?.value || 'newest';
 
-            if (searchInput !== '') {
-                products = products.filter(p => 
-                    p.name.toLowerCase().includes(searchInput) || 
-                    p.desc.toLowerCase().includes(searchInput)
-                );
-            }
+            if (searchInput) list = list.filter(p => p.name.toLowerCase().includes(searchInput) || p.desc.toLowerCase().includes(searchInput));
+            if (stockFilter !== 'all') list = list.filter(p => p.stock === stockFilter);
 
-            if (stockFilter !== 'all') {
-                products = products.filter(p => p.stock === stockFilter);
-            }
+            if (sortOrder === 'priceAsc') list.sort((a, b) => a.price - b.price);
+            else if (sortOrder === 'priceDesc') list.sort((a, b) => b.price - a.price);
+            else list.sort((a, b) => b.id - a.id);
 
-            if (sortOrder === 'priceAsc') {
-                products.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
-            } else if (sortOrder === 'priceDesc') {
-                products.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
-            } else if (sortOrder === 'newest') {
-                products.sort((a, b) => b.id - a.id);
-            }
-
-            if (products.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Kriterlere uygun ürün bulunamadı.</p>';
+            if (list.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Ürün bulunamadı.</p>';
                 return;
             }
 
-            container.innerHTML = products.map(item => `
+            container.innerHTML = list.map(item => `
                 <div class="data-card" onclick="openProductDetail(${item.id})">
                     ${isAdmin ? `<button onclick="deleteProduct(${item.id}, event)" class="btn btn-danger" style="position:absolute; top:10px; right:10px; z-index:5; padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
                     <img src="${item.cover}" class="card-cover" alt="${item.name}">
@@ -962,8 +1045,7 @@
         }
 
         function openProductDetail(id) {
-            const products = JSON.parse(localStorage.getItem('furtek_products') || '[]');
-            const item = products.find(p => p.id === id);
+            const item = db.products.find(p => p.id === id);
             if (!item) return;
 
             document.getElementById('detailHeaderTitle').innerText = item.name;
@@ -973,10 +1055,10 @@
             if (item.gallery && item.gallery.length > 0) {
                 galleryHtml = `
                     <div style="margin-top:1.5rem;">
-                        <h4 style="color:#fff; margin-bottom:0.8rem;">Diğer Ürün Görselleri (${item.gallery.length})</h4>
+                        <h4 style="color:#fff; margin-bottom:0.8rem;">Ürün Galerisi</h4>
                         <div class="gallery-grid">
-                            <img src="${item.cover}" class="gallery-img" onclick="changeMainDetailImg('${item.cover}')">
-                            ${item.gallery.map(imgSrc => `<img src="${imgSrc}" class="gallery-img" onclick="changeMainDetailImg('${imgSrc}')">`).join('')}
+                            <img src="${item.cover}" class="gallery-img" onclick="document.getElementById('mainDetailImg').src='${item.cover}'">
+                            ${item.gallery.map(imgSrc => `<img src="${imgSrc}" class="gallery-img" onclick="document.getElementById('mainDetailImg').src='${imgSrc}'">`).join('')}
                         </div>
                     </div>
                 `;
@@ -989,67 +1071,74 @@
                     <span class="badge ${item.stock === 'Stokta Var' ? 'badge-in-stock' : 'badge-out-stock'}" style="font-size:0.9rem;">${item.stock}</span>
                 </div>
                 <div style="font-size:1.5rem; color:var(--primary); font-weight:800; margin-bottom:1.5rem;">₺${item.price}</div>
-                <h3 style="color:#fff; margin-bottom:0.5rem;">Ürün Detayları</h3>
-                <div style="color:var(--text-main); font-size:0.95rem; line-height:1.6; white-space:pre-line;">
-                    ${item.longDesc || item.desc}
-                </div>
+                <div style="color:var(--text-main); font-size:0.95rem; line-height:1.6; white-space:pre-line;">${item.longDesc || item.desc}</div>
                 ${galleryHtml}
             `;
 
             openFullscreen('itemDetailView');
         }
 
-        function changeMainDetailImg(src) {
-            const mainImg = document.getElementById('mainDetailImg');
-            if (mainImg) mainImg.src = src;
-        }
-
-        function addNews(e) {
+        /* HABER VERİSİ & METİN İÇİ GÖRSEL RENDER'I */
+        async function addNews(e) {
             e.preventDefault();
             const title = document.getElementById('adminNewsTitle').value.trim();
             const content = document.getElementById('adminNewsContent').value.trim();
-            const news = JSON.parse(localStorage.getItem('furtek_news') || '[]');
 
             const today = new Date();
             const dateStr = `${today.getDate()} AĞUSTOS ${today.getFullYear()}`;
 
-            const item = { id: Date.now(), date: dateStr, title, content };
-            news.unshift(item);
-            localStorage.setItem('furtek_news', JSON.stringify(news));
-
+            db.news.unshift({ id: Date.now(), date: dateStr, title, content });
+            
+            await syncDatabase();
             alert('Haber yayınlandı!');
             e.target.reset();
             renderNews();
         }
 
-        function deleteNews(id) {
-            let news = JSON.parse(localStorage.getItem('furtek_news') || '[]');
-            news = news.filter(n => n.id !== id);
-            localStorage.setItem('furtek_news', JSON.stringify(news));
+        async function deleteNews(id) {
+            db.news = db.news.filter(n => n.id !== id);
+            await syncDatabase();
             renderNews();
         }
 
         function renderNews() {
             const container = document.getElementById('newsContainer');
-            const news = JSON.parse(localStorage.getItem('furtek_news') || '[]');
             const activeEmail = localStorage.getItem('furtek_active_user');
             const isAdmin = (activeEmail === ADMIN_EMAIL);
 
-            if (news.length === 0) {
+            if (db.news.length === 0) {
                 container.innerHTML = '<p style="color:var(--text-muted);">Henüz haber bulunmuyor.</p>';
                 return;
             }
 
-            container.innerHTML = news.map(item => `
-                <div class="data-card" style="margin-bottom:1rem; padding:1.2rem; cursor:default;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="color:var(--primary); font-size:0.8rem;">${item.date}</span>
-                        ${isAdmin ? `<button onclick="deleteNews(${item.id})" class="btn btn-danger" style="padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
+            container.innerHTML = db.news.map(item => {
+                // [img:data:...] etiketlerini HTML <img> elementine dönüştür
+                let formattedContent = item.content.replace(/\[img:(data:image\/[^;]+;base64,[^\]]+)\]/g, '<img src="$1" class="news-inline-img">');
+
+                return `
+                    <div class="data-card" style="margin-bottom:1.5rem; padding:1.2rem; cursor:default;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="color:var(--primary); font-size:0.8rem;">${item.date}</span>
+                            ${isAdmin ? `<button onclick="deleteNews(${item.id})" class="btn btn-danger" style="padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
+                        </div>
+                        <h3 style="color:#fff; margin:0.4rem 0;">${item.title}</h3>
+                        <div style="color:var(--text-main); font-size:0.9rem; line-height:1.6; white-space:pre-line;">${formattedContent}</div>
                     </div>
-                    <h3 style="color:#fff; margin:0.3rem 0;">${item.title}</h3>
-                    <p style="color:var(--text-muted); font-size:0.9rem;">${item.content}</p>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+        }
+
+        function sendDirectEmail(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            const subject = encodeURIComponent(`FurTek İşbirliği / Sponsorluk: ${name}`);
+            const body = encodeURIComponent(`Gönderen: ${name}\nE-posta: ${email}\n\nMesaj:\n${message}`);
+
+            window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+            closeModal('investModal');
         }
     </script>
 </body>

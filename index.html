@@ -153,15 +153,13 @@
         .nav-card h3 { color: var(--text-heading); margin-bottom: 0.5rem; }
         .nav-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* MODAL POPUP (HAREKET ETTİRİLEBİLİR VE KAYDIRILABİLİR) */
+        /* MODAL POPUP MİMARİSİ (HEM HAREKETLİ HEM KAYDIRILABİLİR) */
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(6px);
             display: none;
-            justify-content: center;
-            align-items: center;
             z-index: 3000;
         }
 
@@ -172,16 +170,27 @@
             border-radius: 12px;
             width: 90%;
             max-width: 480px;
-            position: absolute; /* Sürükleme hareketi için absolute */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             max-height: 85vh;
             overflow-y: auto;
-            cursor: grab; /* Taşınabilir göstergesi */
-            touch-action: none;
+            touch-action: auto;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
-        .modal-popup:active {
-            cursor: grabbing;
+        .modal-header-drag {
+            padding: 1rem;
+            margin: -2rem -2rem 1rem -2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 12px 12px 0 0;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
         }
 
         .fullscreen-view {
@@ -208,7 +217,6 @@
             width: 100%; padding: 0.8rem;
             background: var(--bg-color); border: 1px solid var(--border-color);
             border-radius: 6px; color: var(--text-main); font-family: inherit;
-            cursor: auto;
         }
         .error-msg { color: var(--error-color); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
         .info-msg { color: var(--primary); font-size: 0.85rem; margin-top: 0.5rem; }
@@ -595,17 +603,21 @@
 
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-popup">
-            <button class="close-btn" style="position:absolute; top:15px; right:20px;" onclick="closeModal('aboutModal')">&times;</button>
-            <h2 style="color: #fff; margin-bottom: 1rem;">Hakkında</h2>
-            <p style="color: var(--text-main);">Bu platform; 3D modelleme, otonom hava/kara sistemleri ve C++ gömülü yazılımlar üzerine yürüttüğüm kişisel projeleri sergilediğim bağımsız bir alandır.</p>
+            <div class="modal-header-drag">
+                <span style="color: #fff; font-weight: 600;">⋮⋮ Hakkında (Sürükle)</span>
+                <button class="close-btn" onclick="closeModal('aboutModal')">&times;</button>
+            </div>
+            <p style="color: var(--text-main); margin-top: 1rem;">Bu platform; 3D modelleme, otonom hava/kara sistemleri ve C++ gömülü yazılımlar üzerine yürüttüğüm kişisel projeleri sergilediğim bağımsız bir alandır.</p>
         </div>
     </div>
 
     <div class="modal-overlay" id="investModal">
         <div class="modal-popup">
-            <button class="close-btn" style="position:absolute; top:15px; right:20px;" onclick="closeModal('investModal')">&times;</button>
-            <h2 style="color: #fff; margin-bottom: 1rem;">🤝 Yatırım & İşbirliği</h2>
-            <form onsubmit="sendDirectEmail(event)">
+            <div class="modal-header-drag">
+                <span style="color: #fff; font-weight: 600;">⋮⋮ Yatırım & İşbirliği (Sürükle)</span>
+                <button class="close-btn" onclick="closeModal('investModal')">&times;</button>
+            </div>
+            <form onsubmit="sendDirectEmail(event)" style="margin-top: 1rem;">
                 <div class="form-group">
                     <label>Adınız / Kurum</label>
                     <input type="text" id="contactName" required placeholder="Adınız veya Kurum Adı">
@@ -625,10 +637,11 @@
 
     <div class="modal-overlay" id="authModal">
         <div class="modal-popup">
-            <button class="close-btn" style="position: absolute; top: 15px; right: 20px;" onclick="closeModal('authModal')">&times;</button>
-            <h2 id="modalTitle" style="color: #fff; margin-bottom: 1.5rem;">Giriş Yap</h2>
-            
-            <form id="authForm" onsubmit="handleAuth(event)">
+            <div class="modal-header-drag">
+                <span id="modalTitle" style="color: #fff; font-weight: 600;">Giriş Yap (Sürükle)</span>
+                <button class="close-btn" onclick="closeModal('authModal')">&times;</button>
+            </div>
+            <form id="authForm" onsubmit="handleAuth(event)" style="margin-top: 1rem;">
                 <div class="form-group">
                     <label>E-posta Adresi</label>
                     <input type="email" id="authEmail" placeholder="ornek@furtek.com" required>
@@ -682,60 +695,58 @@
             renderProjects();
             renderNews();
             renderProducts();
-            initDraggableModals(); // Sürükleme sistemini başlat
+            makeModalsDraggable(); // Kesin çalışan sürükleme fonksiyonunu tetikle
         };
 
-        /* PENCERE SÜRÜKLEME (DRAG & DROP) MİMARİSİ */
-        function initDraggableModals() {
+        /* GARANTİLİ SÜRÜKLEME (DRAG & DROP) MİMARİSİ */
+        function makeModalsDraggable() {
             document.querySelectorAll('.modal-popup').forEach(modal => {
+                const header = modal.querySelector('.modal-header-drag');
+                if (!header) return;
+
                 let isDragging = false;
                 let startX, startY, initialLeft, initialTop;
 
-                const startDrag = (e) => {
-                    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-
-                    // Form girdileri veya butonlara basılınca sürükleme yapılmasın
-                    if (['INPUT', 'TEXTAREA', 'BUTTON', 'A', 'SELECT', 'LABEL'].includes(e.target.tagName)) return;
-
+                const onStart = (e) => {
                     isDragging = true;
-                    startX = clientX;
-                    startY = clientY;
+                    const pageX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const pageY = e.touches ? e.touches[0].clientY : e.clientY;
 
                     const rect = modal.getBoundingClientRect();
                     initialLeft = rect.left;
                     initialTop = rect.top;
 
-                    modal.style.position = 'fixed';
-                    modal.style.left = `${initialLeft}px`;
-                    modal.style.top = `${initialTop}px`;
-                    modal.style.margin = '0';
+                    startX = pageX;
+                    startY = pageY;
+
                     modal.style.transform = 'none';
+                    modal.style.left = initialLeft + 'px';
+                    modal.style.top = initialTop + 'px';
                 };
 
-                const moveDrag = (e) => {
+                const onMove = (e) => {
                     if (!isDragging) return;
-                    const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                    const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                    const pageX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const pageY = e.touches ? e.touches[0].clientY : e.clientY;
 
-                    const dx = clientX - startX;
-                    const dy = clientY - startY;
+                    const dx = pageX - startX;
+                    const dy = pageY - startY;
 
-                    modal.style.left = `${initialLeft + dx}px`;
-                    modal.style.top = `${initialTop + dy}px`;
+                    modal.style.left = (initialLeft + dx) + 'px';
+                    modal.style.top = (initialTop + dy) + 'px';
                 };
 
-                const stopDrag = () => {
+                const onEnd = () => {
                     isDragging = false;
                 };
 
-                modal.addEventListener('mousedown', startDrag);
-                document.addEventListener('mousemove', moveDrag);
-                document.addEventListener('mouseup', stopDrag);
+                header.addEventListener('mousedown', onStart);
+                document.addEventListener('mousemove', onMove);
+                document.addEventListener('mouseup', onEnd);
 
-                modal.addEventListener('touchstart', startDrag, { passive: true });
-                document.addEventListener('touchmove', moveDrag, { passive: true });
-                document.addEventListener('touchend', stopDrag);
+                header.addEventListener('touchstart', onStart, { passive: true });
+                document.addEventListener('touchmove', onMove, { passive: true });
+                document.addEventListener('touchend', onEnd);
             });
         }
 
@@ -804,13 +815,11 @@
             const popup = overlay.querySelector('.modal-popup');
             
             // Konumu sıfırla ve merkeze al
-            popup.style.position = '';
-            popup.style.left = '';
-            popup.style.top = '';
-            popup.style.transform = '';
-            popup.style.margin = '';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
 
-            overlay.style.display = 'flex'; 
+            overlay.style.display = 'block'; 
             document.body.style.overflow = 'hidden';
         }
         
@@ -857,7 +866,7 @@
             
             document.getElementById('errorMsg').style.display = 'none';
             document.getElementById('otpGroup').style.display = (type === 'register') ? 'block' : 'none';
-            document.getElementById('modalTitle').innerText = (type === 'login') ? 'Giriş Yap' : 'Kayıt Ol';
+            document.getElementById('modalTitle').innerText = (type === 'login') ? 'Giriş Yap (Sürükle)' : 'Kayıt Ol (Sürükle)';
             document.getElementById('authSubmitBtn').innerText = (type === 'login') ? 'Giriş Yap' : 'Kodu Onayla & Kaydol';
 
             openModal('authModal');

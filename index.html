@@ -153,7 +153,7 @@
         .nav-card h3 { color: var(--text-heading); margin-bottom: 0.5rem; }
         .nav-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* MODAL POPUP MİMARİSİ (HEM HAREKETLİ HEM KAYDIRILABİLİR) */
+        /* MODAL POPUP MİMARİSİ (HEM SÜRÜKLENİR HEM SCROLL EDİLİR) */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -176,14 +176,14 @@
             transform: translate(-50%, -50%);
             max-height: 85vh;
             overflow-y: auto;
-            touch-action: auto;
+            touch-action: pan-y;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
         .modal-header-drag {
             padding: 1rem;
             margin: -2rem -2rem 1rem -2rem;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid var(--border-color);
             border-radius: 12px 12px 0 0;
             cursor: move;
@@ -191,6 +191,7 @@
             justify-content: space-between;
             align-items: center;
             user-select: none;
+            touch-action: none;
         }
 
         .fullscreen-view {
@@ -392,6 +393,7 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div id="app-viewport">
+        <!-- ANA SAYFA -->
         <main id="homeView">
             <div class="hero">
                 <h1>FurTek | Teknoloji & Proje Deposu</h1>
@@ -422,6 +424,7 @@
             </div>
         </main>
 
+        <!-- TAM EKRAN BÖLÜMLER -->
         <div class="fullscreen-view" id="newsView">
             <div class="view-header">
                 <h2 style="color:#fff;">🔔 Güncellemeler & Haberler</h2>
@@ -467,6 +470,7 @@
             <div class="detail-view-container" id="detailContentContainer"></div>
         </div>
 
+        <!-- PROFİL BÖLÜMÜ -->
         <div class="fullscreen-view" id="profileView">
             <div class="view-header">
                 <h2 style="color:#fff;">👤 Kullanıcı Profili</h2>
@@ -500,6 +504,7 @@
             </div>
         </div>
 
+        <!-- ADMIN PANELİ -->
         <div class="fullscreen-view" id="adminView">
             <div class="view-header">
                 <h2 style="color:var(--admin-color);">👑 Admin Yönetim Paneli</h2>
@@ -601,6 +606,7 @@
         <span class="version-tag">Sürüm: v2.5.0 (Ağustos 2026)</span>
     </footer>
 
+    <!-- POPUP MODALLAR (ÖZEL SÜRÜKLEME BAŞLIKLI) -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-popup">
             <div class="modal-header-drag">
@@ -695,10 +701,10 @@
             renderProjects();
             renderNews();
             renderProducts();
-            makeModalsDraggable(); // Kesin çalışan sürükleme fonksiyonunu tetikle
+            makeModalsDraggable(); // Sürükleme fonksiyonunu başlat
         };
 
-        /* GARANTİLİ SÜRÜKLEME (DRAG & DROP) MİMARİSİ */
+        /* SORUNSUZ SÜRÜKLEME (DRAG & DROP) MOTORU */
         function makeModalsDraggable() {
             document.querySelectorAll('.modal-popup').forEach(modal => {
                 const header = modal.querySelector('.modal-header-drag');
@@ -708,6 +714,8 @@
                 let startX, startY, initialLeft, initialTop;
 
                 const onStart = (e) => {
+                    if (e.target.classList.contains('close-btn')) return;
+
                     isDragging = true;
                     const pageX = e.touches ? e.touches[0].clientX : e.clientX;
                     const pageY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -726,6 +734,7 @@
 
                 const onMove = (e) => {
                     if (!isDragging) return;
+                    
                     const pageX = e.touches ? e.touches[0].clientX : e.clientX;
                     const pageY = e.touches ? e.touches[0].clientY : e.clientY;
 
@@ -814,7 +823,7 @@
             const overlay = document.getElementById(id);
             const popup = overlay.querySelector('.modal-popup');
             
-            // Konumu sıfırla ve merkeze al
+            // Konumu ortalayarak aç
             popup.style.top = '50%';
             popup.style.left = '50%';
             popup.style.transform = 'translate(-50%, -50%)';

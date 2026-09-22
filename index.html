@@ -1,32 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FurTek | Teknoloji & Proje Deposu</title>
-    <!-- PWA & Favicon Bağlantıları -->
-<link rel="manifest" href="/manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="/varlıklar/1000302136-removebg-preview.png">
-<link rel="apple-touch-icon" href="/varlıklar/1000302140.png">
-<meta name="theme-color" content="#0d1117">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 3l14.5 8.5v17L20 37 5.5 28.5v-17L20 3Z' fill='none' stroke='%2300e5ff' stroke-width='2.5'/%3E%3Ccircle cx='20' cy='20' r='4.5' fill='%2300e5ff'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --border-color: #30363d;
-            --primary: #00e5ff;
-            --primary-hover: #00b3cc;
-            --text-main: #c9d1d9;
-            --text-heading: #ffffff;
-            --text-muted: #8b949e;
-            --error-color: #ff4d4d;
-            --success-color: #2ea44f;
-            --admin-color: #ff9800;
+            --bg: #0a0e14;
+            --bg-soft: #0d1219;
+            --card-bg: #131a24;
+            --card-bg-hover: #17202c;
+            --border-color: #212b39;
+            --border-strong: #2c3a4d;
+            --primary: #21e6ff;
+            --primary-dim: #0ea8c4;
+            --primary-glow: rgba(33, 230, 255, 0.35);
+            --accent-2: #6dffa0;
+            --text-main: #c3ceda;
+            --text-heading: #f3f7fb;
+            --text-muted: #7f8ea3;
+            --error-color: #ff4f6d;
+            --success-color: #34d399;
+            --admin-color: #ffb020;
+            --radius-s: 6px;
+            --radius-m: 12px;
+            --radius-l: 18px;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(ellipse 900px 500px at 15% -10%, rgba(33,230,255,0.09), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 100% 10%, rgba(109,255,160,0.06), transparent 55%),
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 48px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 48px);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
@@ -35,136 +51,183 @@
             overflow-x: hidden;
         }
 
+        .icon { width: 1.15em; height: 1.15em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; }
+        .icon-fill { stroke: none; }
+
         /* Fixed Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 8%;
+            padding: 1.1rem 8%;
             border-bottom: 1px solid var(--border-color);
-            background-color: rgba(13, 17, 23, 0.95);
+            background-color: rgba(10, 14, 20, 0.9);
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
         }
 
-        .logo { font-size: 1.8rem; font-weight: 800; color: var(--text-heading); text-decoration: none; }
+        .logo { display: flex; align-items: center; gap: 0.6rem; font-size: 1.5rem; font-weight: 800; color: var(--text-heading); text-decoration: none; letter-spacing: -0.02em; }
         .logo span { color: var(--primary); }
+        .logo-mark { width: 34px; height: 34px; }
+        .logo-mark path { stroke: var(--primary); stroke-width: 2.2; fill: none; filter: drop-shadow(0 0 6px var(--primary-glow)); }
+        .logo-mark circle { fill: var(--primary); stroke: none; }
+        .logo-mark .spokes { stroke: var(--border-strong); stroke-width: 1.4; }
 
         .menu-btn {
             background: none;
-            border: none;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-s);
             cursor: pointer;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
             gap: 5px;
-            padding: 5px;
+            width: 42px;
+            height: 42px;
+            transition: border-color 0.2s, background 0.2s;
         }
-        .menu-btn span { width: 28px; height: 3px; background-color: var(--primary); border-radius: 2px; }
+        .menu-btn:hover { border-color: var(--primary); background: rgba(33,230,255,0.06); }
+        .menu-btn span { width: 20px; height: 2px; background-color: var(--primary); border-radius: 2px; transition: transform 0.2s; }
 
         /* Side Menu */
         .side-menu {
             position: fixed;
             top: 0; right: -320px;
-            width: 320px; height: 100vh;
+            width: 320px;
+            height: 100vh;
+            height: 100dvh;
             background-color: var(--card-bg);
             border-left: 1px solid var(--border-color);
             z-index: 2001;
-            padding: 2rem;
+            padding: 1.5rem 1.5rem 0;
             display: flex;
             flex-direction: column;
-            transition: right 0.4s ease;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-          overflow-y: auto;
--webkit-overflow-scrolling: touch;
-overscroll-behavior: contain;
+            transition: right 0.35s cubic-bezier(.4,0,.2,1);
+            box-shadow: -20px 0 40px rgba(0,0,0,0.5);
         }
         .side-menu.active { right: 0; }
 
+        .menu-scroll {
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 1.5rem;
+        }
+
         .close-btn {
             align-self: flex-end;
+            flex-shrink: 0;
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 1.8rem;
+            font-size: 1.6rem;
+            line-height: 1;
             cursor: pointer;
+            padding: 0.3rem;
         }
         .close-btn:hover { color: var(--primary); }
 
         .menu-links {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 0.3rem;
         }
         .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             color: var(--text-heading);
             text-decoration: none;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
+            padding: 0.7rem 0.6rem;
+            border-radius: var(--radius-s);
+            transition: background 0.15s, color 0.15s, transform 0.15s;
         }
-        .menu-links a:hover { color: var(--primary); }
+        .menu-links a .icon { color: var(--primary); }
+        .menu-links a:hover { background: rgba(33,230,255,0.08); color: var(--primary); transform: translateX(3px); }
 
         .auth-buttons {
             margin-top: auto;
+            padding-top: 1.3rem;
+            border-top: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.7rem;
         }
 
         .btn {
-            display: inline-block;
-            padding: 0.7rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.3rem;
             background-color: var(--primary);
-            color: #000;
+            color: #04141a;
             font-weight: 600;
+            font-size: 0.92rem;
             text-decoration: none;
-            border-radius: 6px;
-            border: none;
+            border-radius: var(--radius-s);
+            border: 1px solid transparent;
             cursor: pointer;
             text-align: center;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s;
         }
-        .btn:hover { background-color: var(--primary-hover); }
-        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(33,230,255,0.25); filter: brightness(1.08); }
+        .btn:active { transform: translateY(0); }
+        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--border-strong); }
+        .btn-outline:hover { border-color: var(--primary); box-shadow: 0 8px 20px rgba(33,230,255,0.12); }
         .btn-danger { background-color: var(--error-color); color: #fff; }
-        .btn-warning { background-color: var(--admin-color); color: #000; }
+        .btn-danger:hover { box-shadow: 0 8px 20px rgba(255,79,109,0.25); }
+        .btn-warning { background-color: var(--admin-color); color: #201400; }
+        .btn-warning:hover { box-shadow: 0 8px 20px rgba(255,176,32,0.25); }
 
-        #app-viewport {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+        #app-viewport { flex: 1; display: flex; flex-direction: column; position: relative; }
 
-        main { flex: 1; padding: 3rem 8%; max-width: 1200px; margin: 0 auto; width: 100%; }
-        .hero { text-align: center; margin-bottom: 3rem; }
-        .hero h1 { font-size: 2.3rem; color: var(--text-heading); margin-bottom: 0.5rem; }
-        .hero p { color: var(--text-muted); }
+        main { flex: 1; padding: 3.5rem 8% 3rem; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+        .hero { text-align: center; margin-bottom: 3.5rem; animation: heroIn 0.7s cubic-bezier(.2,.8,.2,1) both; }
+        @keyframes heroIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--primary); border: 1px solid var(--border-strong); padding: 0.3rem 0.8rem; border-radius: 999px; margin-bottom: 1.2rem; }
+        .hero-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2); animation: blink 2.4s ease-in-out infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+        .hero h1 { font-size: 2.5rem; color: var(--text-heading); margin-bottom: 0.7rem; letter-spacing: -0.02em; line-height: 1.15; }
+        .hero p { color: var(--text-muted); max-width: 520px; margin: 0 auto; }
 
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
+            gap: 1.25rem;
         }
         .nav-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 2rem 1.5rem;
-            border-radius: 12px;
-            text-align: center;
+            padding: 1.8rem 1.5rem;
+            border-radius: var(--radius-m);
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.2s, border-color 0.2s, background 0.2s;
+            position: relative;
+            overflow: hidden;
         }
-        .nav-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .nav-card h3 { color: var(--text-heading); margin-bottom: 0.5rem; }
+        .nav-card:hover { transform: translateY(-4px); border-color: var(--primary); background: var(--card-bg-hover); }
+        .card-icon { width: 42px; height: 42px; border-radius: var(--radius-s); background: rgba(33,230,255,0.08); border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--primary); transition: background 0.2s, border-color 0.2s; }
+        .nav-card:hover .card-icon { background: rgba(33,230,255,0.16); border-color: var(--primary); }
+        .card-icon .icon { width: 22px; height: 22px; }
+        .nav-card h3 { color: var(--text-heading); margin-bottom: 0.4rem; font-size: 1.05rem; }
         .nav-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* MODAL POPUP MİMARİSİ (HEM SÜRÜKLENİR HEM SCROLL EDİLİR) */
+        /* MODAL POPUP MİMARİSİ */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.85);
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4,6,9,0.82);
             backdrop-filter: blur(6px);
             display: none;
             z-index: 3000;
@@ -172,229 +235,196 @@ overscroll-behavior: contain;
 
         .modal-popup {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-strong);
             padding: 2rem;
-            border-radius: 12px;
+            border-radius: var(--radius-m);
             width: 90%;
             max-width: 480px;
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             max-height: 85vh;
             overflow-y: auto;
             touch-action: pan-y;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
         .modal-header-drag {
-            padding: 1rem;
-            margin: -2rem -2rem 1rem -2rem;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 0.9rem 1rem;
+            margin: -2rem -2rem 1.2rem -2rem;
+            background: rgba(255, 255, 255, 0.03);
             border-bottom: 1px solid var(--border-color);
-            border-radius: 12px 12px 0 0;
+            border-radius: var(--radius-m) var(--radius-m) 0 0;
             cursor: move;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 0.6rem;
             user-select: none;
             touch-action: none;
+            color: var(--text-muted);
         }
+        .modal-header-drag .drag-title { display: flex; align-items: center; gap: 0.6rem; color: var(--text-heading); font-weight: 600; }
 
-        .fullscreen-view {
-            display: none;
-            padding: 2rem 8%;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            flex: 1;
-        }
+        .fullscreen-view { display: none; padding: 2.5rem 8%; max-width: 1200px; margin: 0 auto; width: 100%; flex: 1; }
 
         .view-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; align-items: center; gap: 0.7rem; justify-content: space-between;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
+            padding-bottom: 1.1rem; margin-bottom: 2rem;
         }
+        .view-title { display: flex; align-items: center; gap: 0.7rem; color: var(--text-heading); font-size: 1.35rem; }
+        .view-title .icon { width: 22px; height: 22px; color: var(--primary); }
 
         .form-group { margin-bottom: 1.2rem; text-align: left; }
-        .form-group label { display: block; color: var(--text-heading); font-size: 0.85rem; margin-bottom: 0.4rem; }
+        .form-group label { display: block; color: var(--text-heading); font-size: 0.82rem; margin-bottom: 0.4rem; font-weight: 500; }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 0.8rem;
-            background: var(--bg-color); border: 1px solid var(--border-color);
-            border-radius: 6px; color: var(--text-main); font-family: inherit;
+            width: 100%; padding: 0.75rem 0.9rem;
+            background: var(--bg-soft); border: 1px solid var(--border-color);
+            border-radius: var(--radius-s); color: var(--text-main); font-family: inherit; font-size: 0.92rem;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(33,230,255,0.12);
         }
         .error-msg { color: var(--error-color); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
-        .info-msg { color: var(--primary); font-size: 0.85rem; margin-top: 0.5rem; }
+        .info-msg { color: var(--primary); font-size: 0.85rem; margin-top: 0.5rem; font-family: var(--font-mono); }
 
         .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            background: var(--card-bg);
-            padding: 1rem;
-            border-radius: 10px;
+            display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+            background: var(--card-bg); padding: 1rem; border-radius: var(--radius-m);
             border: 1px solid var(--border-color);
         }
+        .search-wrap { position: relative; flex: 1; min-width: 180px; }
+        .search-wrap .icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 17px; height: 17px; }
+        .search-wrap input { padding-left: 2.4rem !important; }
         .filter-bar input, .filter-bar select {
-            flex: 1;
-            min-width: 180px;
-            padding: 0.6rem 0.8rem;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 6px;
+            flex: 1; min-width: 180px; padding: 0.65rem 0.9rem;
+            background: var(--bg-soft); border: 1px solid var(--border-color);
+            color: var(--text-main); border-radius: var(--radius-s); font-size: 0.9rem;
         }
 
-        .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
-        
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.4rem; }
+
         .data-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: var(--radius-m);
             overflow: hidden;
             display: flex;
             flex-direction: column;
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
-        .data-card:hover { transform: translateY(-4px); border-color: var(--primary); }
-        
-        .card-cover {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background-color: #21262d;
-        }
+        .data-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
 
-        .card-body {
-            padding: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
+        .card-cover { width: 100%; height: 160px; object-fit: cover; background-color: #151b24; }
+        .card-body { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
+        .price-tag { color: var(--primary); font-weight: 800; font-size: 1.1rem; margin-top: auto; padding-top: 0.5rem; font-family: var(--font-mono); }
 
-        .price-tag { color: var(--primary); font-weight: 800; font-size: 1.1rem; margin-top: auto; padding-top: 0.5rem; }
-        
         .badge {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            width: fit-content;
+            display: inline-block; padding: 0.22rem 0.55rem; border-radius: 999px;
+            font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; width: fit-content;
+            font-family: var(--font-mono);
         }
-        .badge-in-stock { background: rgba(46, 164, 79, 0.2); color: var(--success-color); border: 1px solid var(--success-color); }
-        .badge-out-stock { background: rgba(255, 77, 77, 0.2); color: var(--error-color); border: 1px solid var(--error-color); }
+        .badge-in-stock { background: rgba(52, 211, 153, 0.14); color: var(--success-color); border: 1px solid rgba(52, 211, 153, 0.4); }
+        .badge-out-stock { background: rgba(255, 79, 109, 0.14); color: var(--error-color); border: 1px solid rgba(255, 79, 109, 0.4); }
 
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.6); display: none; z-index: 2000;
-        }
+        .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(4,6,9,0.6); display: none; z-index: 2000; }
 
         footer {
             border-top: 1px solid var(--border-color);
-            padding: 1.5rem 8%; text-align: center;
-            background-color: var(--card-bg); position: relative; z-index: 100;
+            padding: 2rem 8%; text-align: center;
+            background-color: var(--bg-soft); position: relative; z-index: 100;
             margin-top: auto;
         }
-        .social-links { display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.8rem; }
+        .social-links { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
         .social-btn {
-            padding: 0.5rem 1rem; border-radius: 6px;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.55rem 1.1rem; border-radius: var(--radius-s);
             border: 1px solid var(--border-color); color: var(--text-heading);
-            text-decoration: none; font-size: 0.85rem; background: var(--bg-color);
+            text-decoration: none; font-size: 0.85rem; background: var(--card-bg);
+            transition: border-color 0.15s, color 0.15s, transform 0.15s;
         }
+        .social-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
         .admin-badge {
-            background-color: var(--admin-color);
-            color: #000; font-weight: 800;
-            padding: 0.2rem 0.5rem; border-radius: 4px;
-            font-size: 0.75rem; margin-left: 0.5rem;
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            background-color: rgba(255,176,32,0.14);
+            color: var(--admin-color); font-weight: 700; border: 1px solid rgba(255,176,32,0.4);
+            padding: 0.15rem 0.5rem; border-radius: 999px;
+            font-size: 0.68rem; margin-left: 0.4rem; font-family: var(--font-mono);
         }
 
-        .version-tag {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.4rem;
-            display: block;
-        }
+        .version-tag { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.5rem; display: block; font-family: var(--font-mono); }
 
         .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 2rem;
+            display: flex; align-items: center; gap: 1.5rem;
+            background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius-m);
+            border: 1px solid var(--border-color); margin-bottom: 2rem;
         }
+        .profile-avatar-container { position: relative; width: 96px; height: 96px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary); flex-shrink: 0; box-shadow: 0 0 0 4px rgba(33,230,255,0.08); }
+        .profile-avatar { width: 100%; height: 100%; object-fit: cover; }
+        .profile-avatar-upload { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(4,6,9,0.75); color: #fff; font-size: 0.62rem; text-align: center; padding: 4px 0; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem; }
 
-        .profile-avatar-container {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid var(--primary);
-            flex-shrink: 0;
-        }
+        .news-inline-img { max-width: 100%; border-radius: var(--radius-s); margin: 1rem 0; border: 1px solid var(--border-color); }
 
-        .profile-avatar {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-avatar-upload {
-            position: absolute;
-            bottom: 0;
-            left: 0; right: 0;
-            background: rgba(0,0,0,0.7);
-            color: #fff;
-            font-size: 0.65rem;
-            text-align: center;
-            padding: 4px 0;
-            cursor: pointer;
-        }
-
-        .news-inline-img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin: 1rem 0;
-            border: 1px solid var(--border-color);
-        }
+        .mini-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-strong); }
     </style>
 </head>
 <body>
 
+    <!-- İKON KÜTÜPHANESİ (görünmez, <use> ile referans alınır) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-5h2v5h4a1 1 0 0 0 1-1v-9"/></symbol>
+            <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="7.6" r="0.6" fill="currentColor" stroke="none"/></symbol>
+            <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.5 14.5l5-5"/><path d="M8 16 5.5 18.5a3 3 0 0 1-4.2-4.2L4 11.8"/><path d="M16 8 18.5 5.5a3 3 0 1 1 4.2 4.2L20 12.2"/></symbol>
+            <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 2 6H4c.5-.5 2-2 2-6Z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+            <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol>
+            <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5a7.5 7.5 0 0 0 0-3l2-1.3-2-3.4-2.3.7a7.6 7.6 0 0 0-2.6-1.5L14 2h-4l-.5 2.3a7.6 7.6 0 0 0-2.6 1.5l-2.3-.7-2 3.4 2 1.3a7.5 7.5 0 0 0 0 3l-2 1.3 2 3.4 2.3-.7c.75.66 1.63 1.17 2.6 1.5L10 22h4l.5-2.3a7.6 7.6 0 0 0 2.6-1.5l2.3.7 2-3.4-2-1.3Z"/></symbol>
+            <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></symbol>
+            <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></symbol>
+            <symbol id="i-code" viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4"/><path d="M15 8l4 4-4 4"/></symbol>
+            <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.3l6 3.7-6 3.7v-7.4Z" fill="currentColor" stroke="none"/></symbol>
+            <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+            <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></symbol>
+            <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.4"/></symbol>
+            <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 10v4a1 1 0 0 0 1 1h2l7 4V5L6 9H4a1 1 0 0 0-1 1Z"/><path d="M13 8a4 4 0 0 1 0 8"/><path d="M17 5a8 8 0 0 1 0 14"/></symbol>
+            <symbol id="i-drag" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1.3" fill="currentColor" stroke="none"/></symbol>
+        </defs>
+    </svg>
+
     <header>
-        <a href="#" class="logo" onclick="closeAllViews()">Fur<span>Tek</span></a>
-        <button class="menu-btn" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+        <a href="#" class="logo" onclick="closeAllViews()">
+            <svg class="logo-mark" viewBox="0 0 40 40">
+                <path d="M20 3l14.5 8.5v17L20 37 5.5 28.5v-17L20 3Z"/>
+                <path class="spokes" d="M20 3v9M20 28v9M5.5 11.5l8 5M26.5 23.5l8 5M34.5 11.5l-8 5M13.5 23.5l-8 5"/>
+                <circle cx="20" cy="20" r="4"/>
+            </svg>
+            Fur<span>Tek</span>
+        </a>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menü">
+            <span></span><span></span><span></span>
         </button>
     </header>
 
     <div class="side-menu" id="sideMenu">
         <button class="close-btn" onclick="toggleMenu()">&times;</button>
-        <nav class="menu-links">
-            <a href="#" onclick="toggleMenu(); closeAllViews();">🏠 Ana Sayfa</a>
-            <a href="#" onclick="toggleMenu(); openModal('aboutModal');">ℹ️ Hakkında</a>
-            <a href="#" onclick="toggleMenu(); openModal('investModal');">🤝 Yatırım & İşbirliği</a>
-            <a href="#" onclick="toggleMenu(); openFullscreen('newsView');">🔔 Güncellemeler & Haberler</a>
-            <a href="#" onclick="toggleMenu(); openFullscreen('productsView');">📦 Ürünler</a>
-            <a href="#" onclick="toggleMenu(); openFullscreen('projectsView');">⚙️ Projeler</a>
-            <a href="#" id="profileMenuLink" style="display:none;" onclick="toggleMenu(); openFullscreen('profileView');">👤 Profilim</a>
-            <a href="#" id="adminMenuLink" style="display:none; color: var(--admin-color);" onclick="toggleMenu(); openFullscreen('adminView');">👑 Admin Paneli</a>
-        </nav>
-        <div class="auth-buttons" id="authBox"></div>
+        <div class="menu-scroll">
+            <nav class="menu-links">
+                <a href="#" onclick="toggleMenu(); closeAllViews();"><svg class="icon"><use href="#i-home"/></svg> Ana Sayfa</a>
+                <a href="#" onclick="toggleMenu(); openModal('aboutModal');"><svg class="icon"><use href="#i-info"/></svg> Hakkında</a>
+                <a href="#" onclick="toggleMenu(); openModal('investModal');"><svg class="icon"><use href="#i-link"/></svg> Yatırım & İşbirliği</a>
+                <a href="#" onclick="toggleMenu(); openFullscreen('newsView');"><svg class="icon"><use href="#i-bell"/></svg> Güncellemeler & Haberler</a>
+                <a href="#" onclick="toggleMenu(); openFullscreen('productsView');"><svg class="icon"><use href="#i-box"/></svg> Ürünler</a>
+                <a href="#" onclick="toggleMenu(); openFullscreen('projectsView');"><svg class="icon"><use href="#i-gear"/></svg> Projeler</a>
+                <a href="#" id="profileMenuLink" style="display:none;" onclick="toggleMenu(); openFullscreen('profileView');"><svg class="icon"><use href="#i-user"/></svg> Profilim</a>
+                <a href="#" id="adminMenuLink" style="display:none; color: var(--admin-color);" onclick="toggleMenu(); openFullscreen('adminView');"><svg class="icon" style="color:var(--admin-color)"><use href="#i-shield"/></svg> Admin Paneli</a>
+            </nav>
+            <div class="auth-buttons" id="authBox"></div>
+        </div>
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -403,29 +433,35 @@ overscroll-behavior: contain;
         <!-- ANA SAYFA -->
         <main id="homeView">
             <div class="hero">
+                <span class="hero-eyebrow"><span class="dot"></span>Gömülü Sistemler · Otonom Araçlar · 3D Tasarım</span>
                 <h1>FurTek | Teknoloji & Proje Deposu</h1>
                 <p>Gömülü sistemler, 3D tasarımlar ve mühendislik projelerinin kişisel geliştirme alanı.</p>
             </div>
 
             <div class="nav-grid">
                 <div class="nav-card" onclick="openModal('aboutModal')">
-                    <h3>ℹ️ Hakkında</h3>
+                    <div class="card-icon"><svg class="icon"><use href="#i-info"/></svg></div>
+                    <h3>Hakkında</h3>
                     <p>Geliştirici bilgileri ve platformun amacı.</p>
                 </div>
                 <div class="nav-card" onclick="openModal('investModal')">
-                    <h3>🤝 Yatırım & İşbirliği</h3>
+                    <div class="card-icon"><svg class="icon"><use href="#i-link"/></svg></div>
+                    <h3>Yatırım & İşbirliği</h3>
                     <p>Projeler için doğrudan iletişim formu.</p>
                 </div>
                 <div class="nav-card" onclick="openFullscreen('newsView')">
-                    <h3>🔔 Güncellemeler & Haberler</h3>
+                    <div class="card-icon"><svg class="icon"><use href="#i-bell"/></svg></div>
+                    <h3>Güncellemeler & Haberler</h3>
                     <p>Geliştirme duyuruları ve sistem notları.</p>
                 </div>
                 <div class="nav-card" onclick="openFullscreen('productsView')">
-                    <h3>📦 Ürünler</h3>
+                    <div class="card-icon"><svg class="icon"><use href="#i-box"/></svg></div>
+                    <h3>Ürünler</h3>
                     <p>Özel tasarımlar ve ürün kataloğu.</p>
                 </div>
                 <div class="nav-card" onclick="openFullscreen('projectsView')">
-                    <h3>⚙️ Projeler</h3>
+                    <div class="card-icon"><svg class="icon"><use href="#i-gear"/></svg></div>
+                    <h3>Projeler</h3>
                     <p>Proje detayları, STL ve C++ kod depoları.</p>
                 </div>
             </div>
@@ -434,7 +470,7 @@ overscroll-behavior: contain;
         <!-- TAM EKRAN BÖLÜMLER -->
         <div class="fullscreen-view" id="newsView">
             <div class="view-header">
-                <h2 style="color:#fff;">🔔 Güncellemeler & Haberler</h2>
+                <h2 class="view-title"><svg class="icon"><use href="#i-bell"/></svg>Güncellemeler & Haberler</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
             <div id="newsContainer"></div>
@@ -442,11 +478,14 @@ overscroll-behavior: contain;
 
         <div class="fullscreen-view" id="productsView">
             <div class="view-header">
-                <h2 style="color:#fff;">📦 Ürün Kataloğu</h2>
+                <h2 class="view-title"><svg class="icon"><use href="#i-box"/></svg>Ürün Kataloğu</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
             <div class="filter-bar">
-                <input type="text" id="productSearchInput" placeholder="🔍 Ürün ara..." oninput="renderProducts()">
+                <div class="search-wrap">
+                    <svg class="icon"><use href="#i-search"/></svg>
+                    <input type="text" id="productSearchInput" placeholder="Ürün ara..." oninput="renderProducts()">
+                </div>
                 <select id="productStockFilter" onchange="renderProducts()">
                     <option value="all">Tüm Stok Durumları</option>
                     <option value="Stokta Var">Sadece Stokta Olanlar</option>
@@ -463,7 +502,7 @@ overscroll-behavior: contain;
 
         <div class="fullscreen-view" id="projectsView">
             <div class="view-header">
-                <h2 style="color:#fff;">⚙️ Projeler Deposu</h2>
+                <h2 class="view-title"><svg class="icon"><use href="#i-gear"/></svg>Projeler Deposu</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
             <div class="data-grid" id="projectsContainer"></div>
@@ -471,7 +510,7 @@ overscroll-behavior: contain;
 
         <div class="fullscreen-view" id="itemDetailView">
             <div class="view-header">
-                <h2 id="detailHeaderTitle" style="color:#fff;">Detaylar</h2>
+                <h2 id="detailHeaderTitle" class="view-title">Detaylar</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
             <div class="detail-view-container" id="detailContentContainer"></div>
@@ -480,13 +519,13 @@ overscroll-behavior: contain;
         <!-- PROFİL BÖLÜMÜ -->
         <div class="fullscreen-view" id="profileView">
             <div class="view-header">
-                <h2 style="color:#fff;">👤 Kullanıcı Profili</h2>
+                <h2 class="view-title"><svg class="icon"><use href="#i-user"/></svg>Kullanıcı Profili</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
             <div class="profile-header">
                 <div class="profile-avatar-container">
                     <img src="" id="profileAvatarImg" class="profile-avatar" alt="Profil Fotoğrafı">
-                    <label for="avatarInput" class="profile-avatar-upload">Değiştir</label>
+                    <label for="avatarInput" class="profile-avatar-upload"><svg class="icon" style="width:12px;height:12px;"><use href="#i-camera"/></svg> Değiştir</label>
                     <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="updateProfileAvatar(event)">
                 </div>
                 <div>
@@ -514,13 +553,13 @@ overscroll-behavior: contain;
         <!-- ADMIN PANELİ -->
         <div class="fullscreen-view" id="adminView">
             <div class="view-header">
-                <h2 style="color:var(--admin-color);">👑 Admin Yönetim Paneli</h2>
+                <h2 class="view-title" style="color:var(--admin-color);"><svg class="icon" style="color:var(--admin-color)"><use href="#i-shield"/></svg>Admin Yönetim Paneli</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                 <div class="data-card" style="padding: 1.2rem; cursor:default;">
-                    <h3 style="color:#fff; margin-bottom: 1rem;">⚙️ Yeni Proje Ekle</h3>
+                    <h3 style="color:#fff; margin-bottom: 1rem; display:flex; align-items:center; gap:0.5rem;"><svg class="icon" style="color:var(--admin-color)"><use href="#i-gear"/></svg>Yeni Proje Ekle</h3>
                     <form onsubmit="addProject(event)">
                         <div class="form-group">
                             <label>Proje Adı</label>
@@ -547,7 +586,7 @@ overscroll-behavior: contain;
                 </div>
 
                 <div class="data-card" style="padding: 1.2rem; cursor:default;">
-                    <h3 style="color:#fff; margin-bottom: 1rem;">📦 Yeni Ürün Ekle</h3>
+                    <h3 style="color:#fff; margin-bottom: 1rem; display:flex; align-items:center; gap:0.5rem;"><svg class="icon" style="color:var(--admin-color)"><use href="#i-box"/></svg>Yeni Ürün Ekle</h3>
                     <form onsubmit="addProduct(event)">
                         <div class="form-group">
                             <label>Ürün Adı</label>
@@ -586,7 +625,7 @@ overscroll-behavior: contain;
                 </div>
 
                 <div class="data-card" style="padding: 1.2rem; cursor:default;">
-                    <h3 style="color:#fff; margin-bottom: 1rem;">📢 Yeni Haber Ekle</h3>
+                    <h3 style="color:#fff; margin-bottom: 1rem; display:flex; align-items:center; gap:0.5rem;"><svg class="icon" style="color:var(--admin-color)"><use href="#i-megaphone"/></svg>Yeni Haber Ekle</h3>
                     <p style="font-size:0.75rem; color:var(--primary); margin-bottom:0.5rem;">İpucu: Metin içine görsel eklemek için <b>{@i</b> yazıp boşluk bırakın.</p>
                     <form onsubmit="addNews(event)">
                         <div class="form-group">
@@ -606,18 +645,18 @@ overscroll-behavior: contain;
 
     <footer>
         <div class="social-links">
-            <a href="https://youtube.com/@furtek-j9?si=Fc5K9IT0-_I4W3Iu" target="_blank" class="social-btn">▶ YouTube Kanalı</a>
-            <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="social-btn">💻 GitHub Deposu</a>
+            <a href="https://youtube.com/@furtek-j9?si=Fc5K9IT0-_I4W3Iu" target="_blank" class="social-btn"><svg class="icon"><use href="#i-play"/></svg> Video Kanalı</a>
+            <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="social-btn"><svg class="icon"><use href="#i-code"/></svg> Kaynak Kodu</a>
         </div>
         <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
-        <span class="version-tag">Sürüm: v2.5.0 (Ağustos 2026)</span>
+        <span class="version-tag">Sürüm: v2.6.0 (Eylül 2026)</span>
     </footer>
 
-    <!-- POPUP MODALLAR (ÖZEL SÜRÜKLEME BAŞLIKLI) -->
+    <!-- POPUP MODALLAR -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-popup">
             <div class="modal-header-drag">
-                <span style="color: #fff; font-weight: 600;">⋮⋮ Hakkında (Sürükle)</span>
+                <span class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Hakkında (Sürükle)</span>
                 <button class="close-btn" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <p style="color: var(--text-main); margin-top: 1rem;">Bu platform; 3D modelleme, otonom hava/kara sistemleri ve C++ gömülü yazılımlar üzerine yürüttüğüm kişisel projeleri sergilediğim bağımsız bir alandır.</p>
@@ -627,7 +666,7 @@ overscroll-behavior: contain;
     <div class="modal-overlay" id="investModal">
         <div class="modal-popup">
             <div class="modal-header-drag">
-                <span style="color: #fff; font-weight: 600;">⋮⋮ Yatırım & İşbirliği (Sürükle)</span>
+                <span class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Yatırım & İşbirliği (Sürükle)</span>
                 <button class="close-btn" onclick="closeModal('investModal')">&times;</button>
             </div>
             <form onsubmit="sendDirectEmail(event)" style="margin-top: 1rem;">
@@ -643,7 +682,7 @@ overscroll-behavior: contain;
                     <label>Mesajınız</label>
                     <textarea id="contactMessage" rows="3" required placeholder="Mesajınızı yazın..."></textarea>
                 </div>
-                <button type="submit" class="btn" style="width: 100%;">📧 E-posta İle Gönder</button>
+                <button type="submit" class="btn" style="width: 100%;"><svg class="icon"><use href="#i-mail"/></svg> E-posta İle Gönder</button>
             </form>
         </div>
     </div>
@@ -651,7 +690,7 @@ overscroll-behavior: contain;
     <div class="modal-overlay" id="authModal">
         <div class="modal-popup">
             <div class="modal-header-drag">
-                <span id="modalTitle" style="color: #fff; font-weight: 600;">Giriş Yap (Sürükle)</span>
+                <span id="modalTitle" class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Giriş Yap (Sürükle)</span>
                 <button class="close-btn" onclick="closeModal('authModal')">&times;</button>
             </div>
             <form id="authForm" onsubmit="handleAuth(event)" style="margin-top: 1rem;">
@@ -669,7 +708,7 @@ overscroll-behavior: contain;
                     <input type="text" id="otpCodeInput" placeholder="6 Haneli Kod" maxlength="6">
                     <div class="info-msg" id="otpNotice"></div>
                 </div>
-                
+
                 <div class="error-msg" id="errorMsg"></div>
                 <button type="submit" id="authSubmitBtn" class="btn" style="width: 100%; margin-top: 1rem;">Devam Et</button>
             </form>
@@ -683,8 +722,9 @@ overscroll-behavior: contain;
         const JSONBIN_API_KEY = "";
 
         const ADMIN_EMAIL = "furtek.official@gmail.com";
-        const placeholderImg = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%22300%22%20height%3D%22180%22%20fill%3D%22%2321262d%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%238b949e%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%3EFurTek%20G%C3%B6rsel%3C%2Ftext%3E%3C%2Fsvg%3E";
-        
+        const placeholderImg = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%22300%22%20height%3D%22180%22%20fill%3D%22%23131a24%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%237f8ea3%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%3EFurTek%20G%C3%B6rsel%3C%2Ftext%3E%3C%2Fsvg%3E";
+        const placeholderAvatar = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22100%22%20height%3D%22100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23131a24%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2238%22%20r%3D%2218%22%20fill%3D%22%232c3a4d%22%2F%3E%3Cpath%20d%3D%22M20%2090c6-18%2020-28%2030-28s24%2010%2030%2028%22%20fill%3D%22%232c3a4d%22%2F%3E%3C%2Fsvg%3E";
+
         let db = {
             users: {},
             projects: [
@@ -694,7 +734,7 @@ overscroll-behavior: contain;
                 { id: 1, name: "Özel Kontrol Kartı V1", cover: placeholderImg, gallery: [], desc: "ESP32-S3 tabanlı kart.", longDesc: "Gelişmiş devre kartı...", price: 450, stock: "Stokta Var" }
             ],
             news: [
-                { id: 1, date: "29 AĞUSTOS 2026", title: "v2.5.0 Senkronizasyon Güncellemesi", content: "Bulut veritabanı eşitlemesi ve metin içi resim ekleme özelliği aktif edildi." }
+                { id: 1, date: "29 AĞUSTOS 2026", title: "v2.6.0 Arayüz Yenileme Güncellemesi", content: "Site arayüzü modern vektör ikonlarla, yeni logo ve düzeltilmiş hamburger menü ile güncellendi." }
             ]
         };
 
@@ -708,7 +748,7 @@ overscroll-behavior: contain;
             renderProjects();
             renderNews();
             renderProducts();
-            makeModalsDraggable(); // Sürükleme fonksiyonunu başlat
+            makeModalsDraggable();
         };
 
         /* SORUNSUZ SÜRÜKLEME (DRAG & DROP) MOTORU */
@@ -721,7 +761,7 @@ overscroll-behavior: contain;
                 let startX, startY, initialLeft, initialTop;
 
                 const onStart = (e) => {
-                    if (e.target.classList.contains('close-btn')) return;
+                    if (e.target.closest('.close-btn')) return;
 
                     isDragging = true;
                     const pageX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -741,7 +781,7 @@ overscroll-behavior: contain;
 
                 const onMove = (e) => {
                     if (!isDragging) return;
-                    
+
                     const pageX = e.touches ? e.touches[0].clientX : e.clientX;
                     const pageY = e.touches ? e.touches[0].clientY : e.clientY;
 
@@ -752,9 +792,7 @@ overscroll-behavior: contain;
                     modal.style.top = (initialTop + dy) + 'px';
                 };
 
-                const onEnd = () => {
-                    isDragging = false;
-                };
+                const onEnd = () => { isDragging = false; };
 
                 header.addEventListener('mousedown', onStart);
                 document.addEventListener('mousemove', onMove);
@@ -826,21 +864,20 @@ overscroll-behavior: contain;
             document.body.style.overflow = isActive ? 'hidden' : '';
         }
 
-        function openModal(id) { 
+        function openModal(id) {
             const overlay = document.getElementById(id);
             const popup = overlay.querySelector('.modal-popup');
-            
-            // Konumu ortalayarak aç
+
             popup.style.top = '50%';
             popup.style.left = '50%';
             popup.style.transform = 'translate(-50%, -50%)';
 
-            overlay.style.display = 'block'; 
+            overlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
-        
-        function closeModal(id) { 
-            document.getElementById(id).style.display = 'none'; 
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
             document.body.style.overflow = '';
         }
 
@@ -879,10 +916,10 @@ overscroll-behavior: contain;
             currentAuthType = type;
             generatedOTP = null;
             if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
-            
+
             document.getElementById('errorMsg').style.display = 'none';
             document.getElementById('otpGroup').style.display = (type === 'register') ? 'block' : 'none';
-            document.getElementById('modalTitle').innerText = (type === 'login') ? 'Giriş Yap (Sürükle)' : 'Kayıt Ol (Sürükle)';
+            document.getElementById('modalTitle').innerHTML = '<svg class="icon"><use href="#i-drag"/></svg>' + ((type === 'login') ? 'Giriş Yap (Sürükle)' : 'Kayıt Ol (Sürükle)');
             document.getElementById('authSubmitBtn').innerText = (type === 'login') ? 'Giriş Yap' : 'Kodu Onayla & Kaydol';
 
             openModal('authModal');
@@ -898,7 +935,7 @@ overscroll-behavior: contain;
 
                 if (!generatedOTP) {
                     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                    document.getElementById('otpNotice').innerText = `🔐 Test Onay Kodunuz: ${generatedOTP}`;
+                    document.getElementById('otpNotice').innerText = `Test Onay Kodunuz: ${generatedOTP}`;
                     document.getElementById('otpGroup').style.display = 'block';
                     alert(`Doğrulama kodunuz oluşturuldu: ${generatedOTP}`);
                     return;
@@ -908,14 +945,14 @@ overscroll-behavior: contain;
                 if (userOTP !== generatedOTP) { showError('Doğrulama kodu hatalı!'); return; }
 
                 const defaultName = email === ADMIN_EMAIL ? "FurTek Admin" : email.split('@')[0];
-                db.users[email] = { 
-                    password: password, 
-                    displayName: defaultName, 
-                    bio: 'FurTek üyesi', 
-                    avatar: placeholderImg, 
-                    isAdmin: (email === ADMIN_EMAIL) 
+                db.users[email] = {
+                    password: password,
+                    displayName: defaultName,
+                    bio: 'FurTek üyesi',
+                    avatar: placeholderAvatar,
+                    isAdmin: (email === ADMIN_EMAIL)
                 };
-                
+
                 await syncDatabase();
                 localStorage.setItem('furtek_active_user', email);
                 alert('Kayıt başarıyla tamamlandı!');
@@ -939,22 +976,25 @@ overscroll-behavior: contain;
             if (activeEmail && db.users[activeEmail]) {
                 const userObj = db.users[activeEmail];
                 const isAdmin = (activeEmail === ADMIN_EMAIL);
+                const avatarSrc = userObj.avatar || placeholderAvatar;
 
-                adminLink.style.display = isAdmin ? 'block' : 'none';
-                profileLink.style.display = 'block';
+                adminLink.style.display = isAdmin ? 'flex' : 'none';
+                profileLink.style.display = 'flex';
 
                 document.getElementById('authBox').innerHTML = `
-                    <div style="color: var(--primary); font-weight: 600; text-align: center; font-size: 0.9rem; margin-bottom:0.5rem;">
-                        👤 ${userObj.displayName} ${isAdmin ? '<span class="admin-badge">ADMIN</span>' : ''}
+                    <div style="display:flex; align-items:center; justify-content:center; gap:0.55rem; margin-bottom:0.6rem;">
+                        <img src="${avatarSrc}" class="mini-avatar" alt="">
+                        <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">${userObj.displayName}</span>
+                        ${isAdmin ? '<span class="admin-badge"><svg class="icon" style="width:10px;height:10px;"><use href="#i-shield"/></svg>ADMIN</span>' : ''}
                     </div>
                     <button class="btn btn-outline" onclick="openFullscreen('profileView'); toggleMenu();">Profilim</button>
-                    ${isAdmin ? '<button class="btn btn-warning" onclick="openFullscreen(\'adminView\'); toggleMenu();">👑 Admin Paneli</button>' : ''}
+                    ${isAdmin ? '<button class="btn btn-warning" onclick="openFullscreen(\'adminView\'); toggleMenu();">Admin Paneli</button>' : ''}
                     <button class="btn btn-danger" onclick="logout()">Çıkış Yap</button>
                 `;
 
                 document.getElementById('profileDisplayName').innerText = userObj.displayName;
                 document.getElementById('profileEmail').innerText = activeEmail;
-                document.getElementById('profileAvatarImg').src = userObj.avatar || placeholderImg;
+                document.getElementById('profileAvatarImg').src = avatarSrc;
                 document.getElementById('editDisplayName').value = userObj.displayName;
                 document.getElementById('editBio').value = userObj.bio || '';
             } else {
@@ -1014,7 +1054,7 @@ overscroll-behavior: contain;
 
             let coverBase64 = imgFile ? await fileToBase64(imgFile) : placeholderImg;
             db.projects.unshift({ id: Date.now(), title, cover: coverBase64, desc, longDesc, link });
-            
+
             await syncDatabase();
             alert('Proje eklendi!');
             e.target.reset();
@@ -1061,7 +1101,7 @@ overscroll-behavior: contain;
                 <img src="${item.cover}" class="detail-main-img" alt="${item.title}">
                 <h1 style="color:#fff; margin-bottom:1rem;">${item.title}</h1>
                 <div style="color:var(--text-main); font-size:1rem; line-height:1.6; margin-bottom:2rem; white-space:pre-line;">${item.longDesc || item.desc}</div>
-                <a href="${item.link}" target="_blank" class="btn">💻 GitHub Deposu / Kodlar</a>
+                <a href="${item.link}" target="_blank" class="btn"><svg class="icon"><use href="#i-code"/></svg> Kaynak Kodu / GitHub</a>
             `;
 
             openFullscreen('itemDetailView');
@@ -1081,7 +1121,7 @@ overscroll-behavior: contain;
             let galleryBase64 = galleryFiles.length > 0 ? await Promise.all(Array.from(galleryFiles).map(f => fileToBase64(f))) : [];
 
             db.products.unshift({ id: Date.now(), name, cover: coverBase64, gallery: galleryBase64, price, stock, desc, longDesc });
-            
+
             await syncDatabase();
             alert('Ürün eklendi!');
             e.target.reset();
@@ -1157,7 +1197,7 @@ overscroll-behavior: contain;
                     <h1 style="color:#fff;">${item.name}</h1>
                     <span class="badge ${item.stock === 'Stokta Var' ? 'badge-in-stock' : 'badge-out-stock'}" style="font-size:0.9rem;">${item.stock}</span>
                 </div>
-                <div style="font-size:1.5rem; color:var(--primary); font-weight:800; margin-bottom:1.5rem;">₺${item.price}</div>
+                <div style="font-size:1.5rem; color:var(--primary); font-weight:800; margin-bottom:1.5rem; font-family: var(--font-mono);">₺${item.price}</div>
                 <div style="color:var(--text-main); font-size:0.95rem; line-height:1.6; white-space:pre-line;">${item.longDesc || item.desc}</div>
                 ${galleryHtml}
             `;
@@ -1174,7 +1214,7 @@ overscroll-behavior: contain;
             const dateStr = `${today.getDate()} AĞUSTOS ${today.getFullYear()}`;
 
             db.news.unshift({ id: Date.now(), date: dateStr, title, content });
-            
+
             await syncDatabase();
             alert('Haber yayınlandı!');
             e.target.reset();
@@ -1203,7 +1243,7 @@ overscroll-behavior: contain;
                 return `
                     <div class="data-card" style="margin-bottom:1.5rem; padding:1.2rem; cursor:default;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="color:var(--primary); font-size:0.8rem;">${item.date}</span>
+                            <span style="color:var(--primary); font-size:0.8rem; font-family: var(--font-mono);">${item.date}</span>
                             ${isAdmin ? `<button onclick="deleteNews(${item.id})" class="btn btn-danger" style="padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
                         </div>
                         <h3 style="color:#fff; margin:0.4rem 0;">${item.title}</h3>

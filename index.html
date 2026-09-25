@@ -52,20 +52,12 @@
         }
 
         .icon { width: 1.15em; height: 1.15em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; }
-        .icon-fill { stroke: none; }
 
-        /* Fixed Header */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.1rem 8%;
-            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.1rem 8%; border-bottom: 1px solid var(--border-color);
             background-color: rgba(10, 14, 20, 0.9);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
         }
 
         .logo { display: flex; align-items: center; gap: 0.6rem; font-size: 1.5rem; font-weight: 800; color: var(--text-heading); text-decoration: none; letter-spacing: -0.02em; }
@@ -76,113 +68,51 @@
         .logo-mark .spokes { stroke: var(--border-strong); stroke-width: 1.4; }
 
         .menu-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-s);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            width: 42px;
-            height: 42px;
-            transition: border-color 0.2s, background 0.2s;
+            background: none; border: 1px solid var(--border-color); border-radius: var(--radius-s);
+            cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            gap: 5px; width: 42px; height: 42px; transition: border-color 0.2s, background 0.2s;
         }
         .menu-btn:hover { border-color: var(--primary); background: rgba(33,230,255,0.06); }
-        .menu-btn span { width: 20px; height: 2px; background-color: var(--primary); border-radius: 2px; transition: transform 0.2s; }
+        .menu-btn span { width: 20px; height: 2px; background-color: var(--primary); border-radius: 2px; }
 
-        /* Side Menu */
         .side-menu {
-            position: fixed;
-            top: 0; right: -320px;
-            width: 320px;
-            height: 100vh;
-            height: 100dvh;
-            background-color: var(--card-bg);
-            border-left: 1px solid var(--border-color);
-            z-index: 2001;
-            padding: 1.5rem 1.5rem 0;
-            display: flex;
-            flex-direction: column;
-            transition: right 0.35s cubic-bezier(.4,0,.2,1);
-            box-shadow: -20px 0 40px rgba(0,0,0,0.5);
+            position: fixed; top: 0; right: -320px; width: 320px;
+            height: 100vh; height: 100dvh;
+            background-color: var(--card-bg); border-left: 1px solid var(--border-color);
+            z-index: 2001; padding: 1.5rem 1.5rem 0; display: flex; flex-direction: column;
+            transition: right 0.35s cubic-bezier(.4,0,.2,1); box-shadow: -20px 0 40px rgba(0,0,0,0.5);
         }
         .side-menu.active { right: 0; }
 
         .menu-scroll {
-            flex: 1 1 auto;
-            min-height: 0;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 1.5rem;
+            flex: 1 1 auto; min-height: 0; overflow-y: auto;
+            -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+            display: flex; flex-direction: column; padding-bottom: 1.5rem;
         }
 
-        .close-btn {
-            align-self: flex-end;
-            flex-shrink: 0;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.6rem;
-            line-height: 1;
-            cursor: pointer;
-            padding: 0.3rem;
-        }
+        .close-btn { align-self: flex-end; flex-shrink: 0; background: none; border: none; color: var(--text-muted); font-size: 1.6rem; line-height: 1; cursor: pointer; padding: 0.3rem; }
         .close-btn:hover { color: var(--primary); }
 
-        .menu-links {
-            margin-top: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
+        .menu-links { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
         .menu-links a {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: var(--text-heading);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 0.7rem 0.6rem;
-            border-radius: var(--radius-s);
+            display: flex; align-items: center; gap: 0.8rem; color: var(--text-heading); text-decoration: none;
+            font-size: 1rem; font-weight: 600; padding: 0.7rem 0.6rem; border-radius: var(--radius-s);
             transition: background 0.15s, color 0.15s, transform 0.15s;
         }
         .menu-links a .icon { color: var(--primary); }
         .menu-links a:hover { background: rgba(33,230,255,0.08); color: var(--primary); transform: translateX(3px); }
 
-        .auth-buttons {
-            margin-top: auto;
-            padding-top: 1.3rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-        }
+        .auth-buttons { margin-top: auto; padding-top: 1.3rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.7rem; }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.3rem;
-            background-color: var(--primary);
-            color: #04141a;
-            font-weight: 600;
-            font-size: 0.92rem;
-            text-decoration: none;
-            border-radius: var(--radius-s);
-            border: 1px solid transparent;
-            cursor: pointer;
-            text-align: center;
-            transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            padding: 0.75rem 1.3rem; background-color: var(--primary); color: #04141a; font-weight: 600;
+            font-size: 0.92rem; text-decoration: none; border-radius: var(--radius-s); border: 1px solid transparent;
+            cursor: pointer; text-align: center; transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s;
         }
         .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(33,230,255,0.25); filter: brightness(1.08); }
         .btn:active { transform: translateY(0); }
+        .btn:disabled { pointer-events: none; }
         .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--border-strong); }
         .btn-outline:hover { border-color: var(--primary); box-shadow: 0 8px 20px rgba(33,230,255,0.12); }
         .btn-danger { background-color: var(--error-color); color: #fff; }
@@ -191,7 +121,6 @@
         .btn-warning:hover { box-shadow: 0 8px 20px rgba(255,176,32,0.25); }
 
         #app-viewport { flex: 1; display: flex; flex-direction: column; position: relative; }
-
         main { flex: 1; padding: 3.5rem 8% 3rem; max-width: 1200px; margin: 0 auto; width: 100%; }
 
         .hero { text-align: center; margin-bottom: 3.5rem; animation: heroIn 0.7s cubic-bezier(.2,.8,.2,1) both; }
@@ -202,21 +131,8 @@
         .hero h1 { font-size: 2.5rem; color: var(--text-heading); margin-bottom: 0.7rem; letter-spacing: -0.02em; line-height: 1.15; }
         .hero p { color: var(--text-muted); max-width: 520px; margin: 0 auto; }
 
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
-        }
-        .nav-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 1.8rem 1.5rem;
-            border-radius: var(--radius-m);
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s, background 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
+        .nav-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+        .nav-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 1.8rem 1.5rem; border-radius: var(--radius-m); cursor: pointer; transition: transform 0.2s, border-color 0.2s, background 0.2s; position: relative; }
         .nav-card:hover { transform: translateY(-4px); border-color: var(--primary); background: var(--card-bg-hover); }
         .card-icon { width: 42px; height: 42px; border-radius: var(--radius-s); background: rgba(33,230,255,0.08); border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--primary); transition: background 0.2s, border-color 0.2s; }
         .nav-card:hover .card-icon { background: rgba(33,230,255,0.16); border-color: var(--primary); }
@@ -224,158 +140,87 @@
         .nav-card h3 { color: var(--text-heading); margin-bottom: 0.4rem; font-size: 1.05rem; }
         .nav-card p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* MODAL POPUP MİMARİSİ */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(4,6,9,0.82);
-            backdrop-filter: blur(6px);
-            display: none;
-            z-index: 3000;
-        }
-
-        .modal-popup {
-            background: var(--card-bg);
-            border: 1px solid var(--border-strong);
-            padding: 2rem;
-            border-radius: var(--radius-m);
-            width: 90%;
-            max-width: 480px;
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            max-height: 85vh;
-            overflow-y: auto;
-            touch-action: pan-y;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
-
-        .modal-header-drag {
-            padding: 0.9rem 1rem;
-            margin: -2rem -2rem 1.2rem -2rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid var(--border-color);
-            border-radius: var(--radius-m) var(--radius-m) 0 0;
-            cursor: move;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.6rem;
-            user-select: none;
-            touch-action: none;
-            color: var(--text-muted);
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(4,6,9,0.82); backdrop-filter: blur(6px); display: none; z-index: 3000; }
+        .modal-popup { background: var(--card-bg); border: 1px solid var(--border-strong); padding: 2rem; border-radius: var(--radius-m); width: 90%; max-width: 480px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-height: 85vh; overflow-y: auto; touch-action: pan-y; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .modal-header-drag { padding: 0.9rem 1rem; margin: -2rem -2rem 1.2rem -2rem; background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid var(--border-color); border-radius: var(--radius-m) var(--radius-m) 0 0; cursor: move; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; user-select: none; touch-action: none; color: var(--text-muted); }
         .modal-header-drag .drag-title { display: flex; align-items: center; gap: 0.6rem; color: var(--text-heading); font-weight: 600; }
 
         .fullscreen-view { display: none; padding: 2.5rem 8%; max-width: 1200px; margin: 0 auto; width: 100%; flex: 1; }
-
-        .view-header {
-            display: flex; align-items: center; gap: 0.7rem; justify-content: space-between;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1.1rem; margin-bottom: 2rem;
-        }
+        .view-header { display: flex; align-items: center; gap: 0.7rem; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 1.1rem; margin-bottom: 2rem; }
         .view-title { display: flex; align-items: center; gap: 0.7rem; color: var(--text-heading); font-size: 1.35rem; }
         .view-title .icon { width: 22px; height: 22px; color: var(--primary); }
+        .view-subtitle { color: var(--text-muted); font-size: 0.9rem; margin: -1.4rem 0 1.8rem; }
 
         .form-group { margin-bottom: 1.2rem; text-align: left; }
         .form-group label { display: block; color: var(--text-heading); font-size: 0.82rem; margin-bottom: 0.4rem; font-weight: 500; }
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%; padding: 0.75rem 0.9rem;
-            background: var(--bg-soft); border: 1px solid var(--border-color);
+            width: 100%; padding: 0.75rem 0.9rem; background: var(--bg-soft); border: 1px solid var(--border-color);
             border-radius: var(--radius-s); color: var(--text-main); font-family: inherit; font-size: 0.92rem;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(33,230,255,0.12);
-        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(33,230,255,0.12); }
+        .form-group input:disabled { opacity: 0.6; }
         .error-msg { color: var(--error-color); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
         .info-msg { color: var(--primary); font-size: 0.85rem; margin-top: 0.5rem; font-family: var(--font-mono); }
 
-        .filter-bar {
-            display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
-            background: var(--card-bg); padding: 1rem; border-radius: var(--radius-m);
-            border: 1px solid var(--border-color);
-        }
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; background: var(--card-bg); padding: 1rem; border-radius: var(--radius-m); border: 1px solid var(--border-color); }
         .search-wrap { position: relative; flex: 1; min-width: 180px; }
         .search-wrap .icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 17px; height: 17px; }
         .search-wrap input { padding-left: 2.4rem !important; }
-        .filter-bar input, .filter-bar select {
-            flex: 1; min-width: 180px; padding: 0.65rem 0.9rem;
-            background: var(--bg-soft); border: 1px solid var(--border-color);
-            color: var(--text-main); border-radius: var(--radius-s); font-size: 0.9rem;
-        }
+        .filter-bar input, .filter-bar select { flex: 1; min-width: 180px; padding: 0.65rem 0.9rem; background: var(--bg-soft); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-s); font-size: 0.9rem; }
 
         .data-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.4rem; }
-
-        .data-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-m);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
+        .data-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-m); overflow: hidden; display: flex; flex-direction: column; cursor: pointer; position: relative; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
         .data-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
-
-        .card-cover { width: 100%; height: 160px; object-fit: cover; background-color: #151b24; }
+        .cover-wrap { position: relative; overflow: hidden; }
+        .card-cover { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background-color: #151b24; display: block; transition: transform 0.4s ease; }
+        .data-card:hover .card-cover { transform: scale(1.07); }
+        .cover-badge { position: absolute; top: 0.6rem; left: 0.6rem; backdrop-filter: blur(6px); margin-bottom: 0 !important; }
         .card-body { padding: 1.2rem; display: flex; flex-direction: column; flex: 1; }
         .price-tag { color: var(--primary); font-weight: 800; font-size: 1.1rem; margin-top: auto; padding-top: 0.5rem; font-family: var(--font-mono); }
 
-        .badge {
-            display: inline-block; padding: 0.22rem 0.55rem; border-radius: 999px;
-            font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; width: fit-content;
-            font-family: var(--font-mono);
-        }
-        .badge-in-stock { background: rgba(52, 211, 153, 0.14); color: var(--success-color); border: 1px solid rgba(52, 211, 153, 0.4); }
-        .badge-out-stock { background: rgba(255, 79, 109, 0.14); color: var(--error-color); border: 1px solid rgba(255, 79, 109, 0.4); }
+        .badge { display: inline-block; padding: 0.22rem 0.55rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; width: fit-content; font-family: var(--font-mono); }
+        .badge-in-stock { background: rgba(52, 211, 153, 0.16); color: var(--success-color); border: 1px solid rgba(52, 211, 153, 0.4); }
+        .badge-out-stock { background: rgba(255, 79, 109, 0.16); color: var(--error-color); border: 1px solid rgba(255, 79, 109, 0.4); }
 
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(4,6,9,0.6); display: none; z-index: 2000; }
 
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 2rem 8%; text-align: center;
-            background-color: var(--bg-soft); position: relative; z-index: 100;
-            margin-top: auto;
-        }
+        footer { border-top: 1px solid var(--border-color); padding: 2rem 8%; text-align: center; background-color: var(--bg-soft); position: relative; z-index: 100; margin-top: auto; }
         .social-links { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
-        .social-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.55rem 1.1rem; border-radius: var(--radius-s);
-            border: 1px solid var(--border-color); color: var(--text-heading);
-            text-decoration: none; font-size: 0.85rem; background: var(--card-bg);
-            transition: border-color 0.15s, color 0.15s, transform 0.15s;
-        }
+        .social-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.1rem; border-radius: var(--radius-s); border: 1px solid var(--border-color); color: var(--text-heading); text-decoration: none; font-size: 0.85rem; background: var(--card-bg); transition: border-color 0.15s, color 0.15s, transform 0.15s; }
         .social-btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
 
-        .admin-badge {
-            display: inline-flex; align-items: center; gap: 0.3rem;
-            background-color: rgba(255,176,32,0.14);
-            color: var(--admin-color); font-weight: 700; border: 1px solid rgba(255,176,32,0.4);
-            padding: 0.15rem 0.5rem; border-radius: 999px;
-            font-size: 0.68rem; margin-left: 0.4rem; font-family: var(--font-mono);
-        }
+        .admin-badge { display: inline-flex; align-items: center; gap: 0.3rem; background-color: rgba(255,176,32,0.14); color: var(--admin-color); font-weight: 700; border: 1px solid rgba(255,176,32,0.4); padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.68rem; margin-left: 0.4rem; font-family: var(--font-mono); }
+        .msg-badge { background-color: rgba(255,79,109,0.16); color: var(--error-color); border-color: rgba(255,79,109,0.4); margin-left: auto; }
 
         .version-tag { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.5rem; display: block; font-family: var(--font-mono); }
 
-        .profile-header {
-            display: flex; align-items: center; gap: 1.5rem;
-            background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius-m);
-            border: 1px solid var(--border-color); margin-bottom: 2rem;
-        }
+        .profile-header { display: flex; align-items: center; gap: 1.5rem; background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius-m); border: 1px solid var(--border-color); margin-bottom: 2rem; }
         .profile-avatar-container { position: relative; width: 96px; height: 96px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primary); flex-shrink: 0; box-shadow: 0 0 0 4px rgba(33,230,255,0.08); }
         .profile-avatar { width: 100%; height: 100%; object-fit: cover; }
         .profile-avatar-upload { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(4,6,9,0.75); color: #fff; font-size: 0.62rem; text-align: center; padding: 4px 0; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem; }
 
         .news-inline-img { max-width: 100%; border-radius: var(--radius-s); margin: 1rem 0; border: 1px solid var(--border-color); }
+        .mini-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-strong); flex-shrink: 0; }
 
-        .mini-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-strong); }
+        .comments-section { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--border-color); }
+        .comments-section h4 { color: var(--text-heading); margin-bottom: 0.9rem; font-size: 0.95rem; }
+        .comment-item { display: flex; gap: 0.7rem; padding: 0.7rem 0; border-bottom: 1px solid var(--border-color); }
+        .comment-item:last-of-type { border-bottom: none; }
+        .comment-body { flex: 1; min-width: 0; }
+        .comment-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; flex-wrap: wrap; }
+        .comment-name { color: var(--text-heading); font-weight: 600; font-size: 0.85rem; }
+        .comment-date { color: var(--text-muted); font-size: 0.72rem; font-family: var(--font-mono); }
+        .comment-del { background: none; border: none; color: var(--error-color); font-size: 0.72rem; cursor: pointer; margin-left: auto; padding: 0.1rem 0.3rem; }
+        .comment-body p { color: var(--text-main); font-size: 0.87rem; line-height: 1.5; word-break: break-word; }
+        .comment-form { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+        .comment-form textarea { width: 100%; padding: 0.6rem 0.8rem; background: var(--bg-soft); border: 1px solid var(--border-color); border-radius: var(--radius-s); color: var(--text-main); font-family: inherit; font-size: 0.85rem; resize: vertical; }
+        .comment-login-note { color: var(--text-muted); font-size: 0.85rem; }
+        .comment-login-note a { color: var(--primary); }
     </style>
 </head>
 <body>
 
-    <!-- İKON KÜTÜPHANESİ (görünmez, <use> ile referans alınır) -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
         <defs>
             <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-5h2v5h4a1 1 0 0 0 1-1v-9"/></symbol>
@@ -393,6 +238,7 @@
             <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.4"/></symbol>
             <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 10v4a1 1 0 0 0 1 1h2l7 4V5L6 9H4a1 1 0 0 0-1 1Z"/><path d="M13 8a4 4 0 0 1 0 8"/><path d="M17 5a8 8 0 0 1 0 14"/></symbol>
             <symbol id="i-drag" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1.3" fill="currentColor" stroke="none"/></symbol>
+            <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 12h4l2 3h4l2-3h4"/><path d="M4 12 6 5h12l2 7"/><path d="M4 12v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-6"/></symbol>
         </defs>
     </svg>
 
@@ -405,9 +251,7 @@
             </svg>
             Fur<span>Tek</span>
         </a>
-        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menü">
-            <span></span><span></span><span></span>
-        </button>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
     </header>
 
     <div class="side-menu" id="sideMenu">
@@ -416,8 +260,12 @@
             <nav class="menu-links">
                 <a href="#" onclick="toggleMenu(); closeAllViews();"><svg class="icon"><use href="#i-home"/></svg> Ana Sayfa</a>
                 <a href="#" onclick="toggleMenu(); openModal('aboutModal');"><svg class="icon"><use href="#i-info"/></svg> Hakkında</a>
-                <a href="#" onclick="toggleMenu(); openModal('investModal');"><svg class="icon"><use href="#i-link"/></svg> Yatırım & İşbirliği</a>
+                <a href="#" onclick="toggleMenu(); openFullscreen('investView'); renderInvestments();"><svg class="icon"><use href="#i-link"/></svg> Yatırım & İşbirliği</a>
                 <a href="#" onclick="toggleMenu(); openFullscreen('newsView');"><svg class="icon"><use href="#i-bell"/></svg> Güncellemeler & Haberler</a>
+                <a href="#" onclick="toggleMenu(); openFullscreen('messagesView'); renderMessages();">
+                    <svg class="icon"><use href="#i-inbox"/></svg> Bildirimler & Mesajlar
+                    <span id="msgBadge" class="admin-badge msg-badge" style="display:none;"></span>
+                </a>
                 <a href="#" onclick="toggleMenu(); openFullscreen('productsView');"><svg class="icon"><use href="#i-box"/></svg> Ürünler</a>
                 <a href="#" onclick="toggleMenu(); openFullscreen('projectsView');"><svg class="icon"><use href="#i-gear"/></svg> Projeler</a>
                 <a href="#" id="profileMenuLink" style="display:none;" onclick="toggleMenu(); openFullscreen('profileView');"><svg class="icon"><use href="#i-user"/></svg> Profilim</a>
@@ -430,44 +278,36 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div id="app-viewport">
-        <!-- ANA SAYFA -->
         <main id="homeView">
             <div class="hero">
                 <span class="hero-eyebrow"><span class="dot"></span>Gömülü Sistemler · Otonom Araçlar · 3D Tasarım</span>
                 <h1>FurTek | Teknoloji & Proje Deposu</h1>
                 <p>Gömülü sistemler, 3D tasarımlar ve mühendislik projelerinin kişisel geliştirme alanı.</p>
             </div>
-
             <div class="nav-grid">
                 <div class="nav-card" onclick="openModal('aboutModal')">
                     <div class="card-icon"><svg class="icon"><use href="#i-info"/></svg></div>
-                    <h3>Hakkında</h3>
-                    <p>Geliştirici bilgileri ve platformun amacı.</p>
+                    <h3>Hakkında</h3><p>Geliştirici bilgileri ve platformun amacı.</p>
                 </div>
-                <div class="nav-card" onclick="openModal('investModal')">
+                <div class="nav-card" onclick="openFullscreen('investView'); renderInvestments();">
                     <div class="card-icon"><svg class="icon"><use href="#i-link"/></svg></div>
-                    <h3>Yatırım & İşbirliği</h3>
-                    <p>Projeler için doğrudan iletişim formu.</p>
+                    <h3>Yatırım & İşbirliği</h3><p>Yatırım bekleyen projeler ve doğrudan iletişim.</p>
                 </div>
                 <div class="nav-card" onclick="openFullscreen('newsView')">
                     <div class="card-icon"><svg class="icon"><use href="#i-bell"/></svg></div>
-                    <h3>Güncellemeler & Haberler</h3>
-                    <p>Geliştirme duyuruları ve sistem notları.</p>
+                    <h3>Güncellemeler & Haberler</h3><p>Geliştirme duyuruları ve sistem notları.</p>
                 </div>
                 <div class="nav-card" onclick="openFullscreen('productsView')">
                     <div class="card-icon"><svg class="icon"><use href="#i-box"/></svg></div>
-                    <h3>Ürünler</h3>
-                    <p>Özel tasarımlar ve ürün kataloğu.</p>
+                    <h3>FurTek E-Shop</h3><p>Özel tasarımlar ve ürün kataloğu.</p>
                 </div>
                 <div class="nav-card" onclick="openFullscreen('projectsView')">
                     <div class="card-icon"><svg class="icon"><use href="#i-gear"/></svg></div>
-                    <h3>Projeler</h3>
-                    <p>Proje detayları, STL ve C++ kod depoları.</p>
+                    <h3>Projeler</h3><p>Proje detayları, STL ve C++ kod depoları.</p>
                 </div>
             </div>
         </main>
 
-        <!-- TAM EKRAN BÖLÜMLER -->
         <div class="fullscreen-view" id="newsView">
             <div class="view-header">
                 <h2 class="view-title"><svg class="icon"><use href="#i-bell"/></svg>Güncellemeler & Haberler</h2>
@@ -478,9 +318,10 @@
 
         <div class="fullscreen-view" id="productsView">
             <div class="view-header">
-                <h2 class="view-title"><svg class="icon"><use href="#i-box"/></svg>Ürün Kataloğu</h2>
+                <h2 class="view-title"><svg class="icon"><use href="#i-box"/></svg>FurTek E-Shop</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
+            <p class="view-subtitle">Gerçek zamanlı stok takibiyle ESP32 kartları, sensörler ve özel tasarım donanımlar.</p>
             <div class="filter-bar">
                 <div class="search-wrap">
                     <svg class="icon"><use href="#i-search"/></svg>
@@ -508,6 +349,32 @@
             <div class="data-grid" id="projectsContainer"></div>
         </div>
 
+        <div class="fullscreen-view" id="investView">
+            <div class="view-header">
+                <h2 class="view-title"><svg class="icon"><use href="#i-link"/></svg>Yatırım & İşbirliği</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
+            </div>
+            <p class="view-subtitle">Aktif olarak yatırım/sponsor arayan projeler ve genel iletişim formu.</p>
+            <div class="data-grid" id="investmentsContainer"></div>
+            <div class="data-card" style="padding: 1.6rem; margin-top: 2.2rem; cursor:default;">
+                <h3 style="color:#fff; margin-bottom: 1rem;">Doğrudan İletişime Geç</h3>
+                <form onsubmit="sendDirectEmail(event)">
+                    <div class="form-group"><label>Adınız / Kurum</label><input type="text" id="contactName" required placeholder="Adınız veya Kurum Adı"></div>
+                    <div class="form-group"><label>E-posta Adresiniz</label><input type="email" id="contactEmail" required placeholder="ornek@email.com"></div>
+                    <div class="form-group"><label>Mesajınız</label><textarea id="contactMessage" rows="3" required placeholder="Mesajınızı yazın..."></textarea></div>
+                    <button type="submit" class="btn" style="width: 100%;"><svg class="icon"><use href="#i-mail"/></svg> E-posta İle Gönder</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="fullscreen-view" id="messagesView">
+            <div class="view-header">
+                <h2 class="view-title"><svg class="icon"><use href="#i-inbox"/></svg>Bildirimler & Mesajlar</h2>
+                <button class="close-btn" onclick="closeAllViews()">&times;</button>
+            </div>
+            <div class="data-grid" id="messagesContainer"></div>
+        </div>
+
         <div class="fullscreen-view" id="itemDetailView">
             <div class="view-header">
                 <h2 id="detailHeaderTitle" class="view-title">Detaylar</h2>
@@ -516,7 +383,6 @@
             <div class="detail-view-container" id="detailContentContainer"></div>
         </div>
 
-        <!-- PROFİL BÖLÜMÜ -->
         <div class="fullscreen-view" id="profileView">
             <div class="view-header">
                 <h2 class="view-title"><svg class="icon"><use href="#i-user"/></svg>Kullanıcı Profili</h2>
@@ -533,54 +399,30 @@
                     <p id="profileEmail" style="color:var(--text-muted); font-size:0.85rem;">-</p>
                 </div>
             </div>
-
             <div class="data-card" style="padding: 1.5rem; cursor:default;">
                 <h3 style="color:#fff; margin-bottom: 1rem;">Profil Bilgilerini Düzenle</h3>
                 <form onsubmit="saveProfile(event)">
-                    <div class="form-group">
-                        <label>Görünen İsim</label>
-                        <input type="text" id="editDisplayName" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Hakkımda / Açıklama</label>
-                        <textarea id="editBio" rows="3" placeholder="Kendinizden veya ilgi alanlarınızdan bahsedin..."></textarea>
-                    </div>
+                    <div class="form-group"><label>Görünen İsim</label><input type="text" id="editDisplayName" required></div>
+                    <div class="form-group"><label>Hakkımda / Açıklama</label><textarea id="editBio" rows="3" placeholder="Kendinizden veya ilgi alanlarınızdan bahsedin..."></textarea></div>
                     <button type="submit" class="btn">Değişiklikleri Kaydet</button>
                 </form>
             </div>
         </div>
 
-        <!-- ADMIN PANELİ -->
         <div class="fullscreen-view" id="adminView">
             <div class="view-header">
                 <h2 class="view-title" style="color:var(--admin-color);"><svg class="icon" style="color:var(--admin-color)"><use href="#i-shield"/></svg>Admin Yönetim Paneli</h2>
                 <button class="close-btn" onclick="closeAllViews()">&times;</button>
             </div>
-
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                 <div class="data-card" style="padding: 1.2rem; cursor:default;">
                     <h3 style="color:#fff; margin-bottom: 1rem; display:flex; align-items:center; gap:0.5rem;"><svg class="icon" style="color:var(--admin-color)"><use href="#i-gear"/></svg>Yeni Proje Ekle</h3>
                     <form onsubmit="addProject(event)">
-                        <div class="form-group">
-                            <label>Proje Adı</label>
-                            <input type="text" id="adminProjTitle" required placeholder="Örn: Tuygun İHA System V2">
-                        </div>
-                        <div class="form-group">
-                            <label>Kapak Görseli</label>
-                            <input type="file" id="adminProjImg" accept="image/*" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Açıklama (Kısa)</label>
-                            <textarea id="adminProjDesc" rows="2" required placeholder="Kısa özet açıklama"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Detaylı Açıklama (Uzun)</label>
-                            <textarea id="adminProjLongDesc" rows="3" required placeholder="Projenin tüm detayları..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>GitHub / Bağlantı Linki</label>
-                            <input type="url" id="adminProjLink" required placeholder="https://github.com/...">
-                        </div>
+                        <div class="form-group"><label>Proje Adı</label><input type="text" id="adminProjTitle" required placeholder="Örn: Tuygun İHA System V2"></div>
+                        <div class="form-group"><label>Kapak Görseli</label><input type="file" id="adminProjImg" accept="image/*" required></div>
+                        <div class="form-group"><label>Açıklama (Kısa)</label><textarea id="adminProjDesc" rows="2" required placeholder="Kısa özet açıklama"></textarea></div>
+                        <div class="form-group"><label>Detaylı Açıklama (Uzun)</label><textarea id="adminProjLongDesc" rows="3" required placeholder="Projenin tüm detayları..."></textarea></div>
+                        <div class="form-group"><label>GitHub / Bağlantı Linki</label><input type="url" id="adminProjLink" required placeholder="https://github.com/..."></div>
                         <button type="submit" class="btn btn-warning" style="width: 100%;">Proje Yayınla</button>
                     </form>
                 </div>
@@ -588,56 +430,44 @@
                 <div class="data-card" style="padding: 1.2rem; cursor:default;">
                     <h3 style="color:#fff; margin-bottom: 1rem; display:flex; align-items:center; gap:0.5rem;"><svg class="icon" style="color:var(--admin-color)"><use href="#i-box"/></svg>Yeni Ürün Ekle</h3>
                     <form onsubmit="addProduct(event)">
-                        <div class="form-group">
-                            <label>Ürün Adı</label>
-                            <input type="text" id="adminProdName" required placeholder="Örn: ESP32-S3 Kontrol Kartı">
-                        </div>
-                        <div class="form-group">
-                            <label>Kapak Görseli</label>
-                            <input type="file" id="adminProdImg" accept="image/*" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Diğer Görseller (Çoklu)</label>
-                            <input type="file" id="adminProdGalleryImg" accept="image/*" multiple>
-                        </div>
-                        <div class="form-group">
-                            <label>Fiyat (TL)</label>
-                            <input type="number" id="adminProdPrice" required placeholder="450">
-                        </div>
-                        <div class="form-group">
-                            <label>Stok Durumu</label>
+                        <div class="form-group"><label>Ürün Adı</label><input type="text" id="adminProdName" required placeholder="Örn: ESP32-S3 Kontrol Kartı"></div>
+                        <div class="form-group"><label>Kapak Görseli</label><input type="file" id="adminProdImg" accept="image/*" required></div>
+                        <div class="form-group"><label>Diğer Görseller (Çoklu)</label><input type="file" id="adminProdGalleryImg" accept="image/*" multiple></div>
+                        <div class="form-group"><label>Fiyat (TL)</label><input type="number" id="adminProdPrice" required placeholder="450"></div>
+                        <div class="form-group"><label>Stok Durumu</label>
                             <select id="adminProdStock">
                                 <option value="Stokta Var">Stokta Var</option>
                                 <option value="Stokta Yok">Stokta Yok</option>
                                 <option value="Ön Sipariş">Ön Sipariş</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Kısa Açıklama</label>
-                            <textarea id="adminProdDesc" rows="2" required placeholder="Kısa tanıtım yazısı"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Uzun Detaylı Açıklama</label>
-                            <textarea id="adminProdLongDesc" rows="3" required placeholder="Teknik özellikler..."></textarea>
-                        </div>
+                        <div class="form-group"><label>Kısa Açıklama</label><textarea id="adminProdDesc" rows="2" required placeholder="Kısa tanıtım yazısı"></textarea></div>
+                        <div class="form-group"><label>Uzun Detaylı Açıklama</label><textarea id="adminProdLongDesc" rows="3" required placeholder="Teknik özellikler..."></textarea></div>
                         <button type="submit" class="btn btn-warning" style="width: 100%;">Ürün Ekle</button>
                     </form>
                 </div>
 
                 <div class="data-card" style="padding: 1.2rem; cursor:default;">
                     <h3 style="color:#fff; margin-bottom: 1rem; display:flex; align-items:center; gap:0.5rem;"><svg class="icon" style="color:var(--admin-color)"><use href="#i-megaphone"/></svg>Yeni Haber Ekle</h3>
-                    <p style="font-size:0.75rem; color:var(--primary); margin-bottom:0.5rem;">İpucu: Metin içine görsel eklemek için <b>{@i</b> yazıp boşluk bırakın.</p>
+                    <p style="font-size:0.75rem; color:var(--primary); margin-bottom:0.5rem;">İpucu: Metin içine görsel eklemek için <b>{@i</b> yazıp boşluk bırakın (metin içinde artık sadece kısa bir etiket görünür).</p>
                     <form onsubmit="addNews(event)">
-                        <div class="form-group">
-                            <label>Haber Başlığı</label>
-                            <input type="text" id="adminNewsTitle" required placeholder="Başlık girin">
-                        </div>
-                        <div class="form-group">
-                            <label>İçerik</label>
-                            <textarea id="adminNewsContent" rows="5" required placeholder="Haber detaylarını girin..." oninput="checkImageCommand(this)"></textarea>
-                        </div>
+                        <div class="form-group"><label>Haber Başlığı</label><input type="text" id="adminNewsTitle" required placeholder="Başlık girin"></div>
+                        <div class="form-group"><label>İçerik</label><textarea id="adminNewsContent" rows="5" required placeholder="Haber detaylarını girin..." oninput="checkImageCommand(this)"></textarea></div>
                         <button type="submit" class="btn btn-warning" style="width: 100%;">Haber Yayınla</button>
                     </form>
+                </div>
+
+                <div class="data-card" style="padding: 1.2rem; cursor:default;">
+                    <h3 style="color:#fff; margin-bottom: 1rem; display:flex; align-items:center; gap:0.5rem;"><svg class="icon" style="color:var(--admin-color)"><use href="#i-link"/></svg>Yatırım Projesi Ekle / Düzenle</h3>
+                    <form onsubmit="addInvestment(event)">
+                        <div class="form-group"><label>Proje Adı</label><input type="text" id="adminInvTitle" required placeholder="Örn: Seri Üretim Hattı"></div>
+                        <div class="form-group"><label>Kapak Görseli</label><input type="file" id="adminInvImg" accept="image/*" required></div>
+                        <div class="form-group"><label>Kısa Açıklama</label><textarea id="adminInvDesc" rows="2" required placeholder="Kısa özet"></textarea></div>
+                        <div class="form-group"><label>Detaylı Açıklama</label><textarea id="adminInvLongDesc" rows="3" required placeholder="Proje detayları, kullanım alanı vb."></textarea></div>
+                        <div class="form-group"><label>Hedef / Durum Etiketi</label><input type="text" id="adminInvGoal" placeholder="Örn: 150.000 TL destek aranıyor"></div>
+                        <button type="submit" id="adminInvSubmitBtn" class="btn btn-warning" style="width: 100%;">Yatırım Projesi Yayınla</button>
+                    </form>
+                    <div class="data-grid" id="adminInvestmentsContainer" style="margin-top:1.2rem;"></div>
                 </div>
             </div>
         </div>
@@ -649,10 +479,9 @@
             <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="social-btn"><svg class="icon"><use href="#i-code"/></svg> Kaynak Kodu</a>
         </div>
         <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
-        <span class="version-tag">Sürüm: v2.6.0 (Eylül 2026)</span>
+        <span class="version-tag">Sürüm: v2.7.0 (Eylül 2026)</span>
     </footer>
 
-    <!-- POPUP MODALLAR -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-popup">
             <div class="modal-header-drag">
@@ -663,30 +492,6 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="investModal">
-        <div class="modal-popup">
-            <div class="modal-header-drag">
-                <span class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Yatırım & İşbirliği (Sürükle)</span>
-                <button class="close-btn" onclick="closeModal('investModal')">&times;</button>
-            </div>
-            <form onsubmit="sendDirectEmail(event)" style="margin-top: 1rem;">
-                <div class="form-group">
-                    <label>Adınız / Kurum</label>
-                    <input type="text" id="contactName" required placeholder="Adınız veya Kurum Adı">
-                </div>
-                <div class="form-group">
-                    <label>E-posta Adresiniz</label>
-                    <input type="email" id="contactEmail" required placeholder="ornek@email.com">
-                </div>
-                <div class="form-group">
-                    <label>Mesajınız</label>
-                    <textarea id="contactMessage" rows="3" required placeholder="Mesajınızı yazın..."></textarea>
-                </div>
-                <button type="submit" class="btn" style="width: 100%;"><svg class="icon"><use href="#i-mail"/></svg> E-posta İle Gönder</button>
-            </form>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="authModal">
         <div class="modal-popup">
             <div class="modal-header-drag">
@@ -694,23 +499,29 @@
                 <button class="close-btn" onclick="closeModal('authModal')">&times;</button>
             </div>
             <form id="authForm" onsubmit="handleAuth(event)" style="margin-top: 1rem;">
-                <div class="form-group">
-                    <label>E-posta Adresi</label>
-                    <input type="email" id="authEmail" placeholder="ornek@furtek.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Şifre</label>
-                    <input type="password" id="authPassword" placeholder="******" required>
-                </div>
-
+                <div class="form-group"><label>E-posta Adresi</label><input type="email" id="authEmail" placeholder="ornek@furtek.com" required></div>
+                <div class="form-group"><label>Şifre</label><input type="password" id="authPassword" placeholder="******" required></div>
                 <div class="form-group" id="otpGroup" style="display:none;">
                     <label style="color: var(--primary);">E-posta Doğrulama Kodu</label>
                     <input type="text" id="otpCodeInput" placeholder="6 Haneli Kod" maxlength="6">
                     <div class="info-msg" id="otpNotice"></div>
                 </div>
-
                 <div class="error-msg" id="errorMsg"></div>
                 <button type="submit" id="authSubmitBtn" class="btn" style="width: 100%; margin-top: 1rem;">Devam Et</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="purchaseModal">
+        <div class="modal-popup">
+            <div class="modal-header-drag">
+                <span class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Satın Alma Talebi</span>
+                <button class="close-btn" onclick="closeModal('purchaseModal')">&times;</button>
+            </div>
+            <form onsubmit="submitPurchaseRequest(event)" style="margin-top: 1rem;">
+                <div class="form-group"><label>Ürün</label><input type="text" id="purchaseProductName" disabled></div>
+                <div class="form-group"><label>Not / Adet / Teslimat Bilgisi</label><textarea id="purchaseNote" rows="3" required placeholder="Adet, teslimat adresi veya sorularınızı yazın..."></textarea></div>
+                <button type="submit" class="btn" style="width: 100%;">Talebi Gönder</button>
             </form>
         </div>
     </div>
@@ -720,8 +531,8 @@
     <script>
         const JSONBIN_BIN_ID = "";
         const JSONBIN_API_KEY = "";
-
         const ADMIN_EMAIL = "furtek.official@gmail.com";
+
         const placeholderImg = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%22300%22%20height%3D%22180%22%20fill%3D%22%23131a24%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%237f8ea3%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%3EFurTek%20G%C3%B6rsel%3C%2Ftext%3E%3C%2Fsvg%3E";
         const placeholderAvatar = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22100%22%20height%3D%22100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23131a24%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2238%22%20r%3D%2218%22%20fill%3D%22%232c3a4d%22%2F%3E%3Cpath%20d%3D%22M20%2090c6-18%2020-28%2030-28s24%2010%2030%2028%22%20fill%3D%22%232c3a4d%22%2F%3E%3C%2Fsvg%3E";
 
@@ -731,16 +542,24 @@
                 { id: 1, title: "FAKA 2 & Tuygun Otonom Hava Aracı", cover: placeholderImg, desc: "ESP32-S3 tabanlı LoRa telemetri ve uçuş sistemleri.", longDesc: "Tuygun Otonom İHA projesi...", link: "https://github.com/FurTek-Official/FurTek" }
             ],
             products: [
-                { id: 1, name: "Özel Kontrol Kartı V1", cover: placeholderImg, gallery: [], desc: "ESP32-S3 tabanlı kart.", longDesc: "Gelişmiş devre kartı...", price: 450, stock: "Stokta Var" }
+                { id: 1, name: "Özel Kontrol Kartı V1", cover: placeholderImg, gallery: [], desc: "ESP32-S3 tabanlı kart.", longDesc: "Gelişmiş devre kartı...", price: 450, stock: "Stokta Var", comments: [] }
+            ],
+            investments: [
+                { id: 1, title: "Tuygun Otonom İHA — Seri Üretim", cover: placeholderImg, desc: "Seri üretime geçiş için sponsor/yatırımcı aranıyor.", longDesc: "Saha testleri tamamlanan Tuygun otonom hava aracı projesinde seri üretime geçiş için parça tedariği ve üretim hattı desteği aranıyor.", goal: "Hedeflenen Destek: 150.000 TL" }
             ],
             news: [
-                { id: 1, date: "29 AĞUSTOS 2026", title: "v2.6.0 Arayüz Yenileme Güncellemesi", content: "Site arayüzü modern vektör ikonlarla, yeni logo ve düzeltilmiş hamburger menü ile güncellendi." }
-            ]
+                { id: 1, date: "29 AĞUSTOS 2026", title: "v2.7.0 Topluluk Güncellemesi", content: "Ürün ve haberlere yorum yapabilme, admin mesaj kutusu ve yatırım proje yönetimi eklendi.", images: {}, comments: [] }
+            ],
+            messages: []
         };
 
         let currentAuthType = 'login';
         let generatedOTP = null;
         let activeNewsTextarea = null;
+        let activeNewsImages = {};
+        let newsImageCounter = 0;
+        let editingInvestmentId = null;
+        let currentPurchaseProductId = null;
 
         window.onload = async function() {
             await loadDatabase();
@@ -748,56 +567,39 @@
             renderProjects();
             renderNews();
             renderProducts();
+            renderInvestments();
+            updateMessageBadge();
             makeModalsDraggable();
         };
 
-        /* SORUNSUZ SÜRÜKLEME (DRAG & DROP) MOTORU */
         function makeModalsDraggable() {
             document.querySelectorAll('.modal-popup').forEach(modal => {
                 const header = modal.querySelector('.modal-header-drag');
                 if (!header) return;
-
-                let isDragging = false;
-                let startX, startY, initialLeft, initialTop;
-
+                let isDragging = false, startX, startY, initialLeft, initialTop;
                 const onStart = (e) => {
                     if (e.target.closest('.close-btn')) return;
-
                     isDragging = true;
                     const pageX = e.touches ? e.touches[0].clientX : e.clientX;
                     const pageY = e.touches ? e.touches[0].clientY : e.clientY;
-
                     const rect = modal.getBoundingClientRect();
-                    initialLeft = rect.left;
-                    initialTop = rect.top;
-
-                    startX = pageX;
-                    startY = pageY;
-
+                    initialLeft = rect.left; initialTop = rect.top;
+                    startX = pageX; startY = pageY;
                     modal.style.transform = 'none';
                     modal.style.left = initialLeft + 'px';
                     modal.style.top = initialTop + 'px';
                 };
-
                 const onMove = (e) => {
                     if (!isDragging) return;
-
                     const pageX = e.touches ? e.touches[0].clientX : e.clientX;
                     const pageY = e.touches ? e.touches[0].clientY : e.clientY;
-
-                    const dx = pageX - startX;
-                    const dy = pageY - startY;
-
-                    modal.style.left = (initialLeft + dx) + 'px';
-                    modal.style.top = (initialTop + dy) + 'px';
+                    modal.style.left = (initialLeft + (pageX - startX)) + 'px';
+                    modal.style.top = (initialTop + (pageY - startY)) + 'px';
                 };
-
                 const onEnd = () => { isDragging = false; };
-
                 header.addEventListener('mousedown', onStart);
                 document.addEventListener('mousemove', onMove);
                 document.addEventListener('mouseup', onEnd);
-
                 header.addEventListener('touchstart', onStart, { passive: true });
                 document.addEventListener('touchmove', onMove, { passive: true });
                 document.addEventListener('touchend', onEnd);
@@ -807,22 +609,16 @@
         async function loadDatabase() {
             if (JSONBIN_BIN_ID && JSONBIN_API_KEY) {
                 try {
-                    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-                        headers: { 'X-Master-Key': JSONBIN_API_KEY }
-                    });
+                    const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, { headers: { 'X-Master-Key': JSONBIN_API_KEY } });
                     const data = await res.json();
-                    if (data.record) {
-                        db = data.record;
-                        saveLocalDB();
-                        return;
-                    }
-                } catch(e) {
-                    console.log("Bulut verisi alınamadı, yerel depolama kullanılıyor.");
-                }
+                    if (data.record) { db = data.record; saveLocalDB(); return; }
+                } catch(e) { console.log("Bulut verisi alınamadı, yerel depolama kullanılıyor."); }
             }
             const local = localStorage.getItem('furtek_db');
             if (local) db = JSON.parse(local);
             else saveLocalDB();
+            db.messages = db.messages || [];
+            db.investments = db.investments || [];
         }
 
         async function syncDatabase() {
@@ -831,28 +627,42 @@
                 try {
                     await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
                         method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Master-Key': JSONBIN_API_KEY
-                        },
+                        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
                         body: JSON.stringify(db)
                     });
-                } catch(e) {
-                    console.error("Bulut senkronizasyon hatası:", e);
-                }
+                } catch(e) { console.error("Bulut senkronizasyon hatası:", e); }
             }
         }
 
         function saveLocalDB() {
-            localStorage.setItem('furtek_db', JSON.stringify(db));
+            try {
+                localStorage.setItem('furtek_db', JSON.stringify(db));
+            } catch (e) {
+                console.error(e);
+                alert('Kaydetme başarısız oldu: tarayıcı depolama alanı dolu olabilir. Lütfen daha küçük görseller kullanın veya eski içerikleri silin.');
+            }
         }
 
-        function fileToBase64(file) {
+        // Görselleri sıkıştırıp küçültür (depolama taşmasını ve "yayınlanmıyor" sorununu önler)
+        function resizeImage(file, maxWidth = 900, quality = 0.72) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > maxWidth) { height = Math.round(height * (maxWidth / width)); width = maxWidth; }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
                 reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
             });
         }
 
@@ -867,11 +677,7 @@
         function openModal(id) {
             const overlay = document.getElementById(id);
             const popup = overlay.querySelector('.modal-popup');
-
-            popup.style.top = '50%';
-            popup.style.left = '50%';
-            popup.style.transform = 'translate(-50%, -50%)';
-
+            popup.style.top = '50%'; popup.style.left = '50%'; popup.style.transform = 'translate(-50%, -50%)';
             overlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
@@ -889,8 +695,7 @@
         }
 
         function closeAllViews() {
-            const views = document.querySelectorAll('.fullscreen-view');
-            views.forEach(v => v.style.display = 'none');
+            document.querySelectorAll('.fullscreen-view').forEach(v => v.style.display = 'none');
             document.getElementById('homeView').style.display = 'block';
             document.body.style.overflow = '';
         }
@@ -905,9 +710,12 @@
         async function handleInlineImageUpload(e) {
             const file = e.target.files[0];
             if (file && activeNewsTextarea) {
-                const base64 = await fileToBase64(file);
+                const base64 = await resizeImage(file, 700, 0.7);
+                newsImageCounter++;
+                const token = 'n' + Date.now() + newsImageCounter;
+                activeNewsImages[token] = base64;
                 const currentText = activeNewsTextarea.value;
-                activeNewsTextarea.value = currentText.replace(/\{@i\s$/, `\n[img:${base64}]\n`);
+                activeNewsTextarea.value = currentText.replace(/\{@i\s$/, `\n[img:${token}]\n`);
             }
             e.target.value = '';
         }
@@ -916,12 +724,10 @@
             currentAuthType = type;
             generatedOTP = null;
             if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
-
             document.getElementById('errorMsg').style.display = 'none';
             document.getElementById('otpGroup').style.display = (type === 'register') ? 'block' : 'none';
             document.getElementById('modalTitle').innerHTML = '<svg class="icon"><use href="#i-drag"/></svg>' + ((type === 'login') ? 'Giriş Yap (Sürükle)' : 'Kayıt Ol (Sürükle)');
             document.getElementById('authSubmitBtn').innerText = (type === 'login') ? 'Giriş Yap' : 'Kodu Onayla & Kaydol';
-
             openModal('authModal');
         }
 
@@ -932,7 +738,6 @@
 
             if (currentAuthType === 'register') {
                 if (db.users[email]) { showError('Bu e-posta zaten kayıtlı!'); return; }
-
                 if (!generatedOTP) {
                     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                     document.getElementById('otpNotice').innerText = `Test Onay Kodunuz: ${generatedOTP}`;
@@ -940,30 +745,18 @@
                     alert(`Doğrulama kodunuz oluşturuldu: ${generatedOTP}`);
                     return;
                 }
-
                 const userOTP = document.getElementById('otpCodeInput').value.trim();
                 if (userOTP !== generatedOTP) { showError('Doğrulama kodu hatalı!'); return; }
 
                 const defaultName = email === ADMIN_EMAIL ? "FurTek Admin" : email.split('@')[0];
-                db.users[email] = {
-                    password: password,
-                    displayName: defaultName,
-                    bio: 'FurTek üyesi',
-                    avatar: placeholderAvatar,
-                    isAdmin: (email === ADMIN_EMAIL)
-                };
-
+                db.users[email] = { password, displayName: defaultName, bio: 'FurTek üyesi', avatar: placeholderAvatar, isAdmin: (email === ADMIN_EMAIL) };
                 await syncDatabase();
                 localStorage.setItem('furtek_active_user', email);
                 alert('Kayıt başarıyla tamamlandı!');
             } else {
-                if (!db.users[email] || db.users[email].password !== password) {
-                    showError('E-posta veya şifre hatalı!');
-                    return;
-                }
+                if (!db.users[email] || db.users[email].password !== password) { showError('E-posta veya şifre hatalı!'); return; }
                 localStorage.setItem('furtek_active_user', email);
             }
-
             closeModal('authModal');
             checkActiveSession();
         }
@@ -1005,6 +798,7 @@
                     <button class="btn" onclick="openAuthModal('register')">Kayıt Ol</button>
                 `;
             }
+            updateMessageBadge();
         }
 
         function logout() {
@@ -1018,10 +812,8 @@
             e.preventDefault();
             const activeEmail = localStorage.getItem('furtek_active_user');
             if (!activeEmail || !db.users[activeEmail]) return;
-
             db.users[activeEmail].displayName = document.getElementById('editDisplayName').value.trim();
             db.users[activeEmail].bio = document.getElementById('editBio').value.trim();
-
             await syncDatabase();
             checkActiveSession();
             alert('Profil güncellendi!');
@@ -1031,7 +823,7 @@
             const file = e.target.files[0];
             const activeEmail = localStorage.getItem('furtek_active_user');
             if (file && activeEmail && db.users[activeEmail]) {
-                const base64 = await fileToBase64(file);
+                const base64 = await resizeImage(file, 400, 0.8);
                 db.users[activeEmail].avatar = base64;
                 await syncDatabase();
                 checkActiveSession();
@@ -1044,6 +836,7 @@
             errorMsg.style.display = 'block';
         }
 
+        /* ---------- PROJELER ---------- */
         async function addProject(e) {
             e.preventDefault();
             const title = document.getElementById('adminProjTitle').value.trim();
@@ -1051,10 +844,8 @@
             const longDesc = document.getElementById('adminProjLongDesc').value.trim();
             const link = document.getElementById('adminProjLink').value.trim();
             const imgFile = document.getElementById('adminProjImg').files[0];
-
-            let coverBase64 = imgFile ? await fileToBase64(imgFile) : placeholderImg;
+            let coverBase64 = imgFile ? await resizeImage(imgFile) : placeholderImg;
             db.projects.unshift({ id: Date.now(), title, cover: coverBase64, desc, longDesc, link });
-
             await syncDatabase();
             alert('Proje eklendi!');
             e.target.reset();
@@ -1072,16 +863,11 @@
             const container = document.getElementById('projectsContainer');
             const activeEmail = localStorage.getItem('furtek_active_user');
             const isAdmin = (activeEmail === ADMIN_EMAIL);
-
-            if (db.projects.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted);">Henüz proje bulunmuyor.</p>';
-                return;
-            }
-
+            if (db.projects.length === 0) { container.innerHTML = '<p style="color:var(--text-muted);">Henüz proje bulunmuyor.</p>'; return; }
             container.innerHTML = db.projects.map(item => `
                 <div class="data-card" onclick="openProjectDetail(${item.id})">
                     ${isAdmin ? `<button onclick="deleteProject(${item.id}, event)" class="btn btn-danger" style="position:absolute; top:10px; right:10px; z-index:5; padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
-                    <img src="${item.cover}" class="card-cover" alt="${item.title}">
+                    <div class="cover-wrap"><img src="${item.cover}" class="card-cover" alt="${item.title}"></div>
                     <div class="card-body">
                         <h3 style="color:#fff; font-size:1.1rem; margin-bottom:0.4rem;">${item.title}</h3>
                         <p style="font-size:0.85rem; color:var(--text-muted);">${item.desc}</p>
@@ -1093,20 +879,17 @@
         function openProjectDetail(id) {
             const item = db.projects.find(p => p.id === id);
             if (!item) return;
-
             document.getElementById('detailHeaderTitle').innerText = item.title;
-            const container = document.getElementById('detailContentContainer');
-
-            container.innerHTML = `
+            document.getElementById('detailContentContainer').innerHTML = `
                 <img src="${item.cover}" class="detail-main-img" alt="${item.title}">
                 <h1 style="color:#fff; margin-bottom:1rem;">${item.title}</h1>
                 <div style="color:var(--text-main); font-size:1rem; line-height:1.6; margin-bottom:2rem; white-space:pre-line;">${item.longDesc || item.desc}</div>
                 <a href="${item.link}" target="_blank" class="btn"><svg class="icon"><use href="#i-code"/></svg> Kaynak Kodu / GitHub</a>
             `;
-
             openFullscreen('itemDetailView');
         }
 
+        /* ---------- ÜRÜNLER ---------- */
         async function addProduct(e) {
             e.preventDefault();
             const name = document.getElementById('adminProdName').value.trim();
@@ -1117,11 +900,10 @@
             const coverFile = document.getElementById('adminProdImg').files[0];
             const galleryFiles = document.getElementById('adminProdGalleryImg').files;
 
-            let coverBase64 = coverFile ? await fileToBase64(coverFile) : placeholderImg;
-            let galleryBase64 = galleryFiles.length > 0 ? await Promise.all(Array.from(galleryFiles).map(f => fileToBase64(f))) : [];
+            let coverBase64 = coverFile ? await resizeImage(coverFile) : placeholderImg;
+            let galleryBase64 = galleryFiles.length > 0 ? await Promise.all(Array.from(galleryFiles).map(f => resizeImage(f, 900, 0.7))) : [];
 
-            db.products.unshift({ id: Date.now(), name, cover: coverBase64, gallery: galleryBase64, price, stock, desc, longDesc });
-
+            db.products.unshift({ id: Date.now(), name, cover: coverBase64, gallery: galleryBase64, price, stock, desc, longDesc, comments: [] });
             await syncDatabase();
             alert('Ürün eklendi!');
             e.target.reset();
@@ -1147,22 +929,20 @@
 
             if (searchInput) list = list.filter(p => p.name.toLowerCase().includes(searchInput) || p.desc.toLowerCase().includes(searchInput));
             if (stockFilter !== 'all') list = list.filter(p => p.stock === stockFilter);
-
             if (sortOrder === 'priceAsc') list.sort((a, b) => a.price - b.price);
             else if (sortOrder === 'priceDesc') list.sort((a, b) => b.price - a.price);
             else list.sort((a, b) => b.id - a.id);
 
-            if (list.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Ürün bulunamadı.</p>';
-                return;
-            }
+            if (list.length === 0) { container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Ürün bulunamadı.</p>'; return; }
 
             container.innerHTML = list.map(item => `
                 <div class="data-card" onclick="openProductDetail(${item.id})">
                     ${isAdmin ? `<button onclick="deleteProduct(${item.id}, event)" class="btn btn-danger" style="position:absolute; top:10px; right:10px; z-index:5; padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
-                    <img src="${item.cover}" class="card-cover" alt="${item.name}">
+                    <div class="cover-wrap">
+                        <img src="${item.cover}" class="card-cover" alt="${item.name}">
+                        <span class="badge cover-badge ${item.stock === 'Stokta Var' ? 'badge-in-stock' : 'badge-out-stock'}">${item.stock}</span>
+                    </div>
                     <div class="card-body">
-                        <span class="badge ${item.stock === 'Stokta Var' ? 'badge-in-stock' : 'badge-out-stock'}">${item.stock}</span>
                         <h4 style="color:#fff; font-size:1.05rem; margin-bottom:0.4rem;">${item.name}</h4>
                         <p style="font-size:0.8rem; color:var(--text-muted);">${item.desc}</p>
                         <div class="price-tag">₺${item.price}</div>
@@ -1174,6 +954,7 @@
         function openProductDetail(id) {
             const item = db.products.find(p => p.id === id);
             if (!item) return;
+            item.comments = item.comments || [];
 
             document.getElementById('detailHeaderTitle').innerText = item.name;
             const container = document.getElementById('detailContentContainer');
@@ -1187,33 +968,130 @@
                             <img src="${item.cover}" class="gallery-img" onclick="document.getElementById('mainDetailImg').src='${item.cover}'">
                             ${item.gallery.map(imgSrc => `<img src="${imgSrc}" class="gallery-img" onclick="document.getElementById('mainDetailImg').src='${imgSrc}'">`).join('')}
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
+
+            const inStock = item.stock === 'Stokta Var';
 
             container.innerHTML = `
                 <img src="${item.cover}" id="mainDetailImg" class="detail-main-img" alt="${item.name}">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
                     <h1 style="color:#fff;">${item.name}</h1>
-                    <span class="badge ${item.stock === 'Stokta Var' ? 'badge-in-stock' : 'badge-out-stock'}" style="font-size:0.9rem;">${item.stock}</span>
+                    <span class="badge ${inStock ? 'badge-in-stock' : 'badge-out-stock'}" style="font-size:0.9rem;">${item.stock}</span>
                 </div>
-                <div style="font-size:1.5rem; color:var(--primary); font-weight:800; margin-bottom:1.5rem; font-family: var(--font-mono);">₺${item.price}</div>
+                <div style="font-size:1.5rem; color:var(--primary); font-weight:800; margin-bottom:1.2rem; font-family: var(--font-mono);">₺${item.price}</div>
+                <button class="btn" style="margin-bottom:1.5rem; ${inStock ? '' : 'opacity:0.4; filter:grayscale(1); cursor:not-allowed;'}" ${inStock ? `onclick="openPurchaseRequest(${item.id})"` : 'disabled'}>
+                    <svg class="icon"><use href="#i-box"/></svg> ${inStock ? 'Satın Al' : 'Stokta Yok'}
+                </button>
                 <div style="color:var(--text-main); font-size:0.95rem; line-height:1.6; white-space:pre-line;">${item.longDesc || item.desc}</div>
                 ${galleryHtml}
+                ${commentsSectionHTML('product', item)}
             `;
-
             openFullscreen('itemDetailView');
         }
 
+        function openPurchaseRequest(id) {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            if (!activeEmail) { openAuthModal('login'); return; }
+            const item = db.products.find(p => p.id === id);
+            if (!item) return;
+            currentPurchaseProductId = id;
+            document.getElementById('purchaseProductName').value = item.name;
+            document.getElementById('purchaseNote').value = '';
+            openModal('purchaseModal');
+        }
+
+        async function submitPurchaseRequest(e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = db.users[activeEmail];
+            const item = db.products.find(p => p.id === currentPurchaseProductId);
+            if (!userObj || !item) return;
+            const note = document.getElementById('purchaseNote').value.trim();
+
+            db.messages.unshift({
+                id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'purchase',
+                productId: item.id, productName: item.name,
+                fromName: userObj.displayName, fromEmail: activeEmail, note, read: false
+            });
+            await syncDatabase();
+            updateMessageBadge();
+            alert('Satın alma talebiniz admin\'e iletildi!');
+            closeModal('purchaseModal');
+        }
+
+        /* ---------- YORUMLAR (Haber + Ürün ortak) ---------- */
+        function getCollection(type) { return type === 'news' ? db.news : db.products; }
+
+        function commentsSectionHTML(type, item) {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const isAdmin = activeEmail === ADMIN_EMAIL;
+            const comments = item.comments || [];
+
+            const list = comments.length ? comments.map(c => `
+                <div class="comment-item">
+                    <img src="${c.avatar || placeholderAvatar}" class="mini-avatar" alt="">
+                    <div class="comment-body">
+                        <div class="comment-head">
+                            <span class="comment-name">${c.displayName}</span>
+                            <span class="comment-date">${c.date}</span>
+                            ${isAdmin ? `<button class="comment-del" onclick="deleteComment('${type}', ${item.id}, ${c.id}, event)">Sil</button>` : ''}
+                        </div>
+                        <p>${c.text}</p>
+                    </div>
+                </div>
+            `).join('') : '<p style="color:var(--text-muted); font-size:0.85rem;">Henüz yorum yok.</p>';
+
+            const formHtml = activeEmail
+                ? `<form class="comment-form" onsubmit="submitComment('${type}', ${item.id}, event)">
+                        <textarea id="commentInput-${type}-${item.id}" rows="2" placeholder="Yorumunu yaz..." required></textarea>
+                        <button type="submit" class="btn btn-outline" style="align-self:flex-end;">Gönder</button>
+                   </form>`
+                : `<p class="comment-login-note">Yorum yapmak için <a href="#" onclick="openAuthModal('login')">giriş yap</a>.</p>`;
+
+            return `<div class="comments-section"><h4>Yorumlar (${comments.length})</h4>${list}${formHtml}</div>`;
+        }
+
+        async function submitComment(type, id, event) {
+            event.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            if (!activeEmail || !db.users[activeEmail]) { openAuthModal('login'); return; }
+            const textarea = document.getElementById(`commentInput-${type}-${id}`);
+            const text = textarea.value.trim();
+            if (!text) return;
+            const item = getCollection(type).find(i => i.id === id);
+            if (!item) return;
+            const userObj = db.users[activeEmail];
+            item.comments = item.comments || [];
+            item.comments.push({
+                id: Date.now(), user: activeEmail, displayName: userObj.displayName,
+                avatar: userObj.avatar || placeholderAvatar, text, date: new Date().toLocaleDateString('tr-TR')
+            });
+            await syncDatabase();
+            if (type === 'news') renderNews(); else openProductDetail(id);
+        }
+
+        async function deleteComment(type, itemId, commentId, event) {
+            event.stopPropagation();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            if (activeEmail !== ADMIN_EMAIL) return;
+            const item = getCollection(type).find(i => i.id === itemId);
+            if (!item) return;
+            item.comments = (item.comments || []).filter(c => c.id !== commentId);
+            await syncDatabase();
+            if (type === 'news') renderNews(); else openProductDetail(itemId);
+        }
+
+        /* ---------- HABERLER ---------- */
         async function addNews(e) {
             e.preventDefault();
             const title = document.getElementById('adminNewsTitle').value.trim();
             const content = document.getElementById('adminNewsContent').value.trim();
-
             const today = new Date();
             const dateStr = `${today.getDate()} AĞUSTOS ${today.getFullYear()}`;
 
-            db.news.unshift({ id: Date.now(), date: dateStr, title, content });
+            db.news.unshift({ id: Date.now(), date: dateStr, title, content, images: { ...activeNewsImages }, comments: [] });
+            activeNewsImages = {};
 
             await syncDatabase();
             alert('Haber yayınlandı!');
@@ -1232,14 +1110,15 @@
             const activeEmail = localStorage.getItem('furtek_active_user');
             const isAdmin = (activeEmail === ADMIN_EMAIL);
 
-            if (db.news.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted);">Henüz haber bulunmuyor.</p>';
-                return;
-            }
+            if (db.news.length === 0) { container.innerHTML = '<p style="color:var(--text-muted);">Henüz haber bulunmuyor.</p>'; return; }
 
             container.innerHTML = db.news.map(item => {
-                let formattedContent = item.content.replace(/\[img:(data:image\/[^;]+;base64,[^\]]+)\]/g, '<img src="$1" class="news-inline-img">');
-
+                item.comments = item.comments || [];
+                item.images = item.images || {};
+                const formattedContent = item.content.replace(/\[img:([\w]+)\]/g, (m, token) => {
+                    const src = item.images[token];
+                    return src ? `<img src="${src}" class="news-inline-img">` : '';
+                });
                 return `
                     <div class="data-card" style="margin-bottom:1.5rem; padding:1.2rem; cursor:default;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1248,22 +1127,190 @@
                         </div>
                         <h3 style="color:#fff; margin:0.4rem 0;">${item.title}</h3>
                         <div style="color:var(--text-main); font-size:0.9rem; line-height:1.6; white-space:pre-line;">${formattedContent}</div>
+                        ${commentsSectionHTML('news', item)}
                     </div>
                 `;
             }).join('');
         }
 
-        function sendDirectEmail(e) {
+        /* ---------- YATIRIM & İŞBİRLİĞİ ---------- */
+        async function addInvestment(e) {
+            e.preventDefault();
+            const title = document.getElementById('adminInvTitle').value.trim();
+            const desc = document.getElementById('adminInvDesc').value.trim();
+            const longDesc = document.getElementById('adminInvLongDesc').value.trim();
+            const goal = document.getElementById('adminInvGoal').value.trim();
+            const imgFile = document.getElementById('adminInvImg').files[0];
+            let coverBase64 = imgFile ? await resizeImage(imgFile) : null;
+
+            if (editingInvestmentId) {
+                const inv = db.investments.find(i => i.id === editingInvestmentId);
+                if (inv) {
+                    inv.title = title; inv.desc = desc; inv.longDesc = longDesc; inv.goal = goal;
+                    if (coverBase64) inv.cover = coverBase64;
+                }
+                editingInvestmentId = null;
+                document.getElementById('adminInvSubmitBtn').innerText = 'Yatırım Projesi Yayınla';
+            } else {
+                db.investments.unshift({ id: Date.now(), title, cover: coverBase64 || placeholderImg, desc, longDesc, goal });
+            }
+
+            await syncDatabase();
+            alert('Kaydedildi!');
+            e.target.reset();
+            document.getElementById('adminInvImg').required = true;
+            renderInvestments();
+            renderAdminInvestments();
+        }
+
+        function editInvestment(id) {
+            const inv = db.investments.find(i => i.id === id);
+            if (!inv) return;
+            editingInvestmentId = id;
+            document.getElementById('adminInvTitle').value = inv.title;
+            document.getElementById('adminInvDesc').value = inv.desc;
+            document.getElementById('adminInvLongDesc').value = inv.longDesc;
+            document.getElementById('adminInvGoal').value = inv.goal || '';
+            document.getElementById('adminInvImg').required = false;
+            document.getElementById('adminInvSubmitBtn').innerText = 'Değişiklikleri Güncelle';
+            document.getElementById('adminInvTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        async function deleteInvestment(id, event) {
+            event.stopPropagation();
+            db.investments = db.investments.filter(i => i.id !== id);
+            await syncDatabase();
+            renderInvestments();
+            renderAdminInvestments();
+        }
+
+        function renderInvestments() {
+            const container = document.getElementById('investmentsContainer');
+            if (!container) return;
+            if (!db.investments || db.investments.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted);">Şu anda yatırım bekleyen bir proje bulunmuyor.</p>';
+                return;
+            }
+            container.innerHTML = db.investments.map(item => `
+                <div class="data-card" onclick="openInvestmentDetail(${item.id})">
+                    <div class="cover-wrap"><img src="${item.cover}" class="card-cover" alt="${item.title}"></div>
+                    <div class="card-body">
+                        ${item.goal ? `<span class="badge" style="background:rgba(255,176,32,0.14); color:var(--admin-color); border:1px solid rgba(255,176,32,0.4);">${item.goal}</span>` : ''}
+                        <h3 style="color:#fff; font-size:1.05rem; margin-bottom:0.4rem;">${item.title}</h3>
+                        <p style="font-size:0.85rem; color:var(--text-muted);">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderAdminInvestments() {
+            const container = document.getElementById('adminInvestmentsContainer');
+            if (!container) return;
+            if (!db.investments || db.investments.length === 0) { container.innerHTML = ''; return; }
+            container.innerHTML = db.investments.map(item => `
+                <div class="data-card" style="cursor:default;">
+                    <div class="cover-wrap"><img src="${item.cover}" class="card-cover" alt="${item.title}"></div>
+                    <div class="card-body">
+                        <h4 style="color:#fff; font-size:0.92rem; margin-bottom:0.7rem;">${item.title}</h4>
+                        <div style="display:flex; gap:0.5rem;">
+                            <button class="btn btn-outline" style="flex:1; padding:0.45rem; font-size:0.78rem;" onclick="editInvestment(${item.id})">Düzenle</button>
+                            <button class="btn btn-danger" style="flex:1; padding:0.45rem; font-size:0.78rem;" onclick="deleteInvestment(${item.id}, event)">Sil</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openInvestmentDetail(id) {
+            const item = db.investments.find(i => i.id === id);
+            if (!item) return;
+            document.getElementById('detailHeaderTitle').innerText = item.title;
+            document.getElementById('detailContentContainer').innerHTML = `
+                <img src="${item.cover}" class="detail-main-img" alt="${item.title}">
+                ${item.goal ? `<span class="badge" style="background:rgba(255,176,32,0.14); color:var(--admin-color); border:1px solid rgba(255,176,32,0.4); margin-top:1rem;">${item.goal}</span>` : ''}
+                <h1 style="color:#fff; margin:0.8rem 0 1rem;">${item.title}</h1>
+                <div style="color:var(--text-main); font-size:1rem; line-height:1.6; margin-bottom:2rem; white-space:pre-line;">${item.longDesc || item.desc}</div>
+                <button class="btn" onclick="prefillInvestContact('${item.title.replace(/'/g, "\\'")}')"><svg class="icon"><use href="#i-mail"/></svg> Bu Proje İçin İletişime Geç</button>
+            `;
+            openFullscreen('itemDetailView');
+        }
+
+        function prefillInvestContact(title) {
+            openFullscreen('investView');
+            renderInvestments();
+            setTimeout(() => {
+                const msg = document.getElementById('contactMessage');
+                if (msg) { msg.value = `"${title}" projesi hakkında bilgi almak istiyorum.\n\n`; msg.focus(); }
+            }, 50);
+        }
+
+        async function sendDirectEmail(e) {
             e.preventDefault();
             const name = document.getElementById('contactName').value;
             const email = document.getElementById('contactEmail').value;
             const message = document.getElementById('contactMessage').value;
 
+            db.messages.unshift({ id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'contact', fromName: name, fromEmail: email, note: message, read: false });
+            await syncDatabase();
+            updateMessageBadge();
+
             const subject = encodeURIComponent(`FurTek İşbirliği / Sponsorluk: ${name}`);
             const body = encodeURIComponent(`Gönderen: ${name}\nE-posta: ${email}\n\nMesaj:\n${message}`);
-
+            e.target.reset();
+            alert('Mesajınız admin panosuna iletildi. E-posta istemciniz de açılacak.');
             window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-            closeModal('investModal');
+        }
+
+        /* ---------- BİLDİRİMLER & MESAJLAR ---------- */
+        function updateMessageBadge() {
+            const badge = document.getElementById('msgBadge');
+            if (!badge) return;
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const isAdmin = activeEmail === ADMIN_EMAIL;
+            const unread = isAdmin ? (db.messages || []).filter(m => !m.read).length : 0;
+            if (isAdmin && unread > 0) { badge.style.display = 'inline-flex'; badge.innerText = unread; }
+            else { badge.style.display = 'none'; }
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('messagesContainer');
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const isAdmin = activeEmail === ADMIN_EMAIL;
+
+            if (!activeEmail) { container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Bildirimleri görmek için giriş yapmalısın.</p>'; return; }
+            if (!isAdmin) { container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Henüz bir bildirimin yok. Ürün ve iş birliği talepleri doğrudan site yöneticisine iletilir.</p>'; return; }
+            if (!db.messages || db.messages.length === 0) { container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Gelen kutusu boş.</p>'; return; }
+
+            container.innerHTML = db.messages.map(m => `
+                <div class="data-card" style="padding:1.2rem; cursor:default; ${m.read ? 'opacity:0.55;' : ''}">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                        <span class="badge" style="background:rgba(33,230,255,0.12); color:var(--primary); border:1px solid var(--border-strong);">${m.type === 'purchase' ? 'Satın Alma Talebi' : 'İş Birliği Mesajı'}</span>
+                        <span style="color:var(--text-muted); font-size:0.75rem; font-family:var(--font-mono);">${m.date}</span>
+                    </div>
+                    ${m.productName ? `<p style="color:#fff; font-weight:600; margin-bottom:0.3rem;">Ürün: ${m.productName}</p>` : ''}
+                    <p style="color:var(--text-main); font-size:0.9rem; margin-bottom:0.6rem; white-space:pre-line;">${m.note}</p>
+                    <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:0.9rem;">${m.fromName} · ${m.fromEmail}</p>
+                    <div style="display:flex; gap:0.5rem;">
+                        ${!m.read ? `<button class="btn btn-outline" style="padding:0.4rem 0.8rem; font-size:0.8rem;" onclick="markMessageRead(${m.id})">Okundu İşaretle</button>` : ''}
+                        <button class="btn btn-danger" style="padding:0.4rem 0.8rem; font-size:0.8rem;" onclick="deleteMessage(${m.id})">Sil</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function markMessageRead(id) {
+            const m = db.messages.find(m => m.id === id);
+            if (m) m.read = true;
+            await syncDatabase();
+            renderMessages();
+            updateMessageBadge();
+        }
+
+        async function deleteMessage(id) {
+            db.messages = db.messages.filter(m => m.id !== id);
+            await syncDatabase();
+            renderMessages();
+            updateMessageBadge();
         }
     </script>
 </body>

@@ -61,7 +61,8 @@
         }
 
         .logo { display: flex; align-items: center; gap: 0.6rem; font-size: 1.5rem; font-weight: 800; color: var(--text-heading); text-decoration: none; letter-spacing: -0.02em; }
-        .logo span { color: var(--primary); }
+        .logo-text { display: inline-block; letter-spacing: -0.02em; }
+        .logo-text span { color: var(--primary); }
         .logo-mark { width: 34px; height: 34px; }
         .logo-mark path { stroke: var(--primary); stroke-width: 2.2; fill: none; filter: drop-shadow(0 0 6px var(--primary-glow)); }
         .logo-mark circle { fill: var(--primary); stroke: none; }
@@ -217,6 +218,26 @@
         .comment-form textarea { width: 100%; padding: 0.6rem 0.8rem; background: var(--bg-soft); border: 1px solid var(--border-color); border-radius: var(--radius-s); color: var(--text-main); font-family: inherit; font-size: 0.85rem; resize: vertical; }
         .comment-login-note { color: var(--text-muted); font-size: 0.85rem; }
         .comment-login-note a { color: var(--primary); }
+        .comment-item { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+        .comment-actions { display: flex; gap: 0.9rem; margin-top: 0.3rem; }
+        .comment-action-btn { background: none; border: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer; padding: 0; font-family: inherit; }
+        .comment-action-btn:hover { color: var(--primary); }
+        .reply-list { margin-left: 1.1rem; padding-left: 0.9rem; border-left: 2px solid var(--border-color); }
+        .reply-list .comment-item { padding: 0.55rem 0; }
+        .reply-form { display: none; flex-direction: column; gap: 0.5rem; margin: 0.4rem 0 0.6rem 1.1rem; }
+        .reply-form.open { display: flex; }
+        .reply-form textarea { width: 100%; padding: 0.55rem 0.8rem; background: var(--bg-soft); border: 1px solid var(--border-color); border-radius: var(--radius-s); color: var(--text-main); font-family: inherit; font-size: 0.85rem; resize: vertical; }
+        .btn-blue { background-color: #2f7cf6; color: #fff; }
+        .btn-blue:hover { box-shadow: 0 8px 20px rgba(47,124,246,0.35); }
+        .notice-box { border: 1px solid rgba(255,79,109,0.4); background: rgba(255,79,109,0.1); color: var(--error-color); padding: 0.8rem 1rem; border-radius: var(--radius-s); font-size: 0.88rem; margin-top: 1rem; }
+        .addr-summary { background: var(--bg-soft); border: 1px solid var(--border-color); border-radius: var(--radius-s); padding: 0.9rem 1rem; font-size: 0.87rem; line-height: 1.6; color: var(--text-main); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; gap: 0; } }
+        .pw-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem; line-height: 1.5; }
+        .user-card { text-align: center; margin-bottom: 1.2rem; }
+        .user-card img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .action-list { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.4rem; }
+        .msg-ok { color: var(--success-color) !important; }
     </style>
 </head>
 <body>
@@ -249,7 +270,7 @@
                 <path class="spokes" d="M20 3v9M20 28v9M5.5 11.5l8 5M26.5 23.5l8 5M34.5 11.5l-8 5M13.5 23.5l-8 5"/>
                 <circle cx="20" cy="20" r="4"/>
             </svg>
-            Fur<span>Tek</span>
+            <span class="logo-text">Fur<span>Tek</span></span>
         </a>
         <button class="menu-btn" onclick="toggleMenu()" aria-label="Menü"><span></span><span></span><span></span></button>
     </header>
@@ -407,6 +428,40 @@
                     <button type="submit" class="btn">Değişiklikleri Kaydet</button>
                 </form>
             </div>
+
+            <div class="data-card" id="addressCard" style="padding: 1.5rem; cursor:default; margin-top: 1.5rem;">
+                <h3 style="color:#fff; margin-bottom: 0.3rem;">Teslimat Adresi</h3>
+                <p class="pw-hint" style="margin-bottom: 1.2rem;">Alışverişte kullanılacak adres ve iletişim bilgileri.</p>
+                <form onsubmit="saveAddress(event)">
+                    <div class="form-row">
+                        <div class="form-group"><label>Ad Soyad</label><input type="text" id="addrName" required></div>
+                        <div class="form-group"><label>Telefon</label><input type="tel" id="addrPhone" required placeholder="5xx xxx xx xx"></div>
+                    </div>
+                    <div class="form-group"><label>E-posta</label><input type="email" id="addrEmail" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Ülke</label><select id="addrCountry"><option value="Türkiye">Türkiye</option></select></div>
+                        <div class="form-group"><label>Şehir</label><select id="addrCity" required></select></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>İlçe</label><input type="text" id="addrDistrict" required></div>
+                        <div class="form-group"><label>Mahalle</label><input type="text" id="addrNeighborhood" required></div>
+                    </div>
+                    <div class="form-group"><label>Detaylı Adres</label><textarea id="addrDetail" rows="3" required placeholder="Cadde/sokak, bina no, daire no..."></textarea></div>
+                    <button type="submit" class="btn">Kaydet</button>
+                </form>
+            </div>
+
+            <div class="data-card" id="passwordCard" style="padding: 1.5rem; cursor:default; margin-top: 1.5rem;">
+                <h3 style="color:#fff; margin-bottom: 1rem;">Şifre Değiştir</h3>
+                <form onsubmit="changePassword(event)">
+                    <div class="form-group"><label>Mevcut Şifre</label><input type="password" id="pwCurrent" required></div>
+                    <div class="form-group"><label>Yeni Şifre</label><input type="password" id="pwNew" required>
+                        <div class="pw-hint">En az 8 karakter; büyük harf, küçük harf ve rakam içermeli.</div></div>
+                    <div class="form-group"><label>Yeni Şifre (Tekrar)</label><input type="password" id="pwConfirm" required></div>
+                    <div class="error-msg" id="pwMsg"></div>
+                    <button type="submit" class="btn" style="margin-top: 0.8rem;">Şifreyi Güncelle</button>
+                </form>
+            </div>
         </div>
 
         <div class="fullscreen-view" id="adminView">
@@ -479,7 +534,7 @@
             <a href="https://github.com/FurTek-Official/FurTek" target="_blank" class="social-btn"><svg class="icon"><use href="#i-code"/></svg> Kaynak Kodu</a>
         </div>
         <p style="color: var(--text-muted); font-size: 0.8rem;">&copy; 2026 FurTek. Tüm hakları saklıdır.</p>
-        <span class="version-tag">Sürüm: v2.7.0 (Eylül 2026)</span>
+        <span class="version-tag">Sürüm: v2.7.2 (Eylül 2026)</span>
     </footer>
 
     <div class="modal-overlay" id="aboutModal">
@@ -500,7 +555,7 @@
             </div>
             <form id="authForm" onsubmit="handleAuth(event)" style="margin-top: 1rem;">
                 <div class="form-group"><label>E-posta Adresi</label><input type="email" id="authEmail" placeholder="ornek@furtek.com" required></div>
-                <div class="form-group"><label>Şifre</label><input type="password" id="authPassword" placeholder="******" required></div>
+                <div class="form-group"><label>Şifre</label><input type="password" id="authPassword" placeholder="******" required><div class="pw-hint" id="authPwHint" style="display:none;">Kayıt için: en az 8 karakter; büyük harf, küçük harf ve rakam içermeli.</div></div>
                 <div class="form-group" id="otpGroup" style="display:none;">
                     <label style="color: var(--primary);">E-posta Doğrulama Kodu</label>
                     <input type="text" id="otpCodeInput" placeholder="6 Haneli Kod" maxlength="6">
@@ -512,17 +567,23 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="purchaseModal">
+    <div class="modal-overlay" id="checkoutModal">
         <div class="modal-popup">
             <div class="modal-header-drag">
-                <span class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Satın Alma Talebi</span>
-                <button class="close-btn" onclick="closeModal('purchaseModal')">&times;</button>
+                <span class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Satın Al</span>
+                <button class="close-btn" onclick="closeModal('checkoutModal')">&times;</button>
             </div>
-            <form onsubmit="submitPurchaseRequest(event)" style="margin-top: 1rem;">
-                <div class="form-group"><label>Ürün</label><input type="text" id="purchaseProductName" disabled></div>
-                <div class="form-group"><label>Not / Adet / Teslimat Bilgisi</label><textarea id="purchaseNote" rows="3" required placeholder="Adet, teslimat adresi veya sorularınızı yazın..."></textarea></div>
-                <button type="submit" class="btn" style="width: 100%;">Talebi Gönder</button>
-            </form>
+            <div id="checkoutBody"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="commentActionModal">
+        <div class="modal-popup">
+            <div class="modal-header-drag">
+                <span class="drag-title"><svg class="icon"><use href="#i-drag"/></svg>Yorum</span>
+                <button class="close-btn" onclick="closeModal('commentActionModal')">&times;</button>
+            </div>
+            <div id="commentActionBody"></div>
         </div>
     </div>
 
@@ -563,6 +624,7 @@
 
         window.onload = async function() {
             await loadDatabase();
+            ensureReleaseNotes();
             checkActiveSession();
             renderProjects();
             renderNews();
@@ -726,6 +788,7 @@
             if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
             document.getElementById('errorMsg').style.display = 'none';
             document.getElementById('otpGroup').style.display = (type === 'register') ? 'block' : 'none';
+            document.getElementById('authPwHint').style.display = (type === 'register') ? 'block' : 'none';
             document.getElementById('modalTitle').innerHTML = '<svg class="icon"><use href="#i-drag"/></svg>' + ((type === 'login') ? 'Giriş Yap (Sürükle)' : 'Kayıt Ol (Sürükle)');
             document.getElementById('authSubmitBtn').innerText = (type === 'login') ? 'Giriş Yap' : 'Kodu Onayla & Kaydol';
             openModal('authModal');
@@ -738,6 +801,8 @@
 
             if (currentAuthType === 'register') {
                 if (db.users[email]) { showError('Bu e-posta zaten kayıtlı!'); return; }
+                const pwErr = validatePassword(password);
+                if (pwErr) { showError(pwErr); return; }
                 if (!generatedOTP) {
                     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
                     document.getElementById('otpNotice').innerText = `Test Onay Kodunuz: ${generatedOTP}`;
@@ -777,7 +842,7 @@
                 document.getElementById('authBox').innerHTML = `
                     <div style="display:flex; align-items:center; justify-content:center; gap:0.55rem; margin-bottom:0.6rem;">
                         <img src="${avatarSrc}" class="mini-avatar" alt="">
-                        <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">${userObj.displayName}</span>
+                        <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">${esc(userObj.displayName)}</span>
                         ${isAdmin ? '<span class="admin-badge"><svg class="icon" style="width:10px;height:10px;"><use href="#i-shield"/></svg>ADMIN</span>' : ''}
                     </div>
                     <button class="btn btn-outline" onclick="openFullscreen('profileView'); toggleMenu();">Profilim</button>
@@ -790,6 +855,7 @@
                 document.getElementById('profileAvatarImg').src = avatarSrc;
                 document.getElementById('editDisplayName').value = userObj.displayName;
                 document.getElementById('editBio').value = userObj.bio || '';
+                populateAddressForm(userObj, activeEmail);
             } else {
                 adminLink.style.display = 'none';
                 profileLink.style.display = 'none';
@@ -828,6 +894,94 @@
                 await syncDatabase();
                 checkActiveSession();
             }
+        }
+
+        const CITIES = ["Adana","Adıyaman","Afyonkarahisar","Ağrı","Amasya","Ankara","Antalya","Artvin","Aydın","Balıkesir","Bilecik","Bingöl","Bitlis","Bolu","Burdur","Bursa","Çanakkale","Çankırı","Çorum","Denizli","Diyarbakır","Edirne","Elazığ","Erzincan","Erzurum","Eskişehir","Gaziantep","Giresun","Gümüşhane","Hakkâri","Hatay","Isparta","Mersin","İstanbul","İzmir","Kars","Kastamonu","Kayseri","Kırklareli","Kırşehir","Kocaeli","Konya","Kütahya","Malatya","Manisa","Kahramanmaraş","Mardin","Muğla","Muş","Nevşehir","Niğde","Ordu","Rize","Sakarya","Samsun","Siirt","Sinop","Sivas","Tekirdağ","Tokat","Trabzon","Tunceli","Şanlıurfa","Uşak","Van","Yozgat","Zonguldak","Aksaray","Bayburt","Karaman","Kırıkkale","Batman","Şırnak","Bartın","Ardahan","Iğdır","Yalova","Karabük","Kilis","Osmaniye","Düzce"];
+
+        function validatePassword(pw) {
+            if (pw.length < 8) return 'Şifre en az 8 karakter olmalı.';
+            if (!/[a-zçğıöşü]/.test(pw)) return 'Şifre en az bir küçük harf içermeli.';
+            if (!/[A-ZÇĞİÖŞÜ]/.test(pw)) return 'Şifre en az bir büyük harf içermeli.';
+            if (!/[0-9]/.test(pw)) return 'Şifre en az bir rakam içermeli.';
+            return '';
+        }
+
+        function setPwMessage(text, ok) {
+            const el = document.getElementById('pwMsg');
+            el.innerText = text;
+            el.style.display = 'block';
+            el.classList.toggle('msg-ok', !!ok);
+        }
+
+        async function changePassword(e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const user = activeEmail ? db.users[activeEmail] : null;
+            if (!user) return;
+            const cur = document.getElementById('pwCurrent').value;
+            const nw = document.getElementById('pwNew').value;
+            const cf = document.getElementById('pwConfirm').value;
+            if (user.password !== cur) { setPwMessage('Mevcut şifre hatalı.', false); return; }
+            const err = validatePassword(nw);
+            if (err) { setPwMessage(err, false); return; }
+            if (nw !== cf) { setPwMessage('Yeni şifreler eşleşmiyor.', false); return; }
+            if (nw === cur) { setPwMessage('Yeni şifre mevcut şifreyle aynı olamaz.', false); return; }
+            user.password = nw;
+            await syncDatabase();
+            e.target.reset();
+            setPwMessage('Şifren güncellendi.', true);
+        }
+
+        function populateAddressForm(userObj, email) {
+            const sel = document.getElementById('addrCity');
+            if (!sel.options.length) sel.innerHTML = '<option value="">Şehir seçin</option>' + CITIES.map(c => `<option value="${c}">${c}</option>`).join('');
+            const a = userObj.address || {};
+            document.getElementById('addrName').value = a.fullName || userObj.displayName || '';
+            document.getElementById('addrPhone').value = a.phone || '';
+            document.getElementById('addrEmail').value = a.email || email;
+            document.getElementById('addrCountry').value = 'Türkiye';
+            sel.value = a.city || '';
+            document.getElementById('addrDistrict').value = a.district || '';
+            document.getElementById('addrNeighborhood').value = a.neighborhood || '';
+            document.getElementById('addrDetail').value = a.detail || '';
+        }
+
+        async function saveAddress(e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const user = activeEmail ? db.users[activeEmail] : null;
+            if (!user) return;
+            const phone = document.getElementById('addrPhone').value.trim();
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length < 10 || digits.length > 13) { alert('Lütfen geçerli bir telefon numarası girin.'); return; }
+            user.address = {
+                fullName: document.getElementById('addrName').value.trim(),
+                phone,
+                email: document.getElementById('addrEmail').value.trim(),
+                country: 'Türkiye',
+                city: document.getElementById('addrCity').value,
+                district: document.getElementById('addrDistrict').value.trim(),
+                neighborhood: document.getElementById('addrNeighborhood').value.trim(),
+                detail: document.getElementById('addrDetail').value.trim()
+            };
+            await syncDatabase();
+            alert('Adres bilgileri kaydedildi!');
+        }
+
+        function formatNewsDate(d) {
+            const months = ['OCAK','ŞUBAT','MART','NİSAN','MAYIS','HAZİRAN','TEMMUZ','AĞUSTOS','EYLÜL','EKİM','KASIM','ARALIK'];
+            return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+
+        function ensureReleaseNotes() {
+            db.meta = db.meta || {};
+            if (db.meta.note272) return;
+            db.meta.note272 = true;
+            db.news.unshift({
+                id: 272000, date: '28 EYLÜL 2026', title: 'v2.7.2 Güncelleme Notları', images: {}, comments: [],
+                content: 'Yeni neler var?\n\n• Yorumlara yanıt yazabilme; yanıtlar "Bildirimler & Mesajlar" bölümüne düşer.\n• Yorumun üzerine basılı tutunca profili görme ve rapor etme seçenekleri.\n• Profilim: şifre değiştirme ve teslimat adresi (ülke, şehir, ilçe, mahalle, detaylı adres, telefon, isim, e-posta).\n• Satın Al: adres ekranı ve "Devam Et" adımı (ödeme altyapısı henüz aktif değil).\n• Kayıtta şifre koşulları: en az 8 karakter, büyük harf, küçük harf ve rakam.\n• Profil güncellemeleri artık mevcut yorumlara da yansıyor.\n• FurTek logosundaki harf boşluğu düzeltildi.\n• Haber tarihinin her zaman "Ağustos" yazması hatası giderildi.\n• Yorum ve mesajlarda güvenlik iyileştirmesi.'
+            });
+            saveLocalDB();
         }
 
         function showError(msg) {
@@ -990,57 +1144,113 @@
             openFullscreen('itemDetailView');
         }
 
+        function hasCompleteAddress(u) {
+            const a = u && u.address;
+            return !!(a && a.fullName && a.phone && a.email && a.city && a.district && a.neighborhood && a.detail);
+        }
+
         function openPurchaseRequest(id) {
-            const activeEmail = localStorage.getItem('furtek_active_user');
-            if (!activeEmail) { openAuthModal('login'); return; }
             const item = db.products.find(p => p.id === id);
             if (!item) return;
             currentPurchaseProductId = id;
-            document.getElementById('purchaseProductName').value = item.name;
-            document.getElementById('purchaseNote').value = '';
-            openModal('purchaseModal');
+            renderCheckout();
+            openModal('checkoutModal');
         }
 
-        async function submitPurchaseRequest(e) {
-            e.preventDefault();
-            const activeEmail = localStorage.getItem('furtek_active_user');
-            const userObj = db.users[activeEmail];
+        function renderCheckout() {
+            const body = document.getElementById('checkoutBody');
             const item = db.products.find(p => p.id === currentPurchaseProductId);
-            if (!userObj || !item) return;
-            const note = document.getElementById('purchaseNote').value.trim();
+            if (!item) return;
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = activeEmail ? db.users[activeEmail] : null;
+            const productLine = `<p style="color:#fff; font-weight:600;">${esc(item.name)}</p><p class="pw-hint" style="margin-bottom:1rem;">₺${item.price}</p>`;
 
-            db.messages.unshift({
-                id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'purchase',
-                productId: item.id, productName: item.name,
-                fromName: userObj.displayName, fromEmail: activeEmail, note, read: false
-            });
-            await syncDatabase();
-            updateMessageBadge();
-            alert('Satın alma talebiniz admin\'e iletildi!');
-            closeModal('purchaseModal');
+            if (!userObj) {
+                body.innerHTML = productLine + `<p style="font-size:0.9rem; margin-bottom:1rem;">Alışverişe devam etmek için kayıt olmalı veya giriş yapmalısın.</p>
+                    <div class="action-list">
+                        <button class="btn" onclick="closeModal('checkoutModal'); openAuthModal('register');">Kayıt Ol</button>
+                        <button class="btn btn-outline" onclick="closeModal('checkoutModal'); openAuthModal('login');">Giriş Yap</button>
+                    </div>`;
+                return;
+            }
+            if (!hasCompleteAddress(userObj)) {
+                body.innerHTML = productLine + `<p style="font-size:0.9rem; margin-bottom:1rem;">Teslimat adresin kayıtlı değil. Devam etmek için adres bilgilerini kaydetmelisin.</p>
+                    <div class="action-list"><button class="btn" onclick="goToAddress()">Adres Bilgilerini Gir</button></div>`;
+                return;
+            }
+            const a = userObj.address;
+            body.innerHTML = productLine + `<div class="addr-summary">
+                    <strong style="color:#fff;">${esc(a.fullName)}</strong><br>
+                    ${esc(a.phone)} · ${esc(a.email)}<br>
+                    ${esc(a.neighborhood)} Mah., ${esc(a.detail)}<br>
+                    ${esc(a.district)} / ${esc(a.city)} / ${esc(a.country || 'Türkiye')}
+                </div>
+                <button class="btn btn-blue" style="width:100%; margin-top:1rem;" onclick="continueCheckout()">Devam Et</button>
+                <div id="checkoutNotice"></div>
+                <button class="comment-action-btn" style="margin-top:0.9rem;" onclick="goToAddress()">Adresi düzenle</button>`;
+        }
+
+        function continueCheckout() {
+            document.getElementById('checkoutNotice').innerHTML = '<div class="notice-box">Şu anda işlem gerçekleştirilemiyor.</div>';
+        }
+
+        function goToAddress() {
+            closeModal('checkoutModal');
+            openFullscreen('profileView');
+            setTimeout(() => { const c = document.getElementById('addressCard'); if (c) c.scrollIntoView({ behavior: 'smooth' }); }, 60);
         }
 
         /* ---------- YORUMLAR (Haber + Ürün ortak) ---------- */
+        function esc(str) {
+            return String(str == null ? '' : str).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+        }
+
         function getCollection(type) { return type === 'news' ? db.news : db.products; }
+        function itemTitle(type, item) { return type === 'news' ? item.title : item.name; }
+
+        // Kullanıcı bilgisi her zaman güncel profilden okunur (profil güncellemesi yorumlara yansır)
+        function getUserView(email, fallbackName, fallbackAvatar) {
+            const u = db.users[email];
+            return { name: u ? u.displayName : (fallbackName || 'Silinmiş kullanıcı'), avatar: (u && u.avatar) || fallbackAvatar || placeholderAvatar, bio: u ? (u.bio || '') : '' };
+        }
+
+        function commentRowHTML(type, item, c, parentId) {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const isAdmin = activeEmail === ADMIN_EMAIL;
+            const v = getUserView(c.user, c.displayName, c.avatar);
+            const args = `'${type}', ${item.id}, ${c.id}, ${parentId}`;
+            const replyBtn = parentId ? '' : `<button class="comment-action-btn" onclick="toggleReplyForm('${type}', ${item.id}, ${c.id})">Yanıtla</button>`;
+            return `
+                <div class="comment-item" onpointerdown="startPress(event, ${args})" onpointerup="cancelPress()" onpointerleave="cancelPress()" onpointercancel="cancelPress()" oncontextmenu="return commentContextMenu(event, ${args})">
+                    <img src="${v.avatar}" class="mini-avatar" alt="">
+                    <div class="comment-body">
+                        <div class="comment-head">
+                            <span class="comment-name">${esc(v.name)}</span>
+                            <span class="comment-date">${esc(c.date)}</span>
+                            ${isAdmin ? `<button class="comment-del" onclick="deleteComment(${args}, event)">Sil</button>` : ''}
+                        </div>
+                        <p>${esc(c.text)}</p>
+                        <div class="comment-actions">${replyBtn}</div>
+                    </div>
+                </div>`;
+        }
 
         function commentsSectionHTML(type, item) {
             const activeEmail = localStorage.getItem('furtek_active_user');
-            const isAdmin = activeEmail === ADMIN_EMAIL;
             const comments = item.comments || [];
+            const total = comments.reduce((n, c) => n + 1 + (c.replies || []).length, 0);
 
-            const list = comments.length ? comments.map(c => `
-                <div class="comment-item">
-                    <img src="${c.avatar || placeholderAvatar}" class="mini-avatar" alt="">
-                    <div class="comment-body">
-                        <div class="comment-head">
-                            <span class="comment-name">${c.displayName}</span>
-                            <span class="comment-date">${c.date}</span>
-                            ${isAdmin ? `<button class="comment-del" onclick="deleteComment('${type}', ${item.id}, ${c.id}, event)">Sil</button>` : ''}
-                        </div>
-                        <p>${c.text}</p>
-                    </div>
-                </div>
-            `).join('') : '<p style="color:var(--text-muted); font-size:0.85rem;">Henüz yorum yok.</p>';
+            const list = comments.length ? comments.map(c => {
+                const replies = c.replies || [];
+                return `<div class="comment-block">
+                    ${commentRowHTML(type, item, c, 0)}
+                    ${replies.length ? `<div class="reply-list">${replies.map(r => commentRowHTML(type, item, r, c.id)).join('')}</div>` : ''}
+                    ${activeEmail ? `<form class="reply-form" id="replyForm-${type}-${item.id}-${c.id}" onsubmit="submitReply('${type}', ${item.id}, ${c.id}, event)">
+                        <textarea id="replyInput-${type}-${item.id}-${c.id}" rows="2" placeholder="Yanıtını yaz..." required></textarea>
+                        <button type="submit" class="btn btn-outline" style="align-self:flex-end;">Yanıtla</button>
+                    </form>` : ''}
+                </div>`;
+            }).join('') : '<p style="color:var(--text-muted); font-size:0.85rem;">Henüz yorum yok.</p>';
 
             const formHtml = activeEmail
                 ? `<form class="comment-form" onsubmit="submitComment('${type}', ${item.id}, event)">
@@ -1049,15 +1259,20 @@
                    </form>`
                 : `<p class="comment-login-note">Yorum yapmak için <a href="#" onclick="openAuthModal('login')">giriş yap</a>.</p>`;
 
-            return `<div class="comments-section"><h4>Yorumlar (${comments.length})</h4>${list}${formHtml}</div>`;
+            return `<div class="comments-section"><h4>Yorumlar (${total})</h4>${list}${formHtml}</div>`;
+        }
+
+        function refreshComments(type, itemId) {
+            const y = window.scrollY;
+            if (type === 'news') renderNews(); else openProductDetail(itemId);
+            window.scrollTo(0, y);
         }
 
         async function submitComment(type, id, event) {
             event.preventDefault();
             const activeEmail = localStorage.getItem('furtek_active_user');
             if (!activeEmail || !db.users[activeEmail]) { openAuthModal('login'); return; }
-            const textarea = document.getElementById(`commentInput-${type}-${id}`);
-            const text = textarea.value.trim();
+            const text = document.getElementById(`commentInput-${type}-${id}`).value.trim();
             if (!text) return;
             const item = getCollection(type).find(i => i.id === id);
             if (!item) return;
@@ -1065,21 +1280,134 @@
             item.comments = item.comments || [];
             item.comments.push({
                 id: Date.now(), user: activeEmail, displayName: userObj.displayName,
-                avatar: userObj.avatar || placeholderAvatar, text, date: new Date().toLocaleDateString('tr-TR')
+                avatar: userObj.avatar || placeholderAvatar, text, date: new Date().toLocaleDateString('tr-TR'), replies: []
             });
             await syncDatabase();
-            if (type === 'news') renderNews(); else openProductDetail(id);
+            refreshComments(type, id);
         }
 
-        async function deleteComment(type, itemId, commentId, event) {
+        function toggleReplyForm(type, itemId, commentId) {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            if (!activeEmail) { openAuthModal('login'); return; }
+            const f = document.getElementById(`replyForm-${type}-${itemId}-${commentId}`);
+            if (!f) return;
+            f.classList.toggle('open');
+            if (f.classList.contains('open')) f.querySelector('textarea').focus();
+        }
+
+        async function submitReply(type, itemId, commentId, event) {
+            event.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = activeEmail ? db.users[activeEmail] : null;
+            if (!userObj) { openAuthModal('login'); return; }
+            const text = document.getElementById(`replyInput-${type}-${itemId}-${commentId}`).value.trim();
+            if (!text) return;
+            const item = getCollection(type).find(i => i.id === itemId);
+            const comment = item && (item.comments || []).find(c => c.id === commentId);
+            if (!comment) return;
+            const date = new Date().toLocaleDateString('tr-TR');
+            comment.replies = comment.replies || [];
+            comment.replies.push({ id: Date.now(), user: activeEmail, displayName: userObj.displayName, avatar: userObj.avatar || placeholderAvatar, text, date });
+
+            // Yorum sahibine bildirim (kendi yorumuna yanıt verirse bildirim gitmez)
+            if (comment.user && comment.user !== activeEmail && db.users[comment.user]) {
+                db.messages.unshift({
+                    id: Date.now() + 1, date, type: 'reply', to: comment.user,
+                    fromName: userObj.displayName, fromEmail: activeEmail,
+                    productName: itemTitle(type, item), note: text, read: false, ref: { type, itemId }
+                });
+            }
+            await syncDatabase();
+            updateMessageBadge();
+            refreshComments(type, itemId);
+        }
+
+        async function deleteComment(type, itemId, id, parentId, event) {
             event.stopPropagation();
             const activeEmail = localStorage.getItem('furtek_active_user');
             if (activeEmail !== ADMIN_EMAIL) return;
             const item = getCollection(type).find(i => i.id === itemId);
             if (!item) return;
-            item.comments = (item.comments || []).filter(c => c.id !== commentId);
+            if (parentId) {
+                const parent = (item.comments || []).find(c => c.id === parentId);
+                if (parent) parent.replies = (parent.replies || []).filter(r => r.id !== id);
+            } else {
+                item.comments = (item.comments || []).filter(c => c.id !== id);
+            }
             await syncDatabase();
-            if (type === 'news') renderNews(); else openProductDetail(itemId);
+            refreshComments(type, itemId);
+        }
+
+        /* Basılı tutma: profil gör / rapor et */
+        let pressTimer = null;
+        let pendingRef = null;
+
+        function startPress(e, type, itemId, id, parentId) {
+            if (e.target.closest('button')) return;
+            cancelPress();
+            pressTimer = setTimeout(() => { pressTimer = null; openCommentActions(type, itemId, id, parentId); }, 600);
+        }
+        function cancelPress() { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } }
+        function commentContextMenu(e, type, itemId, id, parentId) {
+            e.preventDefault(); cancelPress();
+            openCommentActions(type, itemId, id, parentId);
+            return false;
+        }
+
+        function findComment(ref) {
+            const item = getCollection(ref.type).find(i => i.id === ref.itemId);
+            if (!item) return null;
+            if (ref.parentId) {
+                const parent = (item.comments || []).find(c => c.id === ref.parentId);
+                return parent ? { item, c: (parent.replies || []).find(r => r.id === ref.id) } : null;
+            }
+            return { item, c: (item.comments || []).find(c => c.id === ref.id) };
+        }
+
+        function openCommentActions(type, itemId, id, parentId) {
+            pendingRef = { type, itemId, id, parentId };
+            const found = findComment(pendingRef);
+            if (!found || !found.c) return;
+            const v = getUserView(found.c.user, found.c.displayName, found.c.avatar);
+            document.getElementById('commentActionBody').innerHTML = `
+                <div class="user-card"><img src="${v.avatar}" alt=""><h3 style="color:#fff; margin-top:0.6rem;">${esc(v.name)}</h3></div>
+                <div class="action-list">
+                    <button class="btn btn-outline" onclick="showCommentUserProfile()"><svg class="icon"><use href="#i-user"/></svg> Profili Gör</button>
+                    <button class="btn btn-danger" onclick="reportComment()">Rapor Et</button>
+                </div>`;
+            openModal('commentActionModal');
+        }
+
+        function showCommentUserProfile() {
+            const found = pendingRef && findComment(pendingRef);
+            if (!found || !found.c) return;
+            const v = getUserView(found.c.user, found.c.displayName, found.c.avatar);
+            document.getElementById('commentActionBody').innerHTML = `
+                <div class="user-card"><img src="${v.avatar}" alt=""><h3 style="color:#fff; margin-top:0.6rem;">${esc(v.name)}</h3></div>
+                <p style="color:var(--text-muted); font-size:0.75rem; font-family:var(--font-mono); margin-bottom:0.4rem;">HAKKINDA</p>
+                <p style="font-size:0.9rem; white-space:pre-line; margin-bottom:1.2rem;">${esc(v.bio || 'Bu kullanıcı henüz bir açıklama eklememiş.')}</p>
+                <button class="btn btn-outline" style="width:100%;" onclick="openCommentActions(pendingRef.type, pendingRef.itemId, pendingRef.id, pendingRef.parentId)">Geri</button>`;
+        }
+
+        async function reportComment() {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const reporter = activeEmail ? db.users[activeEmail] : null;
+            if (!reporter) { closeModal('commentActionModal'); openAuthModal('login'); return; }
+            const found = pendingRef && findComment(pendingRef);
+            if (!found || !found.c) return;
+            if (found.c.user === activeEmail) { alert('Kendi yorumunu rapor edemezsin.'); return; }
+            const v = getUserView(found.c.user, found.c.displayName, found.c.avatar);
+            db.messages.unshift({
+                id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'report', to: 'admin',
+                fromName: reporter.displayName, fromEmail: activeEmail,
+                productName: itemTitle(pendingRef.type, found.item),
+                note: `Rapor edilen kullanıcı: ${v.name} (${found.c.user})\nYorum: ${found.c.text}`,
+                read: false, ref: { type: pendingRef.type, itemId: pendingRef.itemId }
+            });
+            await syncDatabase();
+            updateMessageBadge();
+            closeModal('commentActionModal');
+            alert('Rapor admin\'e iletildi. Teşekkürler.');
         }
 
         /* ---------- HABERLER ---------- */
@@ -1088,7 +1416,7 @@
             const title = document.getElementById('adminNewsTitle').value.trim();
             const content = document.getElementById('adminNewsContent').value.trim();
             const today = new Date();
-            const dateStr = `${today.getDate()} AĞUSTOS ${today.getFullYear()}`;
+            const dateStr = formatNewsDate(today);
 
             db.news.unshift({ id: Date.now(), date: dateStr, title, content, images: { ...activeNewsImages }, comments: [] });
             activeNewsImages = {};
@@ -1188,130 +1516,4 @@
             const container = document.getElementById('investmentsContainer');
             if (!container) return;
             if (!db.investments || db.investments.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted);">Şu anda yatırım bekleyen bir proje bulunmuyor.</p>';
-                return;
-            }
-            container.innerHTML = db.investments.map(item => `
-                <div class="data-card" onclick="openInvestmentDetail(${item.id})">
-                    <div class="cover-wrap"><img src="${item.cover}" class="card-cover" alt="${item.title}"></div>
-                    <div class="card-body">
-                        ${item.goal ? `<span class="badge" style="background:rgba(255,176,32,0.14); color:var(--admin-color); border:1px solid rgba(255,176,32,0.4);">${item.goal}</span>` : ''}
-                        <h3 style="color:#fff; font-size:1.05rem; margin-bottom:0.4rem;">${item.title}</h3>
-                        <p style="font-size:0.85rem; color:var(--text-muted);">${item.desc}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderAdminInvestments() {
-            const container = document.getElementById('adminInvestmentsContainer');
-            if (!container) return;
-            if (!db.investments || db.investments.length === 0) { container.innerHTML = ''; return; }
-            container.innerHTML = db.investments.map(item => `
-                <div class="data-card" style="cursor:default;">
-                    <div class="cover-wrap"><img src="${item.cover}" class="card-cover" alt="${item.title}"></div>
-                    <div class="card-body">
-                        <h4 style="color:#fff; font-size:0.92rem; margin-bottom:0.7rem;">${item.title}</h4>
-                        <div style="display:flex; gap:0.5rem;">
-                            <button class="btn btn-outline" style="flex:1; padding:0.45rem; font-size:0.78rem;" onclick="editInvestment(${item.id})">Düzenle</button>
-                            <button class="btn btn-danger" style="flex:1; padding:0.45rem; font-size:0.78rem;" onclick="deleteInvestment(${item.id}, event)">Sil</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function openInvestmentDetail(id) {
-            const item = db.investments.find(i => i.id === id);
-            if (!item) return;
-            document.getElementById('detailHeaderTitle').innerText = item.title;
-            document.getElementById('detailContentContainer').innerHTML = `
-                <img src="${item.cover}" class="detail-main-img" alt="${item.title}">
-                ${item.goal ? `<span class="badge" style="background:rgba(255,176,32,0.14); color:var(--admin-color); border:1px solid rgba(255,176,32,0.4); margin-top:1rem;">${item.goal}</span>` : ''}
-                <h1 style="color:#fff; margin:0.8rem 0 1rem;">${item.title}</h1>
-                <div style="color:var(--text-main); font-size:1rem; line-height:1.6; margin-bottom:2rem; white-space:pre-line;">${item.longDesc || item.desc}</div>
-                <button class="btn" onclick="prefillInvestContact('${item.title.replace(/'/g, "\\'")}')"><svg class="icon"><use href="#i-mail"/></svg> Bu Proje İçin İletişime Geç</button>
-            `;
-            openFullscreen('itemDetailView');
-        }
-
-        function prefillInvestContact(title) {
-            openFullscreen('investView');
-            renderInvestments();
-            setTimeout(() => {
-                const msg = document.getElementById('contactMessage');
-                if (msg) { msg.value = `"${title}" projesi hakkında bilgi almak istiyorum.\n\n`; msg.focus(); }
-            }, 50);
-        }
-
-        async function sendDirectEmail(e) {
-            e.preventDefault();
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const message = document.getElementById('contactMessage').value;
-
-            db.messages.unshift({ id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'contact', fromName: name, fromEmail: email, note: message, read: false });
-            await syncDatabase();
-            updateMessageBadge();
-
-            const subject = encodeURIComponent(`FurTek İşbirliği / Sponsorluk: ${name}`);
-            const body = encodeURIComponent(`Gönderen: ${name}\nE-posta: ${email}\n\nMesaj:\n${message}`);
-            e.target.reset();
-            alert('Mesajınız admin panosuna iletildi. E-posta istemciniz de açılacak.');
-            window.location.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-        }
-
-        /* ---------- BİLDİRİMLER & MESAJLAR ---------- */
-        function updateMessageBadge() {
-            const badge = document.getElementById('msgBadge');
-            if (!badge) return;
-            const activeEmail = localStorage.getItem('furtek_active_user');
-            const isAdmin = activeEmail === ADMIN_EMAIL;
-            const unread = isAdmin ? (db.messages || []).filter(m => !m.read).length : 0;
-            if (isAdmin && unread > 0) { badge.style.display = 'inline-flex'; badge.innerText = unread; }
-            else { badge.style.display = 'none'; }
-        }
-
-        function renderMessages() {
-            const container = document.getElementById('messagesContainer');
-            const activeEmail = localStorage.getItem('furtek_active_user');
-            const isAdmin = activeEmail === ADMIN_EMAIL;
-
-            if (!activeEmail) { container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Bildirimleri görmek için giriş yapmalısın.</p>'; return; }
-            if (!isAdmin) { container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Henüz bir bildirimin yok. Ürün ve iş birliği talepleri doğrudan site yöneticisine iletilir.</p>'; return; }
-            if (!db.messages || db.messages.length === 0) { container.innerHTML = '<p style="color:var(--text-muted); grid-column:1/-1;">Gelen kutusu boş.</p>'; return; }
-
-            container.innerHTML = db.messages.map(m => `
-                <div class="data-card" style="padding:1.2rem; cursor:default; ${m.read ? 'opacity:0.55;' : ''}">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
-                        <span class="badge" style="background:rgba(33,230,255,0.12); color:var(--primary); border:1px solid var(--border-strong);">${m.type === 'purchase' ? 'Satın Alma Talebi' : 'İş Birliği Mesajı'}</span>
-                        <span style="color:var(--text-muted); font-size:0.75rem; font-family:var(--font-mono);">${m.date}</span>
-                    </div>
-                    ${m.productName ? `<p style="color:#fff; font-weight:600; margin-bottom:0.3rem;">Ürün: ${m.productName}</p>` : ''}
-                    <p style="color:var(--text-main); font-size:0.9rem; margin-bottom:0.6rem; white-space:pre-line;">${m.note}</p>
-                    <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:0.9rem;">${m.fromName} · ${m.fromEmail}</p>
-                    <div style="display:flex; gap:0.5rem;">
-                        ${!m.read ? `<button class="btn btn-outline" style="padding:0.4rem 0.8rem; font-size:0.8rem;" onclick="markMessageRead(${m.id})">Okundu İşaretle</button>` : ''}
-                        <button class="btn btn-danger" style="padding:0.4rem 0.8rem; font-size:0.8rem;" onclick="deleteMessage(${m.id})">Sil</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function markMessageRead(id) {
-            const m = db.messages.find(m => m.id === id);
-            if (m) m.read = true;
-            await syncDatabase();
-            renderMessages();
-            updateMessageBadge();
-        }
-
-        async function deleteMessage(id) {
-            db.messages = db.messages.filter(m => m.id !== id);
-            await syncDatabase();
-            renderMessages();
-            updateMessageBadge();
-        }
-    </script>
-</body>
-</html>
+                container.innerHTML = '<p style="color:var(--text-muted);">Şu anda yatırım bekleyen bir proje 

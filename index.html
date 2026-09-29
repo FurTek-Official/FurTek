@@ -260,6 +260,7 @@
             <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 10v4a1 1 0 0 0 1 1h2l7 4V5L6 9H4a1 1 0 0 0-1 1Z"/><path d="M13 8a4 4 0 0 1 0 8"/><path d="M17 5a8 8 0 0 1 0 14"/></symbol>
             <symbol id="i-drag" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1.3" fill="currentColor" stroke="none"/></symbol>
             <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 12h4l2 3h4l2-3h4"/><path d="M4 12 6 5h12l2 7"/><path d="M4 12v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-6"/></symbol>
+            <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
         </defs>
     </svg>
 
@@ -398,8 +399,8 @@
 
         <div class="fullscreen-view" id="itemDetailView">
             <div class="view-header">
-                <h2 id="detailHeaderTitle" class="view-title">Detaylar</h2>
-                <button class="close-btn" onclick="closeAllViews()">&times;</button>
+                <button class="close-btn" onclick="backFromDetail()" aria-label="Geri"><svg class="icon" style="width:1.3em;height:1.3em;"><use href="#i-back"/></svg></button>
+                <h2 id="detailHeaderTitle" class="view-title" style="margin-right:auto; margin-left:0.8rem;">Detaylar</h2>
             </div>
             <div class="detail-view-container" id="detailContentContainer"></div>
         </div>
@@ -756,6 +757,38 @@
             window.scrollTo(0, 0);
         }
 
+        let detailReturnView = 'homeView';
+        let currentDetailRef = null;
+
+        function openFullscreenDetail(sourceView) {
+            detailReturnView = sourceView;
+            openFullscreen('itemDetailView');
+        }
+
+        function backFromDetail() {
+            document.querySelectorAll('.fullscreen-view').forEach(v => v.style.display = 'none');
+            currentDetailRef = null;
+            if (detailReturnView === 'homeView') {
+                document.getElementById('homeView').style.display = 'block';
+            } else {
+                document.getElementById(detailReturnView).style.display = 'block';
+                if (detailReturnView === 'productsView') renderProducts();
+                else if (detailReturnView === 'projectsView') renderProjects();
+                else if (detailReturnView === 'investView') renderInvestments();
+                else if (detailReturnView === 'newsView') renderNews();
+            }
+            document.body.style.overflow = '';
+            window.scrollTo(0, 0);
+        }
+
+        function refreshOpenViews() {
+            if (document.getElementById('newsView').style.display === 'block') renderNews();
+            if (document.getElementById('itemDetailView').style.display === 'block' && currentDetailRef) {
+                if (currentDetailRef.type === 'product') openProductDetail(currentDetailRef.id);
+                else if (currentDetailRef.type === 'news') openNewsDetail(currentDetailRef.id);
+            }
+        }
+
         function closeAllViews() {
             document.querySelectorAll('.fullscreen-view').forEach(v => v.style.display = 'none');
             document.getElementById('homeView').style.display = 'block';
@@ -824,6 +857,7 @@
             }
             closeModal('authModal');
             checkActiveSession();
+            refreshOpenViews();
         }
 
         function checkActiveSession() {
@@ -871,6 +905,7 @@
             localStorage.removeItem('furtek_active_user');
             checkActiveSession();
             closeAllViews();
+            currentDetailRef = null;
             if (document.getElementById('sideMenu').classList.contains('active')) toggleMenu();
         }
 
@@ -1040,7 +1075,7 @@
                 <div style="color:var(--text-main); font-size:1rem; line-height:1.6; margin-bottom:2rem; white-space:pre-line;">${item.longDesc || item.desc}</div>
                 <a href="${item.link}" target="_blank" class="btn"><svg class="icon"><use href="#i-code"/></svg> Kaynak Kodu / GitHub</a>
             `;
-            openFullscreen('itemDetailView');
+            openFullscreenDetail('projectsView');
         }
 
         /* ---------- ÜRÜNLER ---------- */
@@ -1109,6 +1144,8 @@
             const item = db.products.find(p => p.id === id);
             if (!item) return;
             item.comments = item.comments || [];
+            item.reviews = item.reviews || [];
+            currentDetailRef = { type: 'product', id };
 
             document.getElementById('detailHeaderTitle').innerText = item.name;
             const container = document.getElementById('detailContentContainer');
@@ -1140,8 +1177,59 @@
                 <div style="color:var(--text-main); font-size:0.95rem; line-height:1.6; white-space:pre-line;">${item.longDesc || item.desc}</div>
                 ${galleryHtml}
                 ${commentsSectionHTML('product', item)}
+                ${reviewsSectionHTML(item)}
             `;
-            openFullscreen('itemDetailView');
+            openFullscreenDetail('productsView');
+        }
+
+        function reviewsSectionHTML(item) {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const reviews = item.reviews || [];
+            const canReview = activeEmail && (item.buyers || []).includes(activeEmail);
+
+            const list = reviews.length ? reviews.map(r => {
+                const v = getUserView(r.user, r.displayName, r.avatar);
+                return `<div class="comment-item">
+                    <img src="${v.avatar}" class="mini-avatar" alt="">
+                    <div class="comment-body">
+                        <div class="comment-head"><span class="comment-name">${esc(v.name)}</span><span class="comment-date">${esc(r.date)}</span></div>
+                        <p>${esc(r.text)}</p>
+                        ${r.photo ? `<img src="${r.photo}" class="news-inline-img" style="max-width:220px;">` : ''}
+                    </div>
+                </div>`;
+            }).join('') : '<p style="color:var(--text-muted); font-size:0.85rem;">Henüz değerlendirme yok.</p>';
+
+            let formHtml;
+            if (canReview) {
+                formHtml = `<form class="comment-form" onsubmit="submitReview(${item.id}, event)">
+                        <textarea id="reviewInput-${item.id}" rows="2" placeholder="Ürünü değerlendir..." required></textarea>
+                        <input type="file" id="reviewPhoto-${item.id}" accept="image/*">
+                        <button type="submit" class="btn btn-outline" style="align-self:flex-end;">Değerlendirmeyi Gönder</button>
+                   </form>`;
+            } else if (activeEmail) {
+                formHtml = '<p class="comment-login-note">Değerlendirme yazmak için bu ürünü satın alma sürecinden geçmiş olmalısın.</p>';
+            } else {
+                formHtml = `<p class="comment-login-note">Değerlendirme yazmak için <a href="#" onclick="openAuthModal('login')">giriş yap</a> ve bu ürünü satın al.</p>`;
+            }
+
+            return `<div class="comments-section"><h4>Değerlendirmeler (${reviews.length})</h4>${list}${formHtml}</div>`;
+        }
+
+        async function submitReview(id, event) {
+            event.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = activeEmail ? db.users[activeEmail] : null;
+            const item = db.products.find(p => p.id === id);
+            if (!userObj || !item || !(item.buyers || []).includes(activeEmail)) return;
+            const text = document.getElementById(`reviewInput-${id}`).value.trim();
+            if (!text) return;
+            const photoFile = document.getElementById(`reviewPhoto-${id}`).files[0];
+            const photo = photoFile ? await resizeImage(photoFile, 700, 0.72) : null;
+
+            item.reviews = item.reviews || [];
+            item.reviews.push({ id: Date.now(), user: activeEmail, displayName: userObj.displayName, avatar: userObj.avatar || placeholderAvatar, text, photo, date: new Date().toLocaleDateString('tr-TR') });
+            await syncDatabase();
+            openProductDetail(id);
         }
 
         function hasCompleteAddress(u) {
@@ -1190,7 +1278,22 @@
                 <button class="comment-action-btn" style="margin-top:0.9rem;" onclick="goToAddress()">Adresi düzenle</button>`;
         }
 
-        function continueCheckout() {
+        async function continueCheckout() {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = activeEmail ? db.users[activeEmail] : null;
+            const item = db.products.find(p => p.id === currentPurchaseProductId);
+            if (userObj && item) {
+                item.buyers = item.buyers || [];
+                if (!item.buyers.includes(activeEmail)) item.buyers.push(activeEmail);
+                db.messages.unshift({
+                    id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'purchase',
+                    productId: item.id, productName: item.name,
+                    fromName: userObj.displayName, fromEmail: activeEmail,
+                    note: 'Satın alma denemesi yaptı (ödeme altyapısı henüz aktif değil).', read: false
+                });
+                await syncDatabase();
+                updateMessageBadge();
+            }
             document.getElementById('checkoutNotice').innerHTML = '<div class="notice-box">Şu anda işlem gerçekleştirilemiyor.</div>';
         }
 
@@ -1239,6 +1342,12 @@
             const activeEmail = localStorage.getItem('furtek_active_user');
             const comments = item.comments || [];
             const total = comments.reduce((n, c) => n + 1 + (c.replies || []).length, 0);
+            const isProduct = type === 'product';
+            const sectionLabel = isProduct ? 'Sorular' : 'Yorumlar';
+            const placeholder = isProduct ? 'Ürünle ilgili bir soru sor...' : 'Yorumunu yaz...';
+            const submitLabel = isProduct ? 'Sor' : 'Gönder';
+            const emptyLabel = isProduct ? 'Henüz soru sorulmamış.' : 'Henüz yorum yok.';
+            const loginLabel = isProduct ? 'Soru sormak' : 'Yorum yapmak';
 
             const list = comments.length ? comments.map(c => {
                 const replies = c.replies || [];
@@ -1250,21 +1359,26 @@
                         <button type="submit" class="btn btn-outline" style="align-self:flex-end;">Yanıtla</button>
                     </form>` : ''}
                 </div>`;
-            }).join('') : '<p style="color:var(--text-muted); font-size:0.85rem;">Henüz yorum yok.</p>';
+            }).join('') : `<p style="color:var(--text-muted); font-size:0.85rem;">${emptyLabel}</p>`;
 
             const formHtml = activeEmail
                 ? `<form class="comment-form" onsubmit="submitComment('${type}', ${item.id}, event)">
-                        <textarea id="commentInput-${type}-${item.id}" rows="2" placeholder="Yorumunu yaz..." required></textarea>
-                        <button type="submit" class="btn btn-outline" style="align-self:flex-end;">Gönder</button>
+                        <textarea id="commentInput-${type}-${item.id}" rows="2" placeholder="${placeholder}" required></textarea>
+                        <button type="submit" class="btn btn-outline" style="align-self:flex-end;">${submitLabel}</button>
                    </form>`
-                : `<p class="comment-login-note">Yorum yapmak için <a href="#" onclick="openAuthModal('login')">giriş yap</a>.</p>`;
+                : `<p class="comment-login-note">${loginLabel} için <a href="#" onclick="openAuthModal('login')">giriş yap</a>.</p>`;
 
-            return `<div class="comments-section"><h4>Yorumlar (${total})</h4>${list}${formHtml}</div>`;
+            return `<div class="comments-section"><h4>${sectionLabel} (${total})</h4>${list}${formHtml}</div>`;
         }
 
         function refreshComments(type, itemId) {
             const y = window.scrollY;
-            if (type === 'news') renderNews(); else openProductDetail(itemId);
+            if (type === 'news') {
+                if (currentDetailRef && currentDetailRef.type === 'news' && currentDetailRef.id === itemId) openNewsDetail(itemId);
+                else renderNews();
+            } else {
+                openProductDetail(itemId);
+            }
             window.scrollTo(0, y);
         }
 
@@ -1390,130 +1504,4 @@
         }
 
         async function reportComment() {
-            const activeEmail = localStorage.getItem('furtek_active_user');
-            const reporter = activeEmail ? db.users[activeEmail] : null;
-            if (!reporter) { closeModal('commentActionModal'); openAuthModal('login'); return; }
-            const found = pendingRef && findComment(pendingRef);
-            if (!found || !found.c) return;
-            if (found.c.user === activeEmail) { alert('Kendi yorumunu rapor edemezsin.'); return; }
-            const v = getUserView(found.c.user, found.c.displayName, found.c.avatar);
-            db.messages.unshift({
-                id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'report', to: 'admin',
-                fromName: reporter.displayName, fromEmail: activeEmail,
-                productName: itemTitle(pendingRef.type, found.item),
-                note: `Rapor edilen kullanıcı: ${v.name} (${found.c.user})\nYorum: ${found.c.text}`,
-                read: false, ref: { type: pendingRef.type, itemId: pendingRef.itemId }
-            });
-            await syncDatabase();
-            updateMessageBadge();
-            closeModal('commentActionModal');
-            alert('Rapor admin\'e iletildi. Teşekkürler.');
-        }
-
-        /* ---------- HABERLER ---------- */
-        async function addNews(e) {
-            e.preventDefault();
-            const title = document.getElementById('adminNewsTitle').value.trim();
-            const content = document.getElementById('adminNewsContent').value.trim();
-            const today = new Date();
-            const dateStr = formatNewsDate(today);
-
-            db.news.unshift({ id: Date.now(), date: dateStr, title, content, images: { ...activeNewsImages }, comments: [] });
-            activeNewsImages = {};
-
-            await syncDatabase();
-            alert('Haber yayınlandı!');
-            e.target.reset();
-            renderNews();
-        }
-
-        async function deleteNews(id) {
-            db.news = db.news.filter(n => n.id !== id);
-            await syncDatabase();
-            renderNews();
-        }
-
-        function renderNews() {
-            const container = document.getElementById('newsContainer');
-            const activeEmail = localStorage.getItem('furtek_active_user');
-            const isAdmin = (activeEmail === ADMIN_EMAIL);
-
-            if (db.news.length === 0) { container.innerHTML = '<p style="color:var(--text-muted);">Henüz haber bulunmuyor.</p>'; return; }
-
-            container.innerHTML = db.news.map(item => {
-                item.comments = item.comments || [];
-                item.images = item.images || {};
-                const formattedContent = item.content.replace(/\[img:([\w]+)\]/g, (m, token) => {
-                    const src = item.images[token];
-                    return src ? `<img src="${src}" class="news-inline-img">` : '';
-                });
-                return `
-                    <div class="data-card" style="margin-bottom:1.5rem; padding:1.2rem; cursor:default;">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span style="color:var(--primary); font-size:0.8rem; font-family: var(--font-mono);">${item.date}</span>
-                            ${isAdmin ? `<button onclick="deleteNews(${item.id})" class="btn btn-danger" style="padding:0.2rem 0.5rem; font-size:0.75rem;">Sil</button>` : ''}
-                        </div>
-                        <h3 style="color:#fff; margin:0.4rem 0;">${item.title}</h3>
-                        <div style="color:var(--text-main); font-size:0.9rem; line-height:1.6; white-space:pre-line;">${formattedContent}</div>
-                        ${commentsSectionHTML('news', item)}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        /* ---------- YATIRIM & İŞBİRLİĞİ ---------- */
-        async function addInvestment(e) {
-            e.preventDefault();
-            const title = document.getElementById('adminInvTitle').value.trim();
-            const desc = document.getElementById('adminInvDesc').value.trim();
-            const longDesc = document.getElementById('adminInvLongDesc').value.trim();
-            const goal = document.getElementById('adminInvGoal').value.trim();
-            const imgFile = document.getElementById('adminInvImg').files[0];
-            let coverBase64 = imgFile ? await resizeImage(imgFile) : null;
-
-            if (editingInvestmentId) {
-                const inv = db.investments.find(i => i.id === editingInvestmentId);
-                if (inv) {
-                    inv.title = title; inv.desc = desc; inv.longDesc = longDesc; inv.goal = goal;
-                    if (coverBase64) inv.cover = coverBase64;
-                }
-                editingInvestmentId = null;
-                document.getElementById('adminInvSubmitBtn').innerText = 'Yatırım Projesi Yayınla';
-            } else {
-                db.investments.unshift({ id: Date.now(), title, cover: coverBase64 || placeholderImg, desc, longDesc, goal });
-            }
-
-            await syncDatabase();
-            alert('Kaydedildi!');
-            e.target.reset();
-            document.getElementById('adminInvImg').required = true;
-            renderInvestments();
-            renderAdminInvestments();
-        }
-
-        function editInvestment(id) {
-            const inv = db.investments.find(i => i.id === id);
-            if (!inv) return;
-            editingInvestmentId = id;
-            document.getElementById('adminInvTitle').value = inv.title;
-            document.getElementById('adminInvDesc').value = inv.desc;
-            document.getElementById('adminInvLongDesc').value = inv.longDesc;
-            document.getElementById('adminInvGoal').value = inv.goal || '';
-            document.getElementById('adminInvImg').required = false;
-            document.getElementById('adminInvSubmitBtn').innerText = 'Değişiklikleri Güncelle';
-            document.getElementById('adminInvTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        async function deleteInvestment(id, event) {
-            event.stopPropagation();
-            db.investments = db.investments.filter(i => i.id !== id);
-            await syncDatabase();
-            renderInvestments();
-            renderAdminInvestments();
-        }
-
-        function renderInvestments() {
-            const container = document.getElementById('investmentsContainer');
-            if (!container) return;
-            if (!db.investments || db.investments.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted);">Şu anda yatırım bekleyen bir proje 
+            const activeEmail = loc

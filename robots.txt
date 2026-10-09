@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://furtek-official.github.io/FurTek/sitemap.xml

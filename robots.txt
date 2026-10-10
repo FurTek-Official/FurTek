@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://furtek-official.github.io/FurTek/sitemap.xml
+# Belirli AI botlarına izin vermek için:
+User-agent: Googlebot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://furtek.tech/sitemap.xml

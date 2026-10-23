@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurTek E-Shop</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 3l14.5 8.5v17L20 37 5.5 28.5v-17L20 3Z' fill='none' stroke='%2300e5ff' stroke-width='2.5'/%3E%3Ccircle cx='20' cy='20' r='4.5' fill='%2300e5ff'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e14;
+            --bg-soft: #0d1219;
+            --card-bg: #131a24;
+            --card-bg-hover: #17202c;
+            --border-color: #212b39;
+            --border-strong: #2c3a4d;
+            --primary: #21e6ff;
+            --primary-glow: rgba(33, 230, 255, 0.35);
+            --accent-2: #6dffa0;
+            --text-main: #c3ceda;
+            --text-heading: #f3f7fb;
+            --text-muted: #7f8ea3;
+            --error-color: #ff4f6d;
+            --success-color: #34d399;
+            --admin-color: #ffb020;
+            --radius-s: 6px;
+            --radius-m: 12px;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+        body {
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(ellipse 900px 500px at 15% -10%, rgba(33,230,255,0.09), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 100% 10%, rgba(109,255,160,0.06), transparent 55%);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .icon { width: 1.15em; height: 1.15em; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.22em; }
+
+        header { position: sticky; top: 0; z-index: 500; background: rgba(10,14,20,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); }
+        .header-container { max-width: 1200px; margin: 0 auto; padding: 1rem 6%; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .logo { display: flex; align-items: center; gap: 0.55rem; font-size: 1.3rem; font-weight: 800; color: var(--text-heading); text-decoration: none; letter-spacing: -0.02em; flex-shrink: 0; }
+        .logo span { color: var(--primary); }
+        .logo-mark { width: 28px; height: 28px; }
+        .logo-mark path { stroke: var(--primary); stroke-width: 2.2; fill: none; }
+        .logo-mark circle { fill: var(--primary); stroke: none; }
+        .logo-mark .spokes { stroke: var(--border-strong); stroke-width: 1.4; }
+        .shop-tag { font-size: 0.68rem; color: var(--primary); font-family: var(--font-mono); border: 1px solid var(--border-strong); padding: 0.12rem 0.5rem; border-radius: 999px; margin-left: 0.3rem; }
+
+        .search-wrap { position: relative; flex: 1; min-width: 160px; }
+        .search-wrap .icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 16px; height: 16px; }
+        .search-wrap input { width: 100%; padding: 0.6rem 0.8rem 0.6rem 2.3rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-s); color: var(--text-main); font-size: 0.88rem; }
+        .search-wrap input:focus { outline: none; border-color: var(--primary); }
+
+        .nav-actions { display: flex; align-items: center; gap: 0.6rem; }
+        .icon-btn { position: relative; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); width: 40px; height: 40px; border-radius: var(--radius-s); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s; }
+        .icon-btn:hover { color: var(--primary); border-color: var(--primary); }
+        .cart-badge { position: absolute; top: -6px; right: -6px; background: var(--primary); color: #04141a; font-size: 0.66rem; font-weight: 800; min-width: 18px; height: 18px; padding: 0 3px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.65rem 1.1rem; background-color: var(--primary); color: #04141a; font-weight: 600; font-size: 0.86rem; border-radius: var(--radius-s); border: 1px solid transparent; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, filter 0.15s; text-decoration: none; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(33,230,255,0.25); }
+        .btn:disabled { opacity: 0.4; filter: grayscale(1); cursor: not-allowed; pointer-events: none; }
+        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--border-strong); }
+        .btn-outline:hover { border-color: var(--primary); }
+        .btn-danger { background-color: var(--error-color); color: #fff; }
+        .btn-blue { background-color: #2f7cf6; color: #fff; }
+        .btn-sm { padding: 0.4rem 0.7rem; font-size: 0.78rem; }
+
+        main { flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 2rem 6% 3rem; }
+
+        .hero-banner { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 2.2rem; margin-bottom: 1.8rem; position: relative; overflow: hidden; }
+        .hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(33,230,255,0.1); border: 1px solid var(--border-strong); color: var(--primary); padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; font-family: var(--font-mono); margin-bottom: 1rem; }
+        .hero-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2); animation: blink 2.4s ease-in-out infinite; }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+        .hero-banner h2 { font-size: 1.8rem; color: var(--text-heading); margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+        .hero-banner p { color: var(--text-muted); max-width: 560px; font-size: 0.92rem; line-height: 1.6; }
+
+        .filters-bar { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-m); padding: 1rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.9rem; margin-bottom: 1.6rem; }
+        .category-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .cat-btn { background: var(--bg-soft); border: 1px solid var(--border-color); color: var(--text-muted); padding: 0.45rem 0.9rem; border-radius: var(--radius-s); font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .cat-btn.active { background: var(--primary); color: #04141a; border-color: var(--primary); }
+        .sort-box select { background: var(--bg-soft); border: 1px solid var(--border-color); color: var(--text-main); padding: 0.45rem 0.7rem; border-radius: var(--radius-s); font-size: 0.8rem; }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.2rem; }
+        .product-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-m); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+        .product-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
+        .cover-wrap { position: relative; overflow: hidden; cursor: pointer; }
+        .product-cover { width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #151b24; display: block; transition: transform 0.4s; }
+        .product-card:hover .product-cover { transform: scale(1.06); }
+        .cover-badge { position: absolute; top: 0.6rem; left: 0.6rem; font-family: var(--font-mono); font-size: 0.66rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 999px; backdrop-filter: blur(6px); }
+        .badge-in-stock { background: rgba(52,211,153,0.18); color: var(--success-color); border: 1px solid rgba(52,211,153,0.4); }
+        .badge-out-stock { background: rgba(255,79,109,0.18); color: var(--error-color); border: 1px solid rgba(255,79,109,0.4); }
+        .cat-chip { position: absolute; top: 0.6rem; right: 0.6rem; background: rgba(10,14,20,0.8); border: 1px solid var(--border-strong); color: var(--primary); font-size: 0.64rem; padding: 0.2rem 0.5rem; border-radius: 999px; font-family: var(--font-mono); }
+        .product-info { padding: 1rem; display: flex; flex-direction: column; gap: 0.3rem; flex: 1; cursor: pointer; }
+        .product-info h3 { font-size: 0.95rem; color: var(--text-heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .product-info p { font-size: 0.78rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
+        .product-footer { padding: 0 1rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+        .price-tag { color: var(--primary); font-weight: 800; font-size: 1.05rem; font-family: var(--font-mono); }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(4,6,9,0.82); backdrop-filter: blur(6px); z-index: 3000; display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 2rem 1rem; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--card-bg); border: 1px solid var(--border-strong); width: 100%; max-width: 480px; border-radius: var(--radius-m); padding: 1.8rem; box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin: auto; }
+        .modal-content.wide { max-width: 760px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; gap: 1rem; }
+        .modal-header h3 { font-size: 1.1rem; color: var(--text-heading); }
+        .close-modal { background: var(--bg-soft); border: 1px solid var(--border-color); color: var(--text-muted); width: 32px; height: 32px; border-radius: var(--radius-s); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .close-modal:hover { color: var(--primary); border-color: var(--primary); }
+
+        .form-group { margin-bottom: 1rem; text-align: left; }
+        .form-group label { display: block; color: var(--text-heading); font-size: 0.8rem; margin-bottom: 0.35rem; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.7rem 0.85rem; background: var(--bg-soft); border: 1px solid var(--border-color); border-radius: var(--radius-s); color: var(--text-main); font-family: inherit; font-size: 0.88rem; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(33,230,255,0.12); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+        .error-msg { color: var(--error-color); font-size: 0.82rem; margin-top: 0.4rem; display: none; }
+        .pw-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem; line-height: 1.4; }
+
+        .cart-drawer { position: fixed; top: 0; right: -420px; width: 400px; max-width: 92vw; height: 100vh; height: 100dvh; background: var(--card-bg); border-left: 1px solid var(--border-color); z-index: 3200; display: flex; flex-direction: column; transition: right 0.3s cubic-bezier(.4,0,.2,1); box-shadow: -20px 0 40px rgba(0,0,0,0.5); }
+        .cart-drawer.active { right: 0; }
+        .cart-header { padding: 1.2rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.2rem; }
+        .cart-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem 0; border-bottom: 1px solid var(--border-color); }
+        .cart-item img { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-s); background: var(--bg-soft); border: 1px solid var(--border-color); }
+        .qty-ctrl { display: flex; align-items: center; gap: 0.5rem; }
+        .qty-ctrl button { width: 24px; height: 24px; border-radius: 6px; border: 1px solid var(--border-strong); background: var(--bg-soft); color: var(--text-main); cursor: pointer; }
+        .cart-footer { padding: 1.2rem; border-top: 1px solid var(--border-color); flex-shrink: 0; }
+        .cart-overlay { position: fixed; inset: 0; background: rgba(4,6,9,0.6); z-index: 3100; display: none; }
+        .cart-overlay.active { display: block; }
+
+        .notice-box { border: 1px solid rgba(255,79,109,0.4); background: rgba(255,79,109,0.1); color: var(--error-color); padding: 0.8rem 1rem; border-radius: var(--radius-s); font-size: 0.85rem; margin-top: 1rem; }
+        .addr-summary { background: var(--bg-soft); border: 1px solid var(--border-color); border-radius: var(--radius-s); padding: 0.8rem 1rem; font-size: 0.85rem; line-height: 1.6; }
+
+        .comments-section { margin-top: 1.4rem; padding-top: 1.1rem; border-top: 1px solid var(--border-color); text-align: left; }
+        .comments-section h4 { color: var(--text-heading); margin-bottom: 0.8rem; font-size: 0.9rem; }
+        .comment-item { display: flex; gap: 0.6rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border-color); }
+        .comment-item:last-of-type { border-bottom: none; }
+        .mini-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-strong); flex-shrink: 0; }
+        .comment-body { flex: 1; min-width: 0; }
+        .comment-head { display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.2rem; flex-wrap: wrap; }
+        .comment-name { color: var(--text-heading); font-weight: 600; font-size: 0.82rem; }
+        .comment-date { color: var(--text-muted); font-size: 0.68rem; font-family: var(--font-mono); }
+        .comment-body p { color: var(--text-main); font-size: 0.84rem; line-height: 1.5; word-break: break-word; }
+        .comment-form { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.8rem; }
+        .comment-form textarea { width: 100%; padding: 0.55rem 0.75rem; background: var(--bg-soft); border: 1px solid var(--border-color); border-radius: var(--radius-s); color: var(--text-main); font-family: inherit; font-size: 0.82rem; resize: vertical; }
+        .comment-login-note { color: var(--text-muted); font-size: 0.82rem; }
+        .comment-login-note a { color: var(--primary); }
+
+        footer { border-top: 1px solid var(--border-color); padding: 1.6rem 6%; text-align: center; background-color: var(--bg-soft); margin-top: auto; }
+        footer a { color: var(--primary); text-decoration: none; font-size: 0.82rem; }
+        .version-tag { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.4rem; display: block; font-family: var(--font-mono); }
+
+        #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--card-bg); border: 1px solid var(--border-strong); padding: 0.8rem 1.2rem; border-radius: var(--radius-s); z-index: 4000; font-size: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); opacity: 0; pointer-events: none; transition: all 0.25s; }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></symbol>
+            <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.4" fill="currentColor" stroke="none"/><path d="M2.5 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/></symbol>
+            <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"/></symbol>
+            <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></symbol>
+            <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></symbol>
+            <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+            <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h4v-5h2v5h4a1 1 0 0 0 1-1v-9"/></symbol>
+        </defs>
+    </svg>
+
+    <header>
+        <div class="header-container">
+            <a class="logo" href="index.html">
+                <svg class="logo-mark" viewBox="0 0 40 40">
+                    <path d="M20 3l14.5 8.5v17L20 37 5.5 28.5v-17L20 3Z"/>
+                    <path class="spokes" d="M20 3v9M20 28v9M5.5 11.5l8 5M26.5 23.5l8 5M34.5 11.5l-8 5M13.5 23.5l-8 5"/>
+                    <circle cx="20" cy="20" r="4"/>
+                </svg>
+                <span class="logo-text">Fur<span>Tek</span></span><span class="shop-tag">E-SHOP</span>
+            </a>
+            <div class="search-wrap">
+                <svg class="icon"><use href="#i-search"/></svg>
+                <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Ürün ara...">
+            </div>
+            <div class="nav-actions">
+                <a href="index.html" class="icon-btn" title="Ana Siteye Dön"><svg class="icon"><use href="#i-home"/></svg></a>
+                <button class="icon-btn" onclick="toggleCart(true)" title="Sepet">
+                    <svg class="icon"><use href="#i-cart"/></svg>
+                    <span id="cartBadge" class="cart-badge hidden">0</span>
+                </button>
+                <div id="authNavArea" style="display:flex; gap:0.5rem;"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-banner">
+            <span class="hero-tag"><span class="dot"></span>Gömülü Sistem Donanımları</span>
+            <h2>FurTek E-Shop</h2>
+            <p>ESP32 kartları, sensörler, 3D baskı parçaları ve özel tasarım donanımlar. Hesabın ana FurTek sitesiyle ortak — ayrıca giriş yapmana gerek yok.</p>
+        </div>
+
+        <div class="filters-bar">
+            <div id="categoryTabs" class="category-tabs"></div>
+            <div class="sort-box">
+                <select id="sortSelect" onchange="handleSort(this.value)">
+                    <option value="newest">Sıralama: Yeniden Eskiye</option>
+                    <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+                    <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+                    <option value="name">İsme Göre (A-Z)</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="productsGrid" class="products-grid"></div>
+        <div id="emptyProducts" class="hidden" style="text-align:center; padding:3rem 0; color:var(--text-muted);">
+            <p>Arama kriterlerine uygun ürün bulunamadı.</p>
+        </div>
+    </main>
+
+    <footer>
+        <a href="index.html">← FurTek Ana Siteye Dön</a>
+        <span class="version-tag">FurTek E-Shop v1.0</span>
+    </footer>
+
+    <!-- SEPET -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart(false)"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3 style="color:var(--text-heading);">Sepetim</h3>
+            <button class="close-modal" onclick="toggleCart(false)">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsList"></div>
+        <div class="cart-footer">
+            <div style="display:flex; justify-content:space-between; margin-bottom:1rem; font-size:0.95rem;">
+                <span style="color:var(--text-muted);">Toplam</span>
+                <strong id="cartTotal" style="color:var(--primary); font-family:var(--font-mono);">₺0</strong>
+            </div>
+            <button class="btn" style="width:100%;" onclick="startCheckout()">Siparişi Tamamla</button>
+        </div>
+    </div>
+
+    <!-- ÜRÜN DETAY -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content wide">
+            <div class="modal-header">
+                <button class="close-modal" onclick="closeModal('productModal')" style="order:-1;"><svg class="icon"><use href="#i-back"/></svg></button>
+                <h3 id="productModalTitle" style="flex:1;">Ürün</h3>
+            </div>
+            <div id="productModalBody"></div>
+        </div>
+    </div>
+
+    <!-- GİRİŞ / KAYIT -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Giriş Yap</h3>
+                <button class="close-modal" onclick="closeModal('authModal')">&times;</button>
+            </div>
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <div class="form-group"><label>E-posta</label><input type="email" id="authEmail" required placeholder="ornek@furtek.com"></div>
+                <div class="form-group"><label>Şifre</label><input type="password" id="authPassword" required placeholder="******">
+                    <div class="pw-hint" id="authPwHint" style="display:none;">Kayıt için: en az 8 karakter; büyük harf, küçük harf ve rakam içermeli.</div>
+                </div>
+                <div class="form-group" id="otpGroup" style="display:none;">
+                    <label style="color:var(--primary);">E-posta Doğrulama Kodu</label>
+                    <input type="text" id="otpCodeInput" maxlength="6" placeholder="6 Haneli Kod">
+                    <div class="pw-hint" id="otpNotice" style="color:var(--primary);"></div>
+                </div>
+                <div class="error-msg" id="authErrorMsg"></div>
+                <button type="submit" id="authSubmitBtn" class="btn" style="width:100%; margin-top:0.6rem;">Giriş Yap</button>
+            </form>
+            <p style="text-align:center; margin-top:1rem; font-size:0.82rem; color:var(--text-muted);" id="authSwitchText">
+                Hesabın yok mu? <button type="button" onclick="toggleAuthMode()" style="background:none; border:none; color:var(--primary); font-weight:700; cursor:pointer;">Kayıt Ol</button>
+            </p>
+        </div>
+    </div>
+
+    <!-- CHECKOUT -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Siparişi Tamamla</h3><button class="close-modal" onclick="closeModal('checkoutModal')">&times;</button></div>
+            <div id="checkoutBody"></div>
+        </div>
+    </div>
+
+    <!-- ADRES FORMU -->
+    <div class="modal-overlay" id="addressModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Teslimat Adresi</h3><button class="close-modal" onclick="closeModal('addressModal')">&times;</button></div>
+            <form onsubmit="saveAddress(event)">
+                <div class="form-row">
+                    <div class="form-group"><label>Ad Soyad</label><input type="text" id="addrName" required></div>
+                    <div class="form-group"><label>Telefon</label><input type="tel" id="addrPhone" required placeholder="5xx xxx xx xx"></div>
+                </div>
+                <div class="form-group"><label>E-posta</label><input type="email" id="addrEmail" required></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Ülke</label><select id="addrCountry"><option value="Türkiye">Türkiye</option></select></div>
+                    <div class="form-group"><label>Şehir</label><select id="addrCity" required></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>İlçe</label><input type="text" id="addrDistrict" required></div>
+                    <div class="form-group"><label>Mahalle</label><input type="text" id="addrNeighborhood" required></div>
+                </div>
+                <div class="form-group"><label>Detaylı Adres</label><textarea id="addrDetail" rows="3" required></textarea></div>
+                <button type="submit" class="btn" style="width:100%;">Kaydet ve Devam Et</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDlz7zR_TGlv2Tp-cNLgt_4pSy3xDrfp6A",
+            authDomain: "furtek-46ecd.firebaseapp.com",
+            databaseURL: "https://furtek-46ecd-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "furtek-46ecd",
+            storageBucket: "furtek-46ecd.firebasestorage.app",
+            messagingSenderId: "73780262778",
+            appId: "1:73780262778:web:91a918a827b47bd65f88c3"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const fbRef = firebase.database().ref('furtek_db');
+        const ADMIN_EMAIL = "furtek.official@gmail.com";
+
+        const placeholderImg = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22300%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Crect%20width%3D%22300%22%20height%3D%22180%22%20fill%3D%22%23131a24%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20dominant-baseline%3D%22middle%22%20text-anchor%3D%22middle%22%20fill%3D%22%237f8ea3%22%20font-family%3D%22sans-serif%22%20font-size%3D%2216%22%3EFurTek%20G%C3%B6rsel%3C%2Ftext%3E%3C%2Fsvg%3E";
+        const placeholderAvatar = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22100%22%20height%3D%22100%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23131a24%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2238%22%20r%3D%2218%22%20fill%3D%22%232c3a4d%22%2F%3E%3Cpath%20d%3D%22M20%2090c6-18%2020-28%2030-28s24%2010%2030%2028%22%20fill%3D%22%232c3a4d%22%2F%3E%3C%2Fsvg%3E";
+
+        const CITIES = ["Adana","Adıyaman","Afyonkarahisar","Ağrı","Amasya","Ankara","Antalya","Artvin","Aydın","Balıkesir","Bilecik","Bingöl","Bitlis","Bolu","Burdur","Bursa","Çanakkale","Çankırı","Çorum","Denizli","Diyarbakır","Edirne","Elazığ","Erzincan","Erzurum","Eskişehir","Gaziantep","Giresun","Gümüşhane","Hakkâri","Hatay","Isparta","Mersin","İstanbul","İzmir","Kars","Kastamonu","Kayseri","Kırklareli","Kırşehir","Kocaeli","Konya","Kütahya","Malatya","Manisa","Kahramanmaraş","Mardin","Muğla","Muş","Nevşehir","Niğde","Ordu","Rize","Sakarya","Samsun","Siirt","Sinop","Sivas","Tekirdağ","Tokat","Trabzon","Tunceli","Şanlıurfa","Uşak","Van","Yozgat","Zonguldak","Aksaray","Bayburt","Karaman","Kırıkkale","Batman","Şırnak","Bartın","Ardahan","Iğdır","Yalova","Karabük","Kilis","Osmaniye","Düzce"];
+
+        // Ana sitedeki db ile BİREBİR aynı şema — localStorage anahtarı da aynı (furtek_db)
+        let db = {
+            users: {}, projects: [],
+            products: [
+                { id: 1, name: "Özel Kontrol Kartı V1", category: "Geliştirme Kartları", cover: placeholderImg, gallery: [], desc: "ESP32-S3 tabanlı kart.", longDesc: "Gelişmiş devre kartı...", price: 450, stock: "Stokta Var", comments: [], reviews: [], buyers: [] }
+            ],
+            investments: [], news: [], messages: []
+        };
+
+        let cart = JSON.parse(localStorage.getItem('furtek_eshop_cart') || '[]');
+        let currentCategory = 'Tümü';
+        let searchQuery = '';
+        let currentSort = 'newest';
+        let isRegisterMode = false;
+        let generatedOTP = null;
+        let currentDetailProductId = null;
+
+        window.onload = async function () {
+            await loadDatabase();
+            renderAuthNav();
+            renderCategories();
+            renderProducts();
+            updateCartBadge();
+        };
+
+        function normalizeDb() {
+            db.users = db.users || {};
+            db.projects = db.projects || [];
+            db.products = db.products || [];
+            db.investments = db.investments || [];
+            db.news = db.news || [];
+            db.messages = db.messages || [];
+        }
+
+        // Ortak bulut veritabanı (Firebase Realtime Database) — ana FurTek sitesiyle aynı veri.
+        function loadDatabase() {
+            const local = localStorage.getItem('furtek_db');
+            if (local) { db = JSON.parse(local); normalizeDb(); }
+
+            return new Promise((resolve) => {
+                let firstLoad = true;
+                fbRef.on('value', (snapshot) => {
+                    if (snapshot.exists()) {
+                        db = snapshot.val();
+                        normalizeDb();
+                        saveLocalDB();
+                    } else if (firstLoad) {
+                        fbRef.set(db);
+                    }
+                    if (firstLoad) { firstLoad = false; resolve(); }
+                    else refreshVisibleUI();
+                }, (err) => {
+                    console.error('Firebase bağlantı hatası:', err);
+                    if (firstLoad) { firstLoad = false; resolve(); }
+                });
+            });
+        }
+
+        async function syncDatabase() {
+            saveLocalDB();
+            try { await fbRef.set(db); }
+            catch (e) { console.error('Senkronizasyon hatası:', e); showToast('Değişiklik buluta kaydedilemedi, internet bağlantını kontrol et.'); }
+        }
+
+        function refreshVisibleUI() {
+            renderAuthNav();
+            renderCategories();
+            renderProducts();
+            if (document.getElementById('productModal').classList.contains('active') && currentDetailProductId) {
+                openProductModal(currentDetailProductId);
+            }
+        }
+
+        function saveLocalDB() {
+            try { localStorage.setItem('furtek_db', JSON.stringify(db)); }
+            catch (e) { console.error(e); showToast('Kaydetme başarısız: depolama alanı dolu olabilir.'); }
+        }
+
+        function saveCart() { localStorage.setItem('furtek_eshop_cart', JSON.stringify(cart)); }
+
+        function resizeImage(file, maxWidth = 900, quality = 0.72) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > maxWidth) { height = Math.round(height * (maxWidth / width)); width = maxWidth; }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width; canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function esc(str) { return String(str == null ? '' : str).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch])); }
+        function getUserView(email, fallbackName, fallbackAvatar) {
+            const u = db.users[email];
+            return { name: u ? u.displayName : (fallbackName || 'Silinmiş kullanıcı'), avatar: (u && u.avatar) || fallbackAvatar || placeholderAvatar, bio: u ? (u.bio || '') : '' };
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2600);
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
+
+        function validatePassword(pw) {
+            if (pw.length < 8) return 'Şifre en az 8 karakter olmalı.';
+            if (!/[a-zçğıöşü]/.test(pw)) return 'Şifre en az bir küçük harf içermeli.';
+            if (!/[A-ZÇĞİÖŞÜ]/.test(pw)) return 'Şifre en az bir büyük harf içermeli.';
+            if (!/[0-9]/.test(pw)) return 'Şifre en az bir rakam içermeli.';
+            return '';
+        }
+
+        /* ---------- GİRİŞ / KAYIT (ana site ile aynı hesaplar) ---------- */
+        function toggleAuthMode() { isRegisterMode = !isRegisterMode; openAuthModal(isRegisterMode); }
+
+        function openAuthModal(registerMode) {
+            isRegisterMode = registerMode;
+            generatedOTP = null;
+            document.getElementById('authErrorMsg').style.display = 'none';
+            document.getElementById('otpGroup').style.display = 'none';
+            document.getElementById('authPwHint').style.display = registerMode ? 'block' : 'none';
+            document.getElementById('authModalTitle').innerText = registerMode ? 'Kayıt Ol' : 'Giriş Yap';
+            document.getElementById('authSubmitBtn').innerText = registerMode ? 'Kodu Onayla & Kaydol' : 'Giriş Yap';
+            document.getElementById('authSwitchText').innerHTML = registerMode
+                ? `Zaten hesabın var mı? <button type="button" onclick="toggleAuthMode()" style="background:none;border:none;color:var(--primary);font-weight:700;cursor:pointer;">Giriş Yap</button>`
+                : `Hesabın yok mu? <button type="button" onclick="toggleAuthMode()" style="background:none;border:none;color:var(--primary);font-weight:700;cursor:pointer;">Kayıt Ol</button>`;
+            openModal('authModal');
+        }
+
+        function showAuthError(msg) { const e = document.getElementById('authErrorMsg'); e.innerText = msg; e.style.display = 'block'; }
+
+        async function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value.toLowerCase().trim();
+            const password = document.getElementById('authPassword').value;
+
+            if (isRegisterMode) {
+                if (db.users[email]) { showAuthError('Bu e-posta zaten kayıtlı!'); return; }
+                const pwErr = validatePassword(password);
+                if (pwErr) { showAuthError(pwErr); return; }
+                if (!generatedOTP) {
+                    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                    document.getElementById('otpNotice').innerText = `Test Onay Kodunuz: ${generatedOTP}`;
+                    document.getElementById('otpGroup').style.display = 'block';
+                    alert(`Doğrulama kodunuz oluşturuldu: ${generatedOTP}`);
+                    return;
+                }
+                const userOTP = document.getElementById('otpCodeInput').value.trim();
+                if (userOTP !== generatedOTP) { showAuthError('Doğrulama kodu hatalı!'); return; }
+
+                const defaultName = email === ADMIN_EMAIL ? 'FurTek Admin' : email.split('@')[0];
+                db.users[email] = { password, displayName: defaultName, bio: 'FurTek üyesi', avatar: placeholderAvatar, isAdmin: (email === ADMIN_EMAIL) };
+                await syncDatabase();
+                localStorage.setItem('furtek_active_user', email);
+                showToast('Kayıt tamamlandı, hoş geldin!');
+            } else {
+                if (!db.users[email] || db.users[email].password !== password) { showAuthError('E-posta veya şifre hatalı!'); return; }
+                localStorage.setItem('furtek_active_user', email);
+                showToast('Giriş yapıldı.');
+            }
+            closeModal('authModal');
+            renderAuthNav();
+            if (currentDetailProductId) openProductModal(currentDetailProductId);
+        }
+
+        function logout() {
+            localStorage.removeItem('furtek_active_user');
+            renderAuthNav();
+            showToast('Çıkış yapıldı.');
+        }
+
+        function renderAuthNav() {
+            const nav = document.getElementById('authNavArea');
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const user = activeEmail ? db.users[activeEmail] : null;
+            if (user) {
+                const isAdmin = activeEmail === ADMIN_EMAIL;
+                nav.innerHTML = `
+                    <img src="${user.avatar || placeholderAvatar}" class="mini-avatar" alt="" title="${esc(user.displayName)}">
+                    ${isAdmin ? `<a href="index.html" class="icon-btn" title="Admin Paneli"><svg class="icon"><use href="#i-shield"/></svg></a>` : ''}
+                    <button class="icon-btn" onclick="logout()" title="Çıkış Yap"><svg class="icon"><use href="#i-back"/></svg></button>
+                `;
+            } else {
+                nav.innerHTML = `
+                    <button class="btn btn-outline btn-sm" onclick="openAuthModal(false)">Giriş Yap</button>
+                    <button class="btn btn-sm" onclick="openAuthModal(true)">Kayıt Ol</button>
+                `;
+            }
+        }
+
+        /* ---------- ÜRÜNLER ---------- */
+        function categoriesInUse() {
+            const set = new Set(db.products.map(p => p.category || 'Genel'));
+            return ['Tümü', ...Array.from(set)];
+        }
+
+        function renderCategories() {
+            document.getElementById('categoryTabs').innerHTML = categoriesInUse().map(c =>
+                `<button class="cat-btn ${currentCategory === c ? 'active' : ''}" onclick="filterCategory('${esc(c)}')">${esc(c)}</button>`
+            ).join('');
+        }
+        function filterCategory(c) { currentCategory = c; renderCategories(); renderProducts(); }
+        function handleSearch(q) { searchQuery = q.toLowerCase(); renderProducts(); }
+        function handleSort(s) { currentSort = s; renderProducts(); }
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const empty = document.getElementById('emptyProducts');
+            let list = (db.products || []).filter(p => {
+                const cat = p.category || 'Genel';
+                const matchCat = currentCategory === 'Tümü' || cat === currentCategory;
+                const matchSearch = p.name.toLowerCase().includes(searchQuery) || (p.desc || '').toLowerCase().includes(searchQuery);
+                return matchCat && matchSearch;
+            });
+            if (currentSort === 'price-asc') list.sort((a, b) => a.price - b.price);
+            else if (currentSort === 'price-desc') list.sort((a, b) => b.price - a.price);
+            else if (currentSort === 'name') list.sort((a, b) => a.name.localeCompare(b.name));
+            else list.sort((a, b) => b.id - a.id);
+
+            if (list.length === 0) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+
+            grid.innerHTML = list.map(p => {
+                const inStock = p.stock === 'Stokta Var';
+                return `
+                <div class="product-card">
+                    <div class="cover-wrap" onclick="openProductModal(${p.id})">
+                        <img src="${p.cover}" class="product-cover" alt="${esc(p.name)}">
+                        <span class="cover-badge ${inStock ? 'badge-in-stock' : 'badge-out-stock'}">${esc(p.stock)}</span>
+                        <span class="cat-chip">${esc(p.category || 'Genel')}</span>
+                    </div>
+                    <div class="product-info" onclick="openProductModal(${p.id})">
+                        <h3>${esc(p.name)}</h3>
+                        <p>${esc(p.desc)}</p>
+                    </div>
+                    <div class="product-footer">
+                        <span class="price-tag">₺${p.price}</span>
+                        <button class="btn btn-sm" onclick="addToCart(${p.id}); event.stopPropagation();" ${inStock ? '' : 'disabled'}>Sepete Ekle</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function openProductModal(id) {
+            const item = db.products.find(p => p.id === id);
+            if (!item) return;
+            item.comments = item.comments || [];
+            item.reviews = item.reviews || [];
+            item.buyers = item.buyers || [];
+            currentDetailProductId = id;
+
+            const inStock = item.stock === 'Stokta Var';
+            document.getElementById('productModalTitle').innerText = item.name;
+
+            let galleryHtml = '';
+            if (item.gallery && item.gallery.length > 0) {
+                galleryHtml = `<div style="display:flex; gap:0.5rem; margin-top:1rem; flex-wrap:wrap;">` +
+                    item.gallery.map(src => `<img src="${src}" style="width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--border-color);cursor:pointer;" onclick="document.getElementById('mainDetailImg').src='${src}'">`).join('') + `</div>`;
+            }
+
+            document.getElementById('productModalBody').innerHTML = `
+                <img id="mainDetailImg" src="${item.cover}" style="width:100%; aspect-ratio:16/10; object-fit:cover; border-radius:var(--radius-m); border:1px solid var(--border-color); margin-bottom:1rem;">
+                ${galleryHtml}
+                <div style="display:flex; justify-content:space-between; align-items:center; margin:1rem 0 0.4rem;">
+                    <span style="color:var(--text-muted); font-size:0.78rem; font-family:var(--font-mono);">${esc(item.category || 'Genel')}</span>
+                    <span class="cover-badge ${inStock ? 'badge-in-stock' : 'badge-out-stock'}" style="position:static;">${esc(item.stock)}</span>
+                </div>
+                <div style="font-size:1.4rem; color:var(--primary); font-weight:800; font-family:var(--font-mono); margin-bottom:0.8rem;">₺${item.price}</div>
+                <p style="color:var(--text-main); font-size:0.9rem; line-height:1.6; white-space:pre-line; margin-bottom:1.2rem;">${esc(item.longDesc || item.desc)}</p>
+                <button class="btn" style="width:100%;" onclick="addToCart(${item.id})" ${inStock ? '' : 'disabled'}>${inStock ? 'Sepete Ekle' : 'Stokta Yok'}</button>
+                ${commentsSectionHTML(item)}
+                ${reviewsSectionHTML(item)}
+            `;
+            openModal('productModal');
+        }
+
+        /* ---------- SORULAR ---------- */
+        function commentsSectionHTML(item) {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const comments = item.comments || [];
+            const list = comments.length ? comments.map(c => {
+                const v = getUserView(c.user, c.displayName, c.avatar);
+                return `<div class="comment-item">
+                    <img src="${v.avatar}" class="mini-avatar" alt="">
+                    <div class="comment-body">
+                        <div class="comment-head"><span class="comment-name">${esc(v.name)}</span><span class="comment-date">${esc(c.date)}</span></div>
+                        <p>${esc(c.text)}</p>
+                    </div>
+                </div>`;
+            }).join('') : '<p style="color:var(--text-muted); font-size:0.82rem;">Henüz soru sorulmamış.</p>';
+
+            const formHtml = activeEmail
+                ? `<form class="comment-form" onsubmit="submitQuestion(${item.id}, event)">
+                        <textarea rows="2" id="questionInput-${item.id}" placeholder="Ürünle ilgili bir soru sor..." required></textarea>
+                        <button type="submit" class="btn btn-outline" style="align-self:flex-end;">Sor</button>
+                   </form>`
+                : `<p class="comment-login-note">Soru sormak için <a href="#" onclick="openAuthModal(false)">giriş yap</a>.</p>`;
+
+            return `<div class="comments-section"><h4>Sorular (${comments.length})</h4>${list}${formHtml}</div>`;
+        }
+
+        async function submitQuestion(id, e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            if (!activeEmail || !db.users[activeEmail]) { openAuthModal(false); return; }
+            const text = document.getElementById(`questionInput-${id}`).value.trim();
+            if (!text) return;
+            const item = db.products.find(p => p.id === id);
+            if (!item) return;
+            const userObj = db.users[activeEmail];
+            item.comments = item.comments || [];
+            item.comments.push({ id: Date.now(), user: activeEmail, displayName: userObj.displayName, avatar: userObj.avatar || placeholderAvatar, text, date: new Date().toLocaleDateString('tr-TR'), replies: [] });
+            await syncDatabase();
+            openProductModal(id);
+        }
+
+        /* ---------- DEĞERLENDİRMELER (yalnızca "satın alanlar") ---------- */
+        function reviewsSectionHTML(item) {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const reviews = item.reviews || [];
+            const canReview = activeEmail && (item.buyers || []).includes(activeEmail);
+            const list = reviews.length ? reviews.map(r => {
+                const v = getUserView(r.user, r.displayName, r.avatar);
+                return `<div class="comment-item">
+                    <img src="${v.avatar}" class="mini-avatar" alt="">
+                    <div class="comment-body">
+                        <div class="comment-head"><span class="comment-name">${esc(v.name)}</span><span class="comment-date">${esc(r.date)}</span></div>
+                        <p>${esc(r.text)}</p>
+                        ${r.photo ? `<img src="${r.photo}" style="max-width:200px; border-radius:8px; margin-top:0.5rem; border:1px solid var(--border-color);">` : ''}
+                    </div>
+                </div>`;
+            }).join('') : '<p style="color:var(--text-muted); font-size:0.82rem;">Henüz değerlendirme yok.</p>';
+
+            let formHtml;
+            if (canReview) {
+                formHtml = `<form class="comment-form" onsubmit="submitReview(${item.id}, event)">
+                        <textarea rows="2" id="reviewInput-${item.id}" placeholder="Ürünü değerlendir..." required></textarea>
+                        <input type="file" id="reviewPhoto-${item.id}" accept="image/*">
+                        <button type="submit" class="btn btn-outline" style="align-self:flex-end;">Değerlendirmeyi Gönder</button>
+                   </form>`;
+            } else if (activeEmail) {
+                formHtml = '<p class="comment-login-note">Değerlendirme yazmak için bu ürünü satın alma sürecinden geçmiş olmalısın.</p>';
+            } else {
+                formHtml = `<p class="comment-login-note">Değerlendirme yazmak için <a href="#" onclick="openAuthModal(false)">giriş yap</a> ve bu ürünü satın al.</p>`;
+            }
+            return `<div class="comments-section"><h4>Değerlendirmeler (${reviews.length})</h4>${list}${formHtml}</div>`;
+        }
+
+        async function submitReview(id, e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = activeEmail ? db.users[activeEmail] : null;
+            const item = db.products.find(p => p.id === id);
+            if (!userObj || !item || !(item.buyers || []).includes(activeEmail)) return;
+            const text = document.getElementById(`reviewInput-${id}`).value.trim();
+            if (!text) return;
+            const photoFile = document.getElementById(`reviewPhoto-${id}`).files[0];
+            const photo = photoFile ? await resizeImage(photoFile, 700, 0.72) : null;
+            item.reviews = item.reviews || [];
+            item.reviews.push({ id: Date.now(), user: activeEmail, displayName: userObj.displayName, avatar: userObj.avatar || placeholderAvatar, text, photo, date: new Date().toLocaleDateString('tr-TR') });
+            await syncDatabase();
+            openProductModal(id);
+        }
+
+        /* ---------- SEPET ---------- */
+        function toggleCart(show) {
+            document.getElementById('cartDrawer').classList.toggle('active', show);
+            document.getElementById('cartOverlay').classList.toggle('active', show);
+            if (show) renderCartItems();
+        }
+
+        function addToCart(id) {
+            const p = db.products.find(x => x.id === id);
+            if (!p || p.stock !== 'Stokta Var') return;
+            const item = cart.find(x => x.id === id);
+            if (item) item.quantity++;
+            else cart.push({ id: p.id, name: p.name, price: p.price, cover: p.cover, quantity: 1 });
+            saveCart();
+            updateCartBadge();
+            showToast(`${p.name} sepete eklendi.`);
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(x => x.id === id);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) cart = cart.filter(x => x.id !== id);
+            saveCart();
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(x => x.id !== id);
+            saveCart();
+            updateCartBadge();
+            renderCartItems();
+        }
+
+        function updateCartBadge() {
+            const count = cart.reduce((s, i) => s + i.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) { badge.innerText = count; badge.classList.remove('hidden'); }
+            else badge.classList.add('hidden');
+        }
+
+        function cartTotal() { return cart.reduce((s, i) => s + i.price * i.quantity, 0); }
+
+        function renderCartItems() {
+            const list = document.getElementById('cartItemsList');
+            if (cart.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:2rem 0;">Sepetin boş.</p>';
+            } else {
+                list.innerHTML = cart.map(i => `
+                    <div class="cart-item">
+                        <img src="${i.cover}" alt="">
+                        <div style="flex:1; min-width:0;">
+                            <h4 style="font-size:0.85rem; color:var(--text-heading); margin-bottom:0.3rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(i.name)}</h4>
+                            <span style="color:var(--primary); font-size:0.8rem; font-family:var(--font-mono);">₺${i.price}</span>
+                        </div>
+                        <div class="qty-ctrl">
+                            <button onclick="changeQty(${i.id}, -1)">−</button>
+                            <span style="font-size:0.85rem; min-width:1.2em; text-align:center;">${i.quantity}</span>
+                            <button onclick="changeQty(${i.id}, 1)">+</button>
+                        </div>
+                        <button class="comment-del" style="background:none;border:none;color:var(--error-color);cursor:pointer;font-size:0.75rem;" onclick="removeFromCart(${i.id})">Sil</button>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('cartTotal').innerText = `₺${cartTotal()}`;
+        }
+
+        /* ---------- CHECKOUT (ana siteyle aynı mantık: adres gerekli, ödeme altyapısı yok) ---------- */
+        function hasCompleteAddress(u) {
+            const a = u && u.address;
+            return !!(a && a.fullName && a.phone && a.email && a.city && a.district && a.neighborhood && a.detail);
+        }
+
+        function startCheckout() {
+            if (cart.length === 0) { showToast('Sepetin boş.'); return; }
+            toggleCart(false);
+            renderCheckout();
+            openModal('checkoutModal');
+        }
+
+        function renderCheckout() {
+            const body = document.getElementById('checkoutBody');
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = activeEmail ? db.users[activeEmail] : null;
+            const summary = `<div style="margin-bottom:1rem;">${cart.map(i => `<div style="display:flex; justify-content:space-between; font-size:0.85rem; padding:0.3rem 0;"><span>${esc(i.name)} × ${i.quantity}</span><span style="font-family:var(--font-mono);">₺${i.price * i.quantity}</span></div>`).join('')}</div>
+                <div style="display:flex; justify-content:space-between; font-weight:700; border-top:1px solid var(--border-color); padding-top:0.6rem; margin-bottom:1rem;"><span>Toplam</span><span style="color:var(--primary); font-family:var(--font-mono);">₺${cartTotal()}</span></div>`;
+
+            if (!userObj) {
+                body.innerHTML = summary + `<p style="font-size:0.88rem; margin-bottom:1rem;">Siparişi tamamlamak için kayıt olmalı veya giriş yapmalısın.</p>
+                    <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                        <button class="btn" onclick="closeModal('checkoutModal'); openAuthModal(true);">Kayıt Ol</button>
+                        <button class="btn btn-outline" onclick="closeModal('checkoutModal'); openAuthModal(false);">Giriş Yap</button>
+                    </div>`;
+                return;
+            }
+            if (!hasCompleteAddress(userObj)) {
+                body.innerHTML = summary + `<p style="font-size:0.88rem; margin-bottom:1rem;">Teslimat adresin kayıtlı değil. Devam etmek için adres bilgilerini kaydetmelisin.</p>
+                    <button class="btn" style="width:100%;" onclick="goToAddress()">Adres Bilgilerini Gir</button>`;
+                return;
+            }
+            const a = userObj.address;
+            body.innerHTML = summary + `<div class="addr-summary">
+                    <strong style="color:#fff;">${esc(a.fullName)}</strong><br>
+                    ${esc(a.phone)} · ${esc(a.email)}<br>
+                    ${esc(a.neighborhood)} Mah., ${esc(a.detail)}<br>
+                    ${esc(a.district)} / ${esc(a.city)} / ${esc(a.country || 'Türkiye')}
+                </div>
+                <button class="btn btn-blue" style="width:100%; margin-top:1rem;" onclick="continueCheckout()">Devam Et</button>
+                <div id="checkoutNotice"></div>
+                <button class="comment-login-note" style="background:none;border:none;margin-top:0.8rem;cursor:pointer;" onclick="goToAddress()">Adresi düzenle</button>`;
+        }
+
+        async function continueCheckout() {
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = db.users[activeEmail];
+            if (userObj) {
+                cart.forEach(i => {
+                    const product = db.products.find(p => p.id === i.id);
+                    if (!product) return;
+                    product.buyers = product.buyers || [];
+                    if (!product.buyers.includes(activeEmail)) product.buyers.push(activeEmail);
+                });
+                db.messages.unshift({
+                    id: Date.now(), date: new Date().toLocaleDateString('tr-TR'), type: 'purchase',
+                    productName: cart.map(i => `${i.name} x${i.quantity}`).join(', '),
+                    fromName: userObj.displayName, fromEmail: activeEmail,
+                    note: `Sepet toplamı: ₺${cartTotal()}. Satın alma denemesi yapıldı (ödeme altyapısı henüz aktif değil).`, read: false
+                });
+                await syncDatabase();
+            }
+            document.getElementById('checkoutNotice').innerHTML = '<div class="notice-box">Şu anda işlem gerçekleştirilemiyor.</div>';
+        }
+
+        function goToAddress() {
+            closeModal('checkoutModal');
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const userObj = activeEmail ? db.users[activeEmail] : null;
+            const sel = document.getElementById('addrCity');
+            if (!sel.options.length) sel.innerHTML = '<option value="">Şehir seçin</option>' + CITIES.map(c => `<option value="${c}">${c}</option>`).join('');
+            const a = (userObj && userObj.address) || {};
+            document.getElementById('addrName').value = a.fullName || (userObj ? userObj.displayName : '');
+            document.getElementById('addrPhone').value = a.phone || '';
+            document.getElementById('addrEmail').value = a.email || activeEmail || '';
+            sel.value = a.city || '';
+            document.getElementById('addrDistrict').value = a.district || '';
+            document.getElementById('addrNeighborhood').value = a.neighborhood || '';
+            document.getElementById('addrDetail').value = a.detail || '';
+            openModal('addressModal');
+        }
+
+        async function saveAddress(e) {
+            e.preventDefault();
+            const activeEmail = localStorage.getItem('furtek_active_user');
+            const user = activeEmail ? db.users[activeEmail] : null;
+            if (!user) return;
+            const phone = document.getElementById('addrPhone').value.trim();
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length < 10 || digits.length > 13) { showToast('Lütfen geçerli bir telefon numarası gir.'); return; }
+            user.address = {
+                fullName: document.getElementById('addrName').value.trim(), phone,
+                email: document.getElementById('addrEmail').value.trim(), country: 'Türkiye',
+                city: document.getElementById('addrCity').value,
+                district: document.getElementById('addrDistrict').value.trim(),
+                neighborhood: document.getElementById('addrNeighborhood').value.trim(),
+                detail: document.getElementById('addrDetail').value.trim()
+            };
+            await syncDatabase();
+            closeModal('addressModal');
+            showToast('Adres kaydedildi.');
+            startCheckout();
+        }
+    </script>
+</body>
+</html>

@@ -399,7 +399,16 @@
 
         async function syncDatabase() {
             saveLocalDB();
-            try { await fbRef.set(db); }
+            try {
+                // Yazmadan hemen önce en güncel bulut verisiyle birleştir (çoklu cihaz çakışma riskini azaltır)
+                const snap = await fbRef.once('value');
+                if (snap.exists()) {
+                    const remote = snap.val();
+                    db = Object.assign({}, remote, db);
+                    normalizeDb();
+                }
+                await fbRef.set(db);
+            }
             catch (e) { console.error('Senkronizasyon hatası:', e); showToast('Değişiklik buluta kaydedilemedi, internet bağlantını kontrol et.'); }
         }
 
@@ -455,6 +464,12 @@
         function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
 
+        async function hashPassword(pw) {
+            const enc = new TextEncoder().encode(pw);
+            const buf = await crypto.subtle.digest('SHA-256', enc);
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
         function validatePassword(pw) {
             if (pw.length < 8) return 'Şifre en az 8 karakter olmalı.';
             if (!/[a-zçğıöşü]/.test(pw)) return 'Şifre en az bir küçük harf içermeli.';
@@ -502,12 +517,16 @@
                 if (userOTP !== generatedOTP) { showAuthError('Doğrulama kodu hatalı!'); return; }
 
                 const defaultName = email === ADMIN_EMAIL ? 'FurTek Admin' : email.split('@')[0];
-                db.users[email] = { password, displayName: defaultName, bio: 'FurTek üyesi', avatar: placeholderAvatar, isAdmin: (email === ADMIN_EMAIL) };
+                db.users[email] = { password: await hashPassword(password), displayName: defaultName, bio: 'FurTek üyesi', avatar: placeholderAvatar, isAdmin: (email === ADMIN_EMAIL) };
                 await syncDatabase();
                 localStorage.setItem('furtek_active_user', email);
                 showToast('Kayıt tamamlandı, hoş geldin!');
             } else {
-                if (!db.users[email] || db.users[email].password !== password) { showAuthError('E-posta veya şifre hatalı!'); return; }
+                const u = db.users[email];
+                if (!u) { showAuthError('E-posta veya şifre hatalı!'); return; }
+                const hashed = await hashPassword(password);
+                if (u.password !== hashed && u.password !== password) { showAuthError('E-posta veya şifre hatalı!'); return; }
+                if (u.password === password) { u.password = hashed; await syncDatabase(); }
                 localStorage.setItem('furtek_active_user', email);
                 showToast('Giriş yapıldı.');
             }
